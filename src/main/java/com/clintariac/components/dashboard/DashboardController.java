@@ -310,7 +310,7 @@ public class DashboardController implements Controller {
 	private void emailException(Exception e) {
 		JOptionPane.showMessageDialog(
 				null,
-				"Verifica la connessione o la configurazione del tuo account di posta. Prova ad accedere all'account dal browser, se il problema persiste assicurati di aver concesso l'esecuzione alle app meno sicure",
+				"Verifica la connessione o la configurazione del tuo account di posta. Prova ad accedere all'account dal browser,\nse il problema persiste assicurati di aver concesso l'esecuzione alle app meno sicure",
 				"Errore nel servizio di email",
 				JOptionPane.ERROR_MESSAGE);
 		System.exit(0);
