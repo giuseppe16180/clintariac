@@ -295,7 +295,7 @@ public class DashboardController implements Controller {
 	private void dataException(Exception e) {
 		JOptionPane.showMessageDialog(
 				null,
-				"Verifica che il programma sia in una cartella con i permessi di lettura e scrittura",
+				"Verifica che il programma sia in una cartella con i permessi di lettura e scrittura e che ci sia spazio sul disco",
 				"Errore di lettura o scrittura su file",
 				JOptionPane.ERROR_MESSAGE);
 		System.exit(0);
@@ -310,7 +310,7 @@ public class DashboardController implements Controller {
 	private void emailException(Exception e) {
 		JOptionPane.showMessageDialog(
 				null,
-				"Verifica la connessione o la configurazione del tuo account di posta",
+				"Verifica la connessione o la configurazione del tuo account di posta. Prova ad accedere all'account dal browser, se il problema persiste assicurati di aver concesso l'esecuzione alle app meno sicure",
 				"Errore nel servizio di email",
 				JOptionPane.ERROR_MESSAGE);
 		System.exit(0);
