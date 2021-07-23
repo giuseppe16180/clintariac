@@ -23,7 +23,6 @@
 hs_err_pid*
 *.DS_Store
 tickets.json
-todo.md
 .gitignore
 users.json
 .gitignore
