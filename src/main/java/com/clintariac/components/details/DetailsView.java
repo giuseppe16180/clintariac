@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import com.clintariac.components.details.chat.ChatController;
 import com.clintariac.components.mvc.View;
 import com.clintariac.services.config.Preferences;
 import com.clintariac.services.utils.AppUtils;
@@ -25,6 +26,7 @@ public class DetailsView implements View {
     private JTextField phoneField;
     private JTextField emailField;
     private JTextField userIdField;
+    private Component chatComponent;
     private JTextPane messagePane;
     private JTextField dateSpinner;
     private JTextField timeSpinner;
@@ -54,7 +56,7 @@ public class DetailsView implements View {
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.insets = new Insets(16, 0, 0, 0);
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.fill = GridBagConstraints.VERTICAL;
 
         mainPanel.add(panel2, gbc);
@@ -65,7 +67,7 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         panel2.add(firstNameLabel, gbc);
 
         firstNameField = new JTextField();
@@ -75,7 +77,7 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.ipadx = 150;
         // gbc.fill = GridBagConstraints.HORIZONTAL;
         panel2.add(firstNameField, gbc);
@@ -88,7 +90,7 @@ public class DetailsView implements View {
         gbc.gridy = 1;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainPanel.add(panel3, gbc);
 
@@ -98,7 +100,7 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         panel3.add(label2, gbc);
 
         lastNameField = new JTextField();
@@ -108,7 +110,7 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.ipadx = 150;
         // gbc.fill = GridBagConstraints.HORIZONTAL;
         panel3.add(lastNameField, gbc);
@@ -121,7 +123,7 @@ public class DetailsView implements View {
         gbc.gridy = 2;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainPanel.add(panel4, gbc);
 
@@ -131,7 +133,7 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         panel4.add(label4, gbc);
 
         phoneField = new JTextField();
@@ -141,7 +143,7 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.ipadx = 150;
         // gbc.fill = GridBagConstraints.HORIZONTAL;
         panel4.add(phoneField, gbc);
@@ -154,7 +156,7 @@ public class DetailsView implements View {
         gbc.gridy = 3;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainPanel.add(panel5, gbc);
 
@@ -165,7 +167,7 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         panel5.add(label5, gbc);
 
         emailField = new JTextField();
@@ -175,7 +177,7 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.ipadx = 150;
         // gbc.fill = GridBagConstraints.HORIZONTAL;
         panel5.add(emailField, gbc);
@@ -189,7 +191,7 @@ public class DetailsView implements View {
         gbc.gridy = 4;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainPanel.add(panel6, gbc);
 
@@ -199,7 +201,7 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         panel6.add(label6, gbc);
 
         userIdField = new JTextField();
@@ -209,7 +211,7 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         // gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 150;
         panel6.add(userIdField, gbc);
@@ -223,17 +225,19 @@ public class DetailsView implements View {
         gbc.ipady = 20;
         mainPanel.add(spacer4, gbc);
 
-        final JLabel label8 = new JLabel();
-        label8.setFont(AppUtils.text);
-        label8.setText("Messaggio:");
+        chatComponent = new ChatController().getView();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
+        gbc.gridwidth = 5;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.insets = new Insets(3, 8, 3, 3);
-        gbc.anchor = GridBagConstraints.WEST;
-        mainPanel.add(label8, gbc);
+        gbc.insets = new Insets(3, 8, 3, 8);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.ipady = 260;
+        mainPanel.add(chatComponent, gbc);
+
+
 
         final JPanel spacer7 = new JPanel();
         gbc = new GridBagConstraints();
@@ -242,6 +246,8 @@ public class DetailsView implements View {
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 0;
         mainPanel.add(spacer7, gbc);
+
+
 
         messagePane = new JTextPane();
         messagePane.setFont(AppUtils.text);
@@ -254,13 +260,33 @@ public class DetailsView implements View {
         gbc.weighty = 1.0;
         gbc.insets = new Insets(3, 8, 3, 8);
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.ipady = 120;
-        mainPanel.add(new JScrollPane(messagePane), gbc);
+        gbc.ipady = 30;
+
+        final JScrollPane scollPane = new JScrollPane(messagePane);
+        scollPane.setBorder(AppUtils.createMainBorder("Rispondi"));
+        mainPanel.add(scollPane, gbc);
+
+
+
+        final JButton sendButton = new JButton();
+        sendButton.setFont(AppUtils.text);
+        sendButton.setHorizontalTextPosition(0);
+        sendButton.setText("Invia");
+        sendButton.setMargin(new Insets(3, 3, 3, 3));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 9;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(3, 8, 0, 3);
+        gbc.anchor = GridBagConstraints.EAST;
+        mainPanel.add(sendButton, gbc);
+
 
         final JPanel spacer5 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 30;
         mainPanel.add(spacer5, gbc);
@@ -270,7 +296,7 @@ public class DetailsView implements View {
         label7.setText("Gestione data e ora per la prenotazione:");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 10;
+        gbc.gridy = 11;
         gbc.gridwidth = 5;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
@@ -281,7 +307,7 @@ public class DetailsView implements View {
         final JPanel spacer6 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 11;
+        gbc.gridy = 12;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 8;
         mainPanel.add(spacer6, gbc);
@@ -290,7 +316,7 @@ public class DetailsView implements View {
         panel7.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 12;
+        gbc.gridy = 13;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.EAST;
@@ -324,7 +350,7 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.ipadx = 10;
+        gbc.ipadx = 11;
         gbc.insets = new Insets(3, 8, 3, 3);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
@@ -333,7 +359,7 @@ public class DetailsView implements View {
         final JPanel spacer8 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 13;
+        gbc.gridy = 14;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 26;
         mainPanel.add(spacer8, gbc);
@@ -344,14 +370,14 @@ public class DetailsView implements View {
         deleteButton.setText("Elimina");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 13;
+        gbc.gridy = 14;
         deleteButton.setMargin(new Insets(3, 3, 3, 3));
         mainPanel.add(deleteButton, gbc);
 
         final JPanel spacer9 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 13;
+        gbc.gridy = 14;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 100;
         mainPanel.add(spacer9, gbc);
@@ -364,7 +390,7 @@ public class DetailsView implements View {
         validateButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
-        gbc.gridy = 13;
+        gbc.gridy = 14;
         mainPanel.add(validateButton, gbc);
 
         saveButton = new JButton();
@@ -374,13 +400,13 @@ public class DetailsView implements View {
         saveButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
-        gbc.gridy = 13;
+        gbc.gridy = 14;
         mainPanel.add(saveButton, gbc);
 
         final JPanel spacer10 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
-        gbc.gridy = 13;
+        gbc.gridy = 14;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipadx = 100;
         mainPanel.add(spacer10, gbc);

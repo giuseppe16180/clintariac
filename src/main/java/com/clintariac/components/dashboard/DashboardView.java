@@ -88,7 +88,7 @@ public class DashboardView implements View {
         gbc.gridheight = 3;
         gbc.weightx = 0.1;
         gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.NORTH;
         // gbc.ipadx = 5;
         gbc.insets = new Insets(3, 3, 3, 3);

@@ -1,5 +1,7 @@
 package com.clintariac.data;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserData {
 
@@ -8,15 +10,21 @@ public class UserData {
     public final String id;
     public final String email;
     public final String phone;
+    public final List<MessageData> chat;
 
-    public UserData(String firstName, String lastName, String id, String email, String phone) {
+    public UserData(String firstName, String lastName, String id, String email, String phone,
+            List<MessageData> chat) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = id;
         this.email = email;
         this.phone = phone;
+        this.chat = chat;
     }
 
+    public UserData(String firstName, String lastName, String id, String email, String phone) {
+        this(firstName, lastName, id, email, phone, new ArrayList<MessageData>());
+    }
 
     /**
      * @return String
