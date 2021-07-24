@@ -13,6 +13,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.mail.Message;
+import com.clintariac.data.MessageData;
 import com.clintariac.data.TicketData;
 import com.clintariac.data.UserData;
 import com.clintariac.services.utils.ListNotLoadedException;
