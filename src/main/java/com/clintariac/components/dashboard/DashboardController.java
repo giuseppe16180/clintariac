@@ -97,19 +97,22 @@ public class DashboardController implements Controller {
 		details.addOnValidate(this::detailsValidate);
 		details.addOnDelete(this::detailsDelete);
 		details.setModelSupplier(() -> {
-			if (model.isTicketSelected()) {
-				TicketData ticket = context.getTicket(model.getSelectedTicket()).get();
-				UserData user = context.getUser(ticket.user).get();
-				return new DetailsModel.Builder().withUserId(ticket.user)
+			if (model.isUserSelected()) {
+				UserData user = context.getUser(model.getSelectedUser()).get();
+				return new DetailsModel.Builder().withUserId(user.id)
 						.withFirstName(user.firstName)
-						.withLastName(user.lastName).withEmail(user.email).withPhone(user.phone)
-						.withAwaiting(ticket.state == TicketState.AWAITING)
-						.withDateTime(context.firstAvailableReservation()).withTicketId(ticket.id)
-						.withMessage(ticket.message).build();
+						.withLastName(user.lastName)
+						.withEmail(user.email)
+						.withPhone(user.phone)
+						.withDateTime(context.firstAvailableReservation())
+						.withChat(user.getChat())
+						.build();
 			} else {
 				return DetailsModel.empty();
 			}
 		});
+
+		model.setSelectedUser("AAAAAA12A12A123A");
 
 		patient = view.getPatientsController();
 		patient.addOnSave(this::patientSave);
@@ -137,7 +140,7 @@ public class DashboardController implements Controller {
 	 * </p>
 	 */
 	private void reload() {
-		model.unselectTicket();
+		model.unselectUser();
 		Stream.of(details, ticketsList, resList).forEach(Controller::updateView);
 		context.startTask();
 	}
@@ -152,8 +155,8 @@ public class DashboardController implements Controller {
 	 * @param ticketId id del ticketd che si intende eliminare
 	 */
 	private void detailsDelete() {
-		context.deleteTicket(model.getSelectedTicket());
-		model.unselectTicket();
+		// context.deleteTicket(model.getSelectedTicket());
+		model.unselectUser();
 		Stream.of(details, ticketsList, resList).forEach(Controller::updateView);
 		context.startTask();
 	}
@@ -240,7 +243,7 @@ public class DashboardController implements Controller {
 		}
 
 		context.stopTask();
-		model.setSelectedTicket(ticketId);
+		// model.setSelectedUser(ticketId);
 		details.updateView();
 	}
 

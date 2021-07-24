@@ -4,16 +4,21 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.Array;
+import java.util.Arrays;
+import java.util.stream.IntStream;
+import javax.management.modelmbean.ModelMBean;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import com.clintariac.services.config.AppColors;
 import com.clintariac.services.utils.AppUtils;
+import java.awt.*;
 
 public class MessageRenderer implements ListCellRenderer<MessageModel> {
 
-	private JPanel panel1;
+	private JPanel mainPanel;
 
 
 	/**
@@ -32,76 +37,48 @@ public class MessageRenderer implements ListCellRenderer<MessageModel> {
 			boolean isSelected,
 			boolean cellHasFocus) {
 
-		panel1 = new JPanel();
-		panel1.setLayout(new GridBagLayout());
-
-		// panel1.setBorder(AppUtils.createSimpleBorder());
-
-		final JLabel label1 = new JLabel();
-		label1.setFont(AppUtils.text);
-		label1.setText(message.getText());
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new GridBagLayout());
 
 		GridBagConstraints gbc;
+
+		final JPanel panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+
+		panel.setBorder(AppUtils.smallBorderLeft(message.getDateTime()));
+
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.weightx = 1.0;
 		gbc.weighty = 1.0;
-		gbc.anchor = GridBagConstraints.WEST;
+		gbc.ipadx = 10;
+		gbc.ipady = 10;
+		gbc.insets = new Insets(6, 6, 6, 6);
+		gbc.anchor = message.isUserSent() ? GridBagConstraints.WEST : GridBagConstraints.EAST;
+		mainPanel.add(panel, gbc);
+
+
+		final JLabel messageLabel = new JLabel();
+		messageLabel.setFont(AppUtils.text);
+		messageLabel.setText(message.getText());
+
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
+		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.insets = new Insets(6, 6, 2, 6);
-		panel1.add(label1, gbc);
+		panel.add(messageLabel, gbc);
 
-		final JPanel spacer1 = new JPanel();
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.fill = GridBagConstraints.VERTICAL;
-		panel1.add(spacer1, gbc);
 
-		final JLabel label2 = new JLabel();
-		label2.setFont(AppUtils.text);
-		label2.setText(message.getDateTime());
+		panel.setBackground(message.isUserSent()
+				? AppColors.MESSAGE_BACKGROUND1
+				: AppColors.MESSAGE_BACKGROUND2);
 
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.weightx = 1.0;
-		gbc.weighty = 1.0;
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.insets = new Insets(2, 6, 0, 6);
-		panel1.add(label2, gbc);
 
-		final JPanel spacer2 = new JPanel();
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		gbc.fill = GridBagConstraints.VERTICAL;
-		panel1.add(spacer2, gbc);
 
-		final JLabel label3 = new JLabel();
-		label3.setFont(AppUtils.textSmall);
-
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 4;
-		gbc.weightx = 1.0;
-		gbc.weighty = 1.0;
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.insets = new Insets(0, 6, 0, 6);
-		panel1.add(label3, gbc);
-
-		if (message.isUserSent()) {
-			label3.setText("utente");
-		} else {
-			label3.setText("clintariac");
-		}
-
-		if (isSelected) {
-			panel1.setBackground(AppColors.SELECTED_BACKGROUND);
-			spacer1.setBackground(AppColors.SELECTED_BACKGROUND);
-			spacer2.setBackground(AppColors.SELECTED_BACKGROUND);
-		}
-
-		return panel1;
+		return mainPanel;
 	}
 }

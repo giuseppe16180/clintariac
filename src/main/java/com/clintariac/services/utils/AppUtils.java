@@ -19,6 +19,18 @@ public interface AppUtils {
         return s;
     }
 
+    public static String plaiTextToHTML(String text, int wordsInRow) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<html>");
+        String[] words = text.split("\\s+");
+        for (int i = 0; i < words.length; i++) {
+            builder.append(words[i]);
+            builder.append((i % wordsInRow == 0) && i != 0 ? "<br>" : " ");
+        }
+        builder.append("</html>");
+        return builder.toString();
+    }
+
     public static Boolean isSameDay(long dateTime1, long dateTime2) {
         LocalDate date1 = new Timestamp(dateTime1).toLocalDateTime().toLocalDate();
         LocalDate date2 = new Timestamp(dateTime2).toLocalDateTime().toLocalDate();
@@ -36,6 +48,20 @@ public interface AppUtils {
                 BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), title,
                 TitledBorder.RIGHT,
                 TitledBorder.ABOVE_BOTTOM, AppUtils.textSmall, null);
+    }
+
+    public static TitledBorder smallBorderLeft(String title) {
+        return BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), title,
+                TitledBorder.LEFT,
+                TitledBorder.BELOW_BOTTOM, AppUtils.textSmall, null);
+    }
+
+    public static TitledBorder smallBorderRight(String title) {
+        return BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), title,
+                TitledBorder.RIGHT,
+                TitledBorder.BELOW_BOTTOM, AppUtils.textSmall, null);
     }
 
     public static Font title = new Font("Monospaced", Font.PLAIN, 20);

@@ -5,11 +5,16 @@ import java.time.LocalDateTime;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
+import com.clintariac.components.details.chat.ChatController;
+import com.clintariac.components.details.chat.ChatModel;
+import com.clintariac.components.details.chat.message.MessageModel;
 import com.clintariac.components.mvc.Controller;
 import com.clintariac.data.TicketData;
 import com.clintariac.data.TicketState;
 import com.clintariac.services.config.Preferences;
+import com.clintariac.services.utils.AppUtils;
 import com.clintariac.services.utils.Procedure;
 
 /**
@@ -31,6 +36,8 @@ public class DetailsController implements Controller {
     private Procedure onDelete;
     private Consumer<String> onSend;
 
+    private ChatController chat;
+
     /**
      * Il costruttore di DetailsController instanzia la view e inizializza gli ascoltatori
      * attraverso il metodo {@code init()}.
@@ -38,6 +45,17 @@ public class DetailsController implements Controller {
     public DetailsController() {
 
         this.view = new DetailsView();
+
+        chat = view.getChatController();
+        chat.setModelSupplier(() -> {
+            return new ChatModel(model.getChat().stream()
+                    .map(it -> new MessageModel(
+                            AppUtils.plaiTextToHTML(it.text, 6),
+                            AppUtils.localDateTimeToString(it.dateTime),
+                            it.isUserSent))
+                    .collect(Collectors.toList()));
+        });
+
         init();
     }
 
@@ -70,6 +88,8 @@ public class DetailsController implements Controller {
         view.getSaveButton().setEnabled(false);
         view.getDateTimePicker().setDateTimeStrict(model.getDateTime());
         view.getDateTimePicker().setEnabled(model.isAwaiting());
+
+        chat.updateView();
     }
 
 
