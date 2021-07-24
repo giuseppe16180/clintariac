@@ -10,7 +10,7 @@ public class UsersListController implements Controller {
     private UsersListModel model;
     private UsersListView view;
 
-    private Consumer<String> onTicketSelect;
+    private Consumer<String> onUserSelect;
 
     private Supplier<UsersListModel> modelSupplier;
 
@@ -44,23 +44,23 @@ public class UsersListController implements Controller {
 
     /**
      * 
-     * @param onTicketSelect
+     * @param onUserSelect
      */
-    public void addOnTicketSelect(Consumer<String> onTicketSelect) {
-        this.onTicketSelect = onTicketSelect;
+    public void addOnUserSelect(Consumer<String> onUserSelect) {
+        this.onUserSelect = onUserSelect;
     }
 
     private void init() {
 
         view.getList().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && view.getList().getSelectedValue() != null) {
-                ticketSelect();
+                userSelect();
             }
         });
     }
 
-    private void ticketSelect() {
-        onTicketSelect.accept(view.getList().getSelectedValue().getUserId());
+    private void userSelect() {
+        onUserSelect.accept(view.getList().getSelectedValue().getUserId());
 
     }
 }

@@ -1,7 +1,5 @@
 package com.clintariac.components.userList.user;
 
-import com.clintariac.data.TicketState;
-
 public class UserModel {
 
     private String fullName;

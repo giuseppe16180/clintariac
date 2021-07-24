@@ -30,7 +30,6 @@ import com.clintariac.services.utils.SingletonException;
 import com.clintariac.services.utils.TicketNotFoundException;
 import com.clintariac.services.utils.UserNotFoundException;
 
-
 /**
  * ContextManager
  * 
@@ -468,6 +467,10 @@ public class ContextManager {
         return dataManager.getTicketsList().stream()
                 .filter(ticket -> ticket.state == TicketState.AWAITING)
                 .collect(Collectors.toList());
+    }
+
+    public List<UserData> getUsers() {
+        return dataManager.getUsersList().stream().collect(Collectors.toList());
     }
 
     /**

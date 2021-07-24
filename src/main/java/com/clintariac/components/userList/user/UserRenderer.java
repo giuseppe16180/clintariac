@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
-import com.clintariac.data.TicketState;
 import com.clintariac.services.config.AppColors;
 import com.clintariac.services.utils.AppUtils;
 

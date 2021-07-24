@@ -165,6 +165,10 @@ public class DashboardView implements View {
         return ticketsListController;
     }
 
+    public UsersListController getUsersListController() {
+        return usersListController;
+    }
+
     /**
      * @return OptionBarController
      */
