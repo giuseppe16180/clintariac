@@ -31,8 +31,7 @@ public class ChatController implements Controller {
      * @param modelSupplier
      * @return ChatController
      */
-    public ChatController setModelSupplier(
-            Supplier<ChatModel> modelSupplier) {
+    public ChatController setModelSupplier(Supplier<ChatModel> modelSupplier) {
         this.modelSupplier = modelSupplier;
         return this;
     }

@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.Insets;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -13,6 +12,7 @@ import com.clintariac.components.mvc.View;
 import com.clintariac.services.utils.AppUtils;
 import com.github.lgooddatepicker.components.CalendarPanel;
 import com.github.lgooddatepicker.components.DatePickerSettings;
+
 
 public class CalendarView implements View {
 

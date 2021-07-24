@@ -26,7 +26,6 @@ public class DetailsView implements View {
     private JTextField phoneField;
     private JTextField emailField;
     private JTextField userIdField;
-    private Component chatComponent;
     private JTextPane messagePane;
     private JTextField dateSpinner;
     private JTextField timeSpinner;
@@ -39,6 +38,8 @@ public class DetailsView implements View {
     private TimePickerSettings timeSettings;
 
     private JPanel mainPanel;
+
+    private ChatController chatController;
 
     public DetailsView() {
 
@@ -225,7 +226,7 @@ public class DetailsView implements View {
         gbc.ipady = 20;
         mainPanel.add(spacer4, gbc);
 
-        chatComponent = new ChatController().getView();
+        chatController = new ChatController();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
@@ -235,7 +236,7 @@ public class DetailsView implements View {
         gbc.insets = new Insets(3, 8, 3, 8);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.ipady = 260;
-        mainPanel.add(chatComponent, gbc);
+        mainPanel.add(chatController.getView(), gbc);
 
 
 
@@ -453,7 +454,6 @@ public class DetailsView implements View {
         return emailField;
     }
 
-
     /**
      * @return JTextField
      */
@@ -553,5 +553,9 @@ public class DetailsView implements View {
      */
     public void setTimeSettings(TimePickerSettings timeSettings) {
         this.timeSettings = timeSettings;
+    }
+
+    public ChatController getChatController() {
+        return chatController;
     }
 }
