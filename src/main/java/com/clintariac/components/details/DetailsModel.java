@@ -1,9 +1,11 @@
 package com.clintariac.components.details;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import com.clintariac.data.MessageData;
 
 public class DetailsModel {
-
 
     /**
      * @return DetailsModel
@@ -21,6 +23,7 @@ public class DetailsModel {
     private String userId;
     private String ticketId;
     private String message;
+    private List<MessageData> chat;
 
     public static class Builder {
 
@@ -33,6 +36,7 @@ public class DetailsModel {
         private LocalDateTime dateTime;
         private boolean isAwaiting;
         private String message;
+        private List<MessageData> chat;
 
         public Builder() {
 
@@ -45,11 +49,12 @@ public class DetailsModel {
             dateTime = null;
             isAwaiting = false;
             message = "";
+            chat = new ArrayList<MessageData>();
         }
 
         public DetailsModel build() {
             return new DetailsModel(firstName, lastName, email,
-                    phone, dateTime, isAwaiting, userId, ticketId, message);
+                    phone, dateTime, isAwaiting, userId, ticketId, message, chat);
         }
 
         public Builder withFirstName(String firstName) {
@@ -94,6 +99,11 @@ public class DetailsModel {
 
         public Builder withMessage(String message) {
             this.message = message;
+            return this;
+        }
+
+        public Builder withChat(List<MessageData> chat) {
+            this.chat = chat;
             return this;
         }
     }
@@ -171,7 +181,9 @@ public class DetailsModel {
         return message;
     }
 
-
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     /**
      * @param dateTime
@@ -188,6 +200,14 @@ public class DetailsModel {
         this.isAwaiting = isAwaiting;
     }
 
+    public List<MessageData> getChat() {
+        return chat;
+    }
+
+    public void setChat(List<MessageData> chat) {
+        this.chat = chat;
+    }
+
 
     public DetailsModel(
             String firstName,
@@ -198,7 +218,8 @@ public class DetailsModel {
             boolean isAwaiting,
             String userId,
             String ticketId,
-            String message) {
+            String message,
+            List<MessageData> chat) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -209,6 +230,7 @@ public class DetailsModel {
         this.userId = userId;
         this.ticketId = ticketId;
         this.message = message;
+        this.chat = chat;
     }
 
 

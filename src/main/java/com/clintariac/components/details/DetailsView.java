@@ -34,7 +34,7 @@ public class DetailsView implements View {
     private JButton saveButton;
     private JButton deleteButton;
     private DateTimePicker dateTimePicker;
-
+    private JButton sendButton;
     private DatePickerSettings dateSettings;
     private TimePickerSettings timeSettings;
 
@@ -251,7 +251,7 @@ public class DetailsView implements View {
 
         messagePane = new JTextPane();
         messagePane.setFont(AppUtils.text);
-        messagePane.setEditable(false);
+        messagePane.setEditable(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 8;
@@ -268,7 +268,7 @@ public class DetailsView implements View {
 
 
 
-        final JButton sendButton = new JButton();
+        sendButton = new JButton();
         sendButton.setFont(AppUtils.text);
         sendButton.setHorizontalTextPosition(0);
         sendButton.setText("Invia");
@@ -509,6 +509,12 @@ public class DetailsView implements View {
         return deleteButton;
     }
 
+    /**
+     * @return JButton
+     */
+    public JButton getSendButton() {
+        return sendButton;
+    }
 
     /**
      * @return DateTimePicker

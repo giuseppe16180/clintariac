@@ -2,6 +2,8 @@ package com.clintariac.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class UserData {
 
@@ -10,7 +12,11 @@ public class UserData {
     public final String id;
     public final String email;
     public final String phone;
-    public final List<MessageData> chat;
+    private final List<MessageData> chat;
+
+    public List<MessageData> getChat() {
+        return chat.stream().collect(Collectors.toList());
+    }
 
     public UserData(String firstName, String lastName, String id, String email, String phone,
             List<MessageData> chat) {

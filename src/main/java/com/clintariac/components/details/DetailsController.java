@@ -29,6 +29,7 @@ public class DetailsController implements Controller {
     private Predicate<LocalDateTime> onValidate;
     private Consumer<TicketData> onSave;
     private Procedure onDelete;
+    private Consumer<String> onSend;
 
     /**
      * Il costruttore di DetailsController instanzia la view e inizializza gli ascoltatori
@@ -80,12 +81,17 @@ public class DetailsController implements Controller {
         return this.view.getMainComponent();
     }
 
+
+
     private void init() {
 
         view.getValidateButton().addActionListener(e -> validate());
         view.getSaveButton().addActionListener(e -> save());
         view.getDeleteButton().addActionListener(e -> delete());
         view.getDateTimePicker().addDateTimeChangeListener(e -> didChange());
+        view.getSendButton().addActionListener(e -> send());
+        view.getMessagePane().getDocument()
+                .addDocumentListener((DocumentUpdateListener) (e) -> didEditMessage());
     }
 
 
@@ -110,6 +116,13 @@ public class DetailsController implements Controller {
      */
     public void addOnDelete(Procedure onDelete) {
         this.onDelete = onDelete;
+    }
+
+    /**
+     * @param onSend
+     */
+    public void addOnSend(Consumer<String> onSend) {
+        this.onSend = onSend;
     }
 
     private void save() {
@@ -212,7 +225,17 @@ public class DetailsController implements Controller {
         }
     }
 
+    private void send() {
+        onSend.accept(model.getMessage());
+        view.getMessagePane().setText("");
+    }
+
     private void didChange() {
         view.getSaveButton().setEnabled(false);
+    }
+
+    private void didEditMessage() {
+        // System.out.println(view.getMessagePane().getText());
+        model.setMessage(view.getMessagePane().getText());
     }
 }

@@ -60,3 +60,67 @@ public class DashboardModel {
         this.selectedTicket = null;
     }
 }
+
+
+// package com.clintariac.components.dashboard;
+
+// import java.time.LocalDate;
+
+// public class DashboardModel {
+
+// private LocalDate selectedDate;
+// private String selectedUser;
+// private boolean isUserSelected;
+
+// public DashboardModel() {
+// this.selectedDate = LocalDate.now();
+// this.selectedUser = null;
+// this.isUserSelected = false;
+// }
+
+
+// /**
+// * @return LocalDate
+// */
+// public LocalDate getSelectedDate() {
+// return selectedDate;
+// }
+
+
+// /**
+// * @param selectedDate
+// */
+// public void setSelectedDate(LocalDate selectedDate) {
+// this.selectedDate = selectedDate;
+// }
+
+
+// /**
+// * @return String
+// */
+// public String getSelectedUser() {
+// return selectedUser;
+// }
+
+
+// /**
+// * @param selectedUser
+// */
+// public void setSelectedUser(String selectedUser) {
+// this.selectedUser = selectedUser;
+// this.isUserSelected = true;
+// }
+
+
+// /**
+// * @return boolean
+// */
+// public boolean isUserSelected() {
+// return isUserSelected;
+// }
+
+// public void unselectUser() {
+// this.isUserSelected = false;
+// this.selectedUser = null;
+// }
+// }
