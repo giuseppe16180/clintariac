@@ -11,13 +11,13 @@ public class PatientsController implements Controller {
     private PatientsView view;
 
     private Consumer<UserData> onSave;
+    private Consumer<UserData> onSearch;
 
     public PatientsController() {
 
         this.view = new PatientsView();
         init();
     }
-
 
     /**
      * @return Component
@@ -30,8 +30,8 @@ public class PatientsController implements Controller {
     private void init() {
 
         view.getSaveButton().addActionListener(e -> save());
+        view.getSearchButton().addActionListener(e -> search());
     }
-
 
     /**
      * @param onSave
@@ -46,8 +46,7 @@ public class PatientsController implements Controller {
 
         StringBuilder message = new StringBuilder();
 
-        if (view.getFirstNameField().getText().isEmpty()
-                || view.getLastNameField().getText().isEmpty()) {
+        if (view.getFirstNameField().getText().isEmpty() || view.getLastNameField().getText().isEmpty()) {
 
             message.append("Inserire tutti i campi!\n");
             isCorrect = false;
@@ -61,16 +60,14 @@ public class PatientsController implements Controller {
         }
 
         // controllo email
-        if (!view.getEmailField().getText()
-                .matches("^[A-Za-z0-9+_.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)")) {
+        if (!view.getEmailField().getText().matches("^[A-Za-z0-9+_.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)")) {
 
             message.append("È presente un errore nella mail!\n");
             isCorrect = false;
         }
 
         // controllo codice fiscale
-        if (!view.getUserIdField().getText().toUpperCase()
-                .matches("[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]")) {
+        if (!view.getUserIdField().getText().toUpperCase().matches("[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]")) {
 
             message.append("È presente un errore nel codice fiscale!\n");
 
@@ -79,10 +76,8 @@ public class PatientsController implements Controller {
 
         if (isCorrect) {
 
-            UserData newUser = new UserData(view.getFirstNameField().getText(),
-                    view.getLastNameField().getText(),
-                    view.getUserIdField().getText().toUpperCase(),
-                    view.getEmailField().getText(),
+            UserData newUser = new UserData(view.getFirstNameField().getText(), view.getLastNameField().getText(),
+                    view.getUserIdField().getText().toUpperCase(), view.getEmailField().getText(),
                     view.getPhoneField().getText());
 
             onSave.accept(newUser);
@@ -90,10 +85,23 @@ public class PatientsController implements Controller {
 
         } else {
 
-            JOptionPane.showMessageDialog(null, message.toString(),
-                    "Informazioni utente non valide",
+            JOptionPane.showMessageDialog(null, message.toString(), "Informazioni utente non valide",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    /**
+     * @param onSearch
+     */
+    public void addOnSearch(Consumer<UserData> onSearch) {
+        this.onSearch = onSearch;
+    }
+
+    private void search() {
+        UserData searchUser = new UserData(view.getFirstNameField().getText(), view.getLastNameField().getText(),
+                view.getUserIdField().getText().toUpperCase(), view.getEmailField().getText(),
+                view.getPhoneField().getText());
+        onSearch.accept(searchUser);
     }
 
     public void resetView() {

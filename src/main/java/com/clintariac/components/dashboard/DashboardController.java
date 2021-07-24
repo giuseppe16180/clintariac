@@ -3,6 +3,7 @@ package com.clintariac.components.dashboard;
 import java.awt.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -236,7 +237,7 @@ public class DashboardController implements Controller {
 	// aaaaaaaaaaaaaaaaaaaaaaaa
 	private void patientSearch(UserData searchUser) {
 
-		// Optional<UserData> existing = context.searchUser(searchUser);
+		List<UserData> results = context.searchUsers(searchUser);
 
 		usersList.updateView();
 	}

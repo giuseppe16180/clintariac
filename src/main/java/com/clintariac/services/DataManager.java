@@ -54,7 +54,6 @@ public class DataManager {
         }
     }
 
-
     /**
      * @param onException
      */
@@ -62,13 +61,12 @@ public class DataManager {
         this.onException = onException;
     }
 
-
     /*****************************
      * TICKETS
      *****************************/
     /**
-     * Metodo per leggere un file json, grazie alla libreria GSON, ottendendo la lista di tutti i
-     * ticket.
+     * Metodo per leggere un file json, grazie alla libreria GSON, ottendendo la
+     * lista di tutti i ticket.
      */
     public void loadTicketsList() {
 
@@ -77,8 +75,7 @@ public class DataManager {
         try {
             if (!ticketsFile.createNewFile()) {
                 Reader reader = new FileReader(ticketsFile);
-                ticketsList = json.fromJson(reader,
-                        TypeToken.getParameterized(List.class, TicketData.class).getType());
+                ticketsList = json.fromJson(reader, TypeToken.getParameterized(List.class, TicketData.class).getType());
                 reader.close();
             } else {
                 storeTicketsList();
@@ -89,8 +86,8 @@ public class DataManager {
     }
 
     /**
-     * Metodo per memorizzare su il file json la lista di ticket, quindi aggiornandolo in caso di
-     * una modifica alla lista.
+     * Metodo per memorizzare su il file json la lista di ticket, quindi
+     * aggiornandolo in caso di una modifica alla lista.
      */
     public void storeTicketsList() {
 
@@ -105,11 +102,10 @@ public class DataManager {
         }
     }
 
-
     /**
-     * Metodo per aggiornare i dati di un ticket, se l'identificativo del ticket è presente nella
-     * lista, o altrimenti inserisce il nuovo ticket alla fine della lista. Aggiornata la lista, la
-     * si memorizza su file.
+     * Metodo per aggiornare i dati di un ticket, se l'identificativo del ticket è
+     * presente nella lista, o altrimenti inserisce il nuovo ticket alla fine della
+     * lista. Aggiornata la lista, la si memorizza su file.
      * 
      * @param newTicket singolo ticket
      */
@@ -119,23 +115,20 @@ public class DataManager {
 
         if (getTicket(newTicket.id).isPresent()) {
 
-            ticketsList = ticketsList.stream()
-                    .map(ticket -> ticket.id.equals(newTicket.id) ? newTicket : ticket)
+            ticketsList = ticketsList.stream().map(ticket -> ticket.id.equals(newTicket.id) ? newTicket : ticket)
                     .collect(Collectors.toList());
         }
 
         else {
-            ticketsList = Stream.concat(ticketsList.stream(), Stream.of(newTicket))
-                    .collect(Collectors.toList());
+            ticketsList = Stream.concat(ticketsList.stream(), Stream.of(newTicket)).collect(Collectors.toList());
         }
 
         storeTicketsList();
     }
 
-
     /**
-     * Metodo per aggiornare, tramite una lista passata a parametro, la lista di ticket e la
-     * memorizzarla su file.
+     * Metodo per aggiornare, tramite una lista passata a parametro, la lista di
+     * ticket e la memorizzarla su file.
      * 
      * @param tickets nuova lista di ticket
      */
@@ -146,10 +139,10 @@ public class DataManager {
         storeTicketsList();
     }
 
-
     /**
-     * Metodo per cancellare dalla lista un ticket il cui identificativo è passato a parametro, se
-     * essa non è nulla. La lista modificata viene memorizzata su file.
+     * Metodo per cancellare dalla lista un ticket il cui identificativo è passato a
+     * parametro, se essa non è nulla. La lista modificata viene memorizzata su
+     * file.
      * 
      * @param id identificativo del ticket
      */
@@ -163,10 +156,9 @@ public class DataManager {
         storeTicketsList();
     }
 
-
     /**
-     * Metodo per concatenare una lista di ticket alla già presente lista e quindi memorizzare la
-     * lista di ticket completa su file.
+     * Metodo per concatenare una lista di ticket alla già presente lista e quindi
+     * memorizzare la lista di ticket completa su file.
      * 
      * @param newTickets la lista di ticket che si vuole concatenare
      */
@@ -174,12 +166,10 @@ public class DataManager {
 
         assertTicketsList();
 
-        ticketsList = Stream.concat(ticketsList.stream(), newTickets.stream())
-                .collect(Collectors.toList());
+        ticketsList = Stream.concat(ticketsList.stream(), newTickets.stream()).collect(Collectors.toList());
 
         storeTicketsList();
     }
-
 
     /**
      * Metodo che restituisce una copia della lista di ticket, se non è vuota.
@@ -192,11 +182,10 @@ public class DataManager {
         return List.copyOf(ticketsList);
     }
 
-
     /**
-     * Metodo che restituisce {@code Optional<TicketData>} effettuando la ricerca nella lista
-     * tramite l'identificativo. Se il ticket non è presente nella lista, il metodo restituisce
-     * {@code null}.
+     * Metodo che restituisce {@code Optional<TicketData>} effettuando la ricerca
+     * nella lista tramite l'identificativo. Se il ticket non è presente nella
+     * lista, il metodo restituisce {@code null}.
      * 
      * @param id identificativo del ticket
      * @return Optional<TicketData>
@@ -207,13 +196,12 @@ public class DataManager {
         return ticketsList.stream().filter(ticket -> ticket.id.equals(id)).findFirst();
     }
 
-
     /*****************************
      * USERS
      *****************************/
     /**
-     * Metodo per leggere un file json, grazie alla libreria GSON, ottendendo la lista di utenti
-     * registrati al sistema.
+     * Metodo per leggere un file json, grazie alla libreria GSON, ottendendo la
+     * lista di utenti registrati al sistema.
      */
     public void loadUsersList() {
 
@@ -222,8 +210,7 @@ public class DataManager {
         try {
             if (!usersFile.createNewFile()) {
                 Reader reader = new FileReader(usersFile);
-                usersList = json.fromJson(reader,
-                        TypeToken.getParameterized(List.class, UserData.class).getType());
+                usersList = json.fromJson(reader, TypeToken.getParameterized(List.class, UserData.class).getType());
                 reader.close();
             } else {
                 storeUsersList();
@@ -249,10 +236,10 @@ public class DataManager {
         }
     }
 
-
     /**
-     * Metodo per aggiornare i dati di un utente se registrato al sistema, altrimenti inserisce i
-     * dati del nuovo utente alla fine della lista. Aggiornata la lista, la si memorizza su file.
+     * Metodo per aggiornare i dati di un utente se registrato al sistema,
+     * altrimenti inserisce i dati del nuovo utente alla fine della lista.
+     * Aggiornata la lista, la si memorizza su file.
      * 
      * @param newUser
      */
@@ -267,16 +254,15 @@ public class DataManager {
         }
 
         else {
-            usersList = Stream.concat(usersList.stream(), Stream.of(newUser))
-                    .collect(Collectors.toList());
+            usersList = Stream.concat(usersList.stream(), Stream.of(newUser)).collect(Collectors.toList());
         }
 
         storeUsersList();
     }
 
-
     /**
-     * Metodo che restituisce una copia della lista degli utenti registrati, se essa non è vuota.
+     * Metodo che restituisce una copia della lista degli utenti registrati, se essa
+     * non è vuota.
      * 
      * @return List<UserData>
      */
@@ -287,10 +273,9 @@ public class DataManager {
         return List.copyOf(usersList);
     }
 
-
     /**
-     * Metodo per effettuare la ricerca di un utente tramite identificativo dell'utente, se la lista
-     * non è vuota.
+     * Metodo per effettuare la ricerca di un utente tramite identificativo
+     * dell'utente, se la lista non è vuota.
      * 
      * @param id dell'utente che si vuole cercare
      * @return Optional<UserData>
@@ -300,6 +285,18 @@ public class DataManager {
         assertUsersList();
 
         return usersList.stream().filter(user -> user.id.equals(id)).findFirst();
+    }
+
+    public List<UserData> searchUsers(UserData userToSearch) {
+
+        assertUsersList();
+
+        return usersList.stream().filter(user -> userToSearch.id.equals("") || userToSearch.id.equals(user.id))
+                .filter(user -> userToSearch.firstName.equals("") || userToSearch.firstName.equals(user.firstName))
+                .filter(user -> userToSearch.lastName.equals("") || userToSearch.lastName.equals(user.lastName))
+                .filter(user -> userToSearch.email.equals("") || userToSearch.email.equals(user.email))
+                .filter(user -> userToSearch.phone.equals("") || userToSearch.phone.equals(user.phone))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -313,7 +310,8 @@ public class DataManager {
     }
 
     /**
-     * Metodo per effettuare la ricerca di un utente tramite la email, se la lista non è vuota. todo
+     * Metodo per effettuare la ricerca di un utente tramite la email, se la lista
+     * non è vuota. todo
      * 
      * @param email dell'utente che si vuole cercare
      * @return Optional<UserData>

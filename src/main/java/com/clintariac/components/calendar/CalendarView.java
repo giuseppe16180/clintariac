@@ -3,7 +3,6 @@ package com.clintariac.components.calendar;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;
-import java.time.LocalDate;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
@@ -43,6 +42,7 @@ public class CalendarView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.insets = new Insets(12, 12, 0, 12);
 
         mainPanel.add(calendarPanel, gbc);
 

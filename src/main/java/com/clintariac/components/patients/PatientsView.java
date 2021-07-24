@@ -18,6 +18,7 @@ public class PatientsView implements View {
     private JTextField emailField;
     private JTextField userIdField;
     private JButton saveButton;
+    private JButton searchButton;
 
     private JPanel mainPanel;
 
@@ -205,10 +206,20 @@ public class PatientsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 6;
+        gbc.insets = new Insets(0, 12, 12, 12);
         mainPanel.add(saveButton, gbc);
 
-    }
+        searchButton = new JButton();
+        searchButton.setHorizontalTextPosition(0);
+        searchButton.setFont(AppUtils.text);
+        searchButton.setText("Ricerca");
+        searchButton.setMargin(new Insets(3, 3, 3, 3));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        mainPanel.add(searchButton, gbc);
 
+    }
 
     /**
      * @return JTextField
@@ -217,14 +228,12 @@ public class PatientsView implements View {
         return firstNameField;
     }
 
-
     /**
      * @param firstNameField
      */
     public void setFirstNameField(JTextField firstNameField) {
         this.firstNameField = firstNameField;
     }
-
 
     /**
      * @return JTextField
@@ -233,14 +242,12 @@ public class PatientsView implements View {
         return lastNameField;
     }
 
-
     /**
      * @param lastNameField
      */
     public void setLastNameField(JTextField lastNameField) {
         this.lastNameField = lastNameField;
     }
-
 
     /**
      * @return JTextField
@@ -249,14 +256,12 @@ public class PatientsView implements View {
         return phoneField;
     }
 
-
     /**
      * @param phoneField
      */
     public void setPhoneField(JTextField phoneField) {
         this.phoneField = phoneField;
     }
-
 
     /**
      * @return JTextField
@@ -265,14 +270,12 @@ public class PatientsView implements View {
         return emailField;
     }
 
-
     /**
      * @param emailField
      */
     public void setEmailField(JTextField emailField) {
         this.emailField = emailField;
     }
-
 
     /**
      * @return JTextField
@@ -281,14 +284,12 @@ public class PatientsView implements View {
         return userIdField;
     }
 
-
     /**
      * @param userIdField
      */
     public void setUserIdField(JTextField userIdField) {
         this.userIdField = userIdField;
     }
-
 
     /**
      * @return JButton
@@ -297,6 +298,9 @@ public class PatientsView implements View {
         return saveButton;
     }
 
+    public JButton getSearchButton() {
+        return searchButton;
+    }
 
     /**
      * @return JPanel
