@@ -16,6 +16,7 @@ public class CalendarController implements Controller {
 
     private CalendarView view;
     private Consumer<LocalDate> onDateSelect;
+    private Consumer<LocalDate> onAllSelect;
 
     /**
      * Costruttore di CalendarController, instanzia model e view del Calendar e
@@ -55,5 +56,19 @@ public class CalendarController implements Controller {
      */
     public void addOnDateSelect(Consumer<LocalDate> onDateSelect) {
         this.onDateSelect = onDateSelect;
+    }
+
+    /**
+     * 
+     */
+    private void allSelect() {
+        onAllSelect.accept(LocalDate.now());
+    }
+
+    /**
+     * @param onDateSelect
+     */
+    public void addAllSelect(Consumer<LocalDate> onAllSelect) {
+        this.onAllSelect = onAllSelect;
     }
 }
