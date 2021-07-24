@@ -27,6 +27,7 @@
 - [ ] Mostrare di default la lista con tutti i pazienti
 - [ ] Rivedere l'aggiuta di nuovi pazienti e la modifica di uno esistente (idealmente portarlo su un'altra finestra)
 - [ ] Selezionado un paziente si apre la sua chat
+- [ ] messaggio in caso di email errata nel momento di registrazione????
 
 ## Lista ticket in attesa
 
