@@ -10,8 +10,9 @@ import com.clintariac.components.details.DetailsController;
 import com.clintariac.components.mvc.View;
 import com.clintariac.components.optionBar.OptionBarController;
 import com.clintariac.components.patients.PatientsController;
-import com.clintariac.components.reservationsList.ReservationsListController;
 import com.clintariac.components.ticketsList.TicketsListController;
+import com.clintariac.components.userList.UsersListController;
+import com.clintariac.components.reservationsList.ReservationsListController;
 
 public class DashboardView implements View {
 
@@ -23,6 +24,7 @@ public class DashboardView implements View {
     private PatientsController patientsController;
     private TicketsListController ticketsListController;
     private OptionBarController optionBarController;
+    private UsersListController usersListController;
 
     public DashboardView() {
 
@@ -35,34 +37,36 @@ public class DashboardView implements View {
         patientsController = new PatientsController();
         ticketsListController = new TicketsListController();
         optionBarController = new OptionBarController();
+        usersListController = new UsersListController();
 
         GridBagConstraints gbc;
+
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridheight = 3;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.ipadx = 200;
-        gbc.insets = new Insets(3, 3, 3, 3);
-        mainPanel.add(resListController.getView(), gbc);
-
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        // gbc.gridheight = 1;
         gbc.weightx = 0.2;
-        gbc.weighty = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weighty = 0.90;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTH;
         gbc.insets = new Insets(3, 3, 3, 3);
         gbc.ipadx = 50;
         mainPanel.add(calendarController.getView(), gbc);
 
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.insets = new Insets(3, 3, 3, 3);
+        gbc.ipadx = 250;
+        gbc.ipady = 650;
+        mainPanel.add(resListController.getView(), gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
         gbc.weightx = 0.2;
         gbc.weighty = 0.90;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -70,6 +74,18 @@ public class DashboardView implements View {
         gbc.insets = new Insets(3, 3, 3, 3);
         gbc.ipadx = 50;
         mainPanel.add(patientsController.getView(), gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.insets = new Insets(3, 3, 3, 3);
+        gbc.ipadx = 250;
+        gbc.ipady = 650;
+        mainPanel.add(usersListController.getView(), gbc);
 
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -106,7 +122,6 @@ public class DashboardView implements View {
 
     }
 
-
     /**
      * @return Component
      */
@@ -115,14 +130,12 @@ public class DashboardView implements View {
         return mainPanel;
     }
 
-
     /**
      * @return CalendarController
      */
     public CalendarController getCalendarController() {
         return calendarController;
     }
-
 
     /**
      * @return ReservationsListController
@@ -131,14 +144,12 @@ public class DashboardView implements View {
         return resListController;
     }
 
-
     /**
      * @return DetailsController
      */
     public DetailsController getDetailsController() {
         return detailsController;
     }
-
 
     /**
      * @return PatientsController
@@ -147,14 +158,12 @@ public class DashboardView implements View {
         return patientsController;
     }
 
-
     /**
      * @return TicketsListController
      */
     public TicketsListController getTicketsListController() {
         return ticketsListController;
     }
-
 
     /**
      * @return OptionBarController

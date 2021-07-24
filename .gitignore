@@ -28,3 +28,4 @@ users.json
 .gitignore
 todo.md.pdf
 Credentials.java
+src/main/java/com/clintariac/services/config/Credentials.java
