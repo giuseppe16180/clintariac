@@ -13,7 +13,6 @@ import com.clintariac.services.utils.AppUtils;
 import com.github.lgooddatepicker.components.CalendarPanel;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 
-
 public class CalendarView implements View {
 
     private JPanel mainPanel;
@@ -58,6 +57,14 @@ public class CalendarView implements View {
         gbc.insets = new Insets(12, 12, 12, 12);
 
         mainPanel.add(allReserv, gbc);
+    }
+
+    public JButton getAllReserv() {
+        return allReserv;
+    }
+
+    public void setAllReserv(JButton allReserv) {
+        this.allReserv = allReserv;
     }
 
     /**

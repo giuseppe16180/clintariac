@@ -42,6 +42,7 @@ public class CalendarController implements Controller {
      */
     private void init() {
         view.getCalendarPanel().addCalendarListener((CalendarSelectDateListener) (e) -> dateSelect());
+        view.getAllReserv().addActionListener((e) -> allSelect());
     }
 
     /**
