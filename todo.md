@@ -31,38 +31,37 @@
 
 ## Lista ticket in attesa
 
-- [ ] Rendere la lista dei ticket in attesa una lista dei nuovi messaggi
-- [ ] Al click di un elemento di questa lista caricare la chat con quel paziente
-- [ ] In caso di più messaggi decidere il comportamento
+- [x] Rendere la lista dei ticket in attesa una lista dei nuovi messaggi
+- [x] Al click di un elemento di questa lista caricare la chat con quel paziente
+- [x] In caso di più messaggi decidere il comportamento
 
 ## Gestione tickets
 
-- [ ] Details deve ricevere l'id di un utente, non più quello di un ticket
+- [x] Details deve ricevere l'id di un utente, non più quello di un ticket
 - [x] Creare una vista chat, che mostri tutti i messaggi scambiati con il paziente selezionato
 - [x] Inserire la possibilità di inviare dei messaggi al paziente
-- [ ] All'invio di una risposta tutti i messaggi in coda come non letti risultano gestiti
+- [x] All'invio di una risposta tutti i messaggi in coda come non letti risultano gestiti
 - [x] Inserire la possibilità di inviare dei messaggi di testo liberi ai pazienti
-- [ ] Va mantenuta la possibilità di fissare un appuntamento come ora, che in automatico invia dei messaggi, comportamento come prima
-- [ ] I messaggi inviati in automatico dal sistema compaiono nella chat
-- [ ] 
+- [x] I messaggi inviati in automatico dal sistema compaiono nella chat
+
 
 ## Logica di business
 
-- [ ] Separare i ticket dai messaggi
-- [ ] I nuovi tricket nascono dalla segreteria, non più dalla ricezione di un messaggio di nuovo appuntamento
+- [x] Separare i ticket dai messaggi
+- [x] I nuovi tricket nascono dalla segreteria, non più dalla ricezione di un messaggio di nuovo appuntamento (nzomma)
 - [ ] Modificare gli stati possibili per i ticket (non più in attesa di conferma, aggiungere "cancellato", "scaduto")
 - [ ] aggiungere comunicazione all'email manager
 
 
 ## Vista chat
 
-- [ ] Dividere messaggi da ticket
+- [x] Dividere messaggi da ticket
 - [ ] Rivedere lo stato dei ticket
-- [ ] Realizzare view
-- [ ] Realizzare model (deve ricevere la lista dei messaggi per un utente)
+- [x] Realizzare view
+- [x] Realizzare model (deve ricevere la lista dei messaggi per un utente)
 - [x] DataManager - predisporre il necessario per i messaggi
   - [x] aggiungere il messaggio quando si inviano le email
-  - [ ] predisporre metodo per ottenere i messaggi di un dato utente 
+  - [x] predisporre metodo per ottenere i messaggi di un dato utente 
 - [x] Realizzare controller
 
 **NOTA** Per ora teniamo tutto in memoria centrale, poi si vede se è il caso di fare altro
