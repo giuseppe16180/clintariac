@@ -3,8 +3,10 @@ package com.clintariac.components.details.chat;
 import java.awt.Component;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JList;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import com.clintariac.components.details.chat.message.MessageModel;
 import com.clintariac.components.details.chat.message.MessageRenderer;
 import com.clintariac.components.mvc.View;
@@ -18,7 +20,6 @@ public class ChatView implements View {
     public ChatView() {
 
         mainPanel = new JScrollPane();
-        mainPanel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         mainPanel.setBackground(null);
 
         mainPanel.setBorder(AppUtils.createMainBorder("Chat"));
@@ -30,12 +31,19 @@ public class ChatView implements View {
         mainPanel.setViewportView(list);
     }
 
+    public void scrollToBottom() {
+        SwingUtilities.invokeLater(() -> {
+            int height = (int) list.getPreferredSize().getHeight();
+            mainPanel.getVerticalScrollBar().setValue(height);
+        });
+    }
+
 
     /**
      * @return Component
      */
     @Override
-    public Component getMainComponent() {
+    public JScrollPane getMainComponent() {
         return this.mainPanel;
     }
 

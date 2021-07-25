@@ -1,6 +1,7 @@
 package com.clintariac.components.ticketsList;
 
 import java.awt.*;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import com.clintariac.components.mvc.Controller;
@@ -12,7 +13,7 @@ public class TicketsListController implements Controller {
 
     private Supplier<TicketsListModel> modelSupplier;
 
-    private Consumer<String> onTicketSelect;
+    private BiConsumer<String, String> onTicketSelect;
 
     public TicketsListController() {
 
@@ -58,12 +59,16 @@ public class TicketsListController implements Controller {
     /**
      * @param onTicketSelect
      */
-    public void addOnTicketSelect(Consumer<String> onTicketSelect) {
+    public void addOnTicketSelect(BiConsumer<String, String> onTicketSelect) {
         this.onTicketSelect = onTicketSelect;
     }
 
     private void ticketSelect() {
-        onTicketSelect.accept(view.getList().getSelectedValue().getTicketId());
+        onTicketSelect.accept(
+                view.getList().getSelectedValue().getTicketId(),
+                view.getList().getSelectedValue().getUserId()); // TODO: da rivedere
+                                                                // ancora
+                                                                // era con il ticket
 
     }
 }

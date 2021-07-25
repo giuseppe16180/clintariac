@@ -1,6 +1,7 @@
 package com.clintariac;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import com.clintariac.components.dashboard.DashboardController;
 
 /**
@@ -22,13 +23,16 @@ interface App {
 	 */
 	public static void main(String... args) {
 
-		DashboardController dashboard = new DashboardController();
+		SwingUtilities.invokeLater(() -> {
 
-		JFrame frame = new JFrame("Clintariac - Gestionale per appuntamenti");
-		frame.getContentPane().add(dashboard.getView());
-		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+			DashboardController dashboard = new DashboardController();
+
+			JFrame frame = new JFrame("Clintariac - Gestionale per appuntamenti");
+			frame.getContentPane().add(dashboard.getView());
+			frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+			frame.setLocationRelativeTo(null);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setVisible(true);
+		});
 	}
 }
