@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+import com.clintariac.components.ticketsList.TicketsListView;
 import com.clintariac.data.EmailData;
 import com.clintariac.data.MessageData;
 import com.clintariac.data.TicketData;
@@ -383,13 +383,20 @@ public class ContextManager {
      */
     public void setTicket(TicketData newTicket) {
         String dateTime[] = AppUtils.localDateTimeToString(newTicket.booking).split(" ");
+        // #
+        final boolean wasAwaiting =
+                dataManager.getTicket(newTicket.id).get().state == TicketState.AWAITING;
 
-        boolean isSent = sendEmail(newTicket.user, "Proposta appuntamento",
+        boolean isSent = sendEmail(newTicket.user,
+                wasAwaiting ? "Proposta appuntamento" : "Spostamento appuntamento",
                 StandardEmails.ticketMessage(dateTime[0], dateTime[1], newTicket.id));
 
         if (isSent) {
             addToChat(newTicket.user,
-                    String.format("Proposta appuntamento - %s %s", dateTime[0], dateTime[1]),
+                    String.format(wasAwaiting
+                            ? "Proposta appuntamento - %s %s"
+                            : "Spostamento appuntamento - %s %s",
+                            dateTime[0], dateTime[1]),
                     false);
             dataManager.setTicket(newTicket);
         }
@@ -418,7 +425,7 @@ public class ContextManager {
             }
 
             if (isSent) {
-                addToChat(ticket.get().user, "Richiesta cancellata", false);
+                addToChat(ticket.get().user, "Appuntamento cancellato", false);
                 dataManager.deleteTicket(id);
             }
 
@@ -501,7 +508,7 @@ public class ContextManager {
 
     public List<TicketData> getReservationsStartToDate(LocalDate date) {
         return dataManager.getTicketsList().stream().filter(ticket -> {
-            return (ticket.state == TicketState.CONFIRMED || ticket.state == TicketState.BOOKED)
+            return (ticket.state != TicketState.AWAITING)
                     && (ticket.booking.toLocalDate().equals(date)
                             || ticket.booking.toLocalDate().isAfter(date));
         }).sorted((ticket1, ticket2) -> ticket1.booking.compareTo(ticket2.booking))
@@ -517,7 +524,7 @@ public class ContextManager {
      */
     public List<TicketData> getReservationsForDate(LocalDate date) {
         return dataManager.getTicketsList().stream().filter(ticket -> {
-            return (ticket.state == TicketState.CONFIRMED || ticket.state == TicketState.BOOKED)
+            return (ticket.state != TicketState.AWAITING)
                     && ticket.booking.toLocalDate().equals(date);
         }).sorted((ticket1, ticket2) -> ticket1.booking.compareTo(ticket2.booking))
                 .collect(Collectors.toList());

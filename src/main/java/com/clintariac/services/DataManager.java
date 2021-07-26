@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 import javax.mail.Message;
 import com.clintariac.data.MessageData;
 import com.clintariac.data.TicketData;
+import com.clintariac.data.TicketState;
 import com.clintariac.data.UserData;
 import com.clintariac.services.utils.ListNotLoadedException;
 import com.clintariac.services.utils.SingletonException;
@@ -152,7 +153,20 @@ public class DataManager {
 
         assertTicketsList();
 
-        ticketsList = ticketsList.stream().filter(Predicate.not(ticket -> ticket.id.equals(id)))
+        ticketsList = ticketsList.stream()
+                .filter(Predicate.not(
+                        ticket -> ticket.id.equals(id) && ticket.state == TicketState.AWAITING))
+                .map(ticket -> {
+                    return ticket.id.equals(id)
+                            ? new TicketData(
+                                    ticket.id,
+                                    ticket.user,
+                                    TicketState.DELETED,
+                                    ticket.booking,
+                                    ticket.lastInteraction,
+                                    ticket.message)
+                            : ticket;
+                })
                 .collect(Collectors.toList());
 
         storeTicketsList();
@@ -295,15 +309,16 @@ public class DataManager {
         assertUsersList();
 
         return usersList.stream()
-                .filter(user -> userToSearch.id.equals("") || userToSearch.id.equals(user.id))
+                .filter(user -> userToSearch.id.equals("")
+                        || userToSearch.id.equalsIgnoreCase(user.id))
                 .filter(user -> userToSearch.firstName.equals("")
-                        || userToSearch.firstName.equals(user.firstName))
+                        || userToSearch.firstName.equalsIgnoreCase(user.firstName))
                 .filter(user -> userToSearch.lastName.equals("")
-                        || userToSearch.lastName.equals(user.lastName))
+                        || userToSearch.lastName.equalsIgnoreCase(user.lastName))
                 .filter(user -> userToSearch.email.equals("")
-                        || userToSearch.email.equals(user.email))
+                        || userToSearch.email.equalsIgnoreCase(user.email))
                 .filter(user -> userToSearch.phone.equals("")
-                        || userToSearch.phone.equals(user.phone))
+                        || userToSearch.phone.equalsIgnoreCase(user.phone))
                 .collect(Collectors.toList());
     }
 

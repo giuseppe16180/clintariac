@@ -78,11 +78,10 @@ public class ReservationRenderer implements ListCellRenderer<ReservationModel> {
 		gbc.fill = GridBagConstraints.VERTICAL;
 		panel1.add(spacer2, gbc);
 
-		if (reservation.getState() == TicketState.BOOKED) {
+		if (reservation.getState() != TicketState.CONFIRMED) {
 
 			final JLabel label3 = new JLabel();
 			label3.setFont(AppUtils.textSmall);
-			label3.setText("Da confermare");
 
 			gbc = new GridBagConstraints();
 			gbc.gridx = 0;
@@ -91,8 +90,14 @@ public class ReservationRenderer implements ListCellRenderer<ReservationModel> {
 			gbc.weighty = 1.0;
 			gbc.anchor = GridBagConstraints.WEST;
 			gbc.insets = new Insets(0, 6, 0, 6);
-			panel1.add(label3, gbc);
 
+			if (reservation.getState() == TicketState.BOOKED) {
+				label3.setText("Da confermare");
+			} else if (reservation.getState() == TicketState.DELETED) {
+				label3.setText("Cancellato");
+			}
+
+			panel1.add(label3, gbc);
 		}
 
 		if (isSelected) {

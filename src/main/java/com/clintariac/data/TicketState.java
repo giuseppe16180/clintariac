@@ -1,5 +1,5 @@
 package com.clintariac.data;
 
 public enum TicketState {
-    AWAITING, BOOKED, CONFIRMED
+    AWAITING, BOOKED, CONFIRMED, DELETED
 }

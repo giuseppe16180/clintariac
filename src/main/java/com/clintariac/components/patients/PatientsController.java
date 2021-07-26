@@ -105,10 +105,11 @@ public class PatientsController implements Controller {
     }
 
     private void search() {
-        UserData searchUser = new UserData(view.getFirstNameField().getText(),
-                view.getLastNameField().getText(),
-                view.getUserIdField().getText().toUpperCase(), view.getEmailField().getText(),
-                view.getPhoneField().getText());
+        UserData searchUser = new UserData(view.getFirstNameField().getText().trim(),
+                view.getLastNameField().getText().trim(),
+                view.getUserIdField().getText().toUpperCase().trim(),
+                view.getEmailField().getText().trim(),
+                view.getPhoneField().getText().trim());
         onSearch.accept(searchUser);
     }
 

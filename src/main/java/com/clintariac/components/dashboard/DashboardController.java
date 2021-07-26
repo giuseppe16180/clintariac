@@ -132,7 +132,7 @@ public class DashboardController implements Controller {
 				// todo: il context dovrebbe predisporre questo metodo
 				Optional<TicketData> awaitingTicket = context.getTicketsList().stream().filter(
 						ticket -> ticket.user.equals(model.getSelectedUser())
-								&& ticket.state == TicketState.AWAITING)
+								&& ticket.state != TicketState.CONFIRMED)
 						.findFirst();
 				if (awaitingTicket.isPresent()) {
 					TicketData ticket = awaitingTicket.get(); // toccato

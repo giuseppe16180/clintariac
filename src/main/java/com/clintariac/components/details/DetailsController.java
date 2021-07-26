@@ -2,6 +2,7 @@ package com.clintariac.components.details;
 
 import java.awt.Component;
 import java.time.LocalDateTime;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -88,10 +89,10 @@ public class DetailsController implements Controller {
         view.getPhoneField().setText(model.getPhone());
         view.getUserField().setText(model.getUserId());
         view.getMessagePane().setText(model.getMessage());
-        view.getValidateButton().setEnabled(model.isAwaiting());
+        view.getValidateButton().setEnabled(true);
         view.getSaveButton().setEnabled(false);
         view.getDateTimePicker().setDateTimeStrict(model.getDateTime());
-        view.getDateTimePicker().setEnabled(model.isAwaiting());
+        view.getDateTimePicker().setEnabled(true);
 
         chat.updateView();
     }
@@ -150,7 +151,7 @@ public class DetailsController implements Controller {
     }
 
     private void save() {
-
+        // #
         LocalDateTime dateTime = view.getDateTimePicker().getDateTimeStrict();
         TicketData newTicket =
                 new TicketData(

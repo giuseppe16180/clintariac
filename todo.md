@@ -3,15 +3,15 @@
 ## Agenda
 
 - [X] Non eliminare gli appuntamenti passati
-  - [ ] Individuare dove venivano effettuate le eliminazioni
-  - [ ] alterare lo stato dei ticket "eliminati"
-- [ ] Creare una vista in ordine cronologico di tutti gli appuntamenti a partire dall'ora corrente
+  - [x] Individuare dove venivano effettuate le eliminazioni
+  - [x] alterare lo stato dei ticket "eliminati"
+- [x] Creare una vista in ordine cronologico di tutti gli appuntamenti a partire dall'ora corrente
 - [x] Abilitare le giornate passate nel calendario
 - [x] Inserire il seletore del calendario nella colonna degli appuntamenti
 - [x] Inserire un bottone per tornare alla vista cronologica
-- [ ] Le prenotazioni scadute, o eliminate compaiono nella lista appuntamenti, solo in modo diverso
+- [x] Le prenotazioni scadute, o eliminate compaiono nella lista appuntamenti, solo in modo diverso
 - [ ] L'appuntamento non confermato deve esserre riproponibile (?)
-- [ ] In caso di eliminazione alterare la grafica del ticket nella lista
+- [x] In caso di eliminazione alterare la grafica del ticket nella lista
 - [ ] In caso di eliminazione proporre un nuovo appuntamneto
 - [ ] Se l'appuntamento non viene confermato elimnarlo in automatico, mandare il messaggio
 - [ ] Permettere di modificare un appuntamento
@@ -25,7 +25,7 @@
   - [x] view
   - [x] controller 
 - [x] Mostrare di default la lista con tutti i pazienti
-- [ ] Rivedere l'aggiuta di nuovi pazienti e la modifica di uno esistente (idealmente portarlo su un'altra finestra)
+- [x] Rivedere l'aggiuta di nuovi pazienti e la modifica di uno esistente (idealmente portarlo su un'altra finestra)
 - [x] Selezionado un paziente si apre la sua chat
 - [ ] messaggio in caso di email errata nel momento di registrazione????
 
@@ -70,3 +70,6 @@
 - [ ] Caricare la data dell'appuntamento fissato in details quando e` presente un appuntamento fissato
 - [x] l'eliminazione quando siamo in vista pazienti non funziona (solleva eccezione)
 - [ ] aggiornare i testi delle email
+- [ ] i ticket cancellati non devono essere eliminabili
+- [ ] se un booked scade portarlo in stato waiting
+- [ ] se un ticket viene riproposto mandare un messaggio diverso. (Se lo stato prima dello spostamento non era awaiting)

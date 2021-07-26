@@ -48,7 +48,7 @@ public class CalendarView implements View {
 
         allReserv = new JCheckBox();
         allReserv.setSelected(false);
-        allReserv.setText("Tutti gli appuntamenti");
+        allReserv.setText("Tutti i prossimi appuntamenti");
         allReserv.setFont(AppUtils.text);
         allReserv.setMargin(new Insets(0, 3, 12, 3));
 
