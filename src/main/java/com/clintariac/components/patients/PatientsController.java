@@ -118,6 +118,7 @@ public class PatientsController implements Controller {
 
     private void clear() {
         UserData emptyUser = new UserData();
+        resetView();
         onSearch.accept(emptyUser);
     }
 

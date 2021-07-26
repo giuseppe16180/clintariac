@@ -61,17 +61,18 @@ public interface AppUtils {
         return BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), title,
                 TitledBorder.LEFT,
-                TitledBorder.BELOW_BOTTOM, AppUtils.textSmall, null);
+                TitledBorder.BELOW_BOTTOM, AppUtils.textSmaller, null);
     }
 
     public static TitledBorder smallBorderRight(String title) {
         return BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), title,
                 TitledBorder.RIGHT,
-                TitledBorder.BELOW_BOTTOM, AppUtils.textSmall, null);
+                TitledBorder.BELOW_BOTTOM, AppUtils.textSmaller, null);
     }
 
     public static Font title = new Font("Monospaced", Font.PLAIN, 20);
     public static Font text = new Font("Monospaced", Font.PLAIN, 16);
     public static Font textSmall = new Font("Monospaced", Font.PLAIN, 13);
+    public static Font textSmaller = new Font("Monospaced", Font.PLAIN, 10);
 }

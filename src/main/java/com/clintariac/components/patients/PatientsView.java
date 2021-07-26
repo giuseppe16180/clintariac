@@ -199,6 +199,18 @@ public class PatientsView implements View {
         gbc.ipady = 16;
         mainPanel.add(spacer1, gbc);
 
+        final JPanel panel7 = new JPanel();
+        panel7.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.insets = new Insets(0, 0, 8, 0);
+        mainPanel.add(panel7, gbc);
+
         saveButton = new JButton();
         saveButton.setHorizontalTextPosition(0);
         saveButton.setFont(AppUtils.text);
@@ -206,9 +218,8 @@ public class PatientsView implements View {
         saveButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.insets = new Insets(0, 12, 12, 12);
-        mainPanel.add(saveButton, gbc);
+        gbc.gridy = 0;
+        panel7.add(saveButton, gbc);
 
         searchButton = new JButton();
         searchButton.setHorizontalTextPosition(0);
@@ -217,8 +228,8 @@ public class PatientsView implements View {
         searchButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 6;
-        mainPanel.add(searchButton, gbc);
+        gbc.gridy = 0;
+        panel7.add(searchButton, gbc);
 
         clearButton = new JButton();
         clearButton.setHorizontalTextPosition(0);
@@ -226,9 +237,9 @@ public class PatientsView implements View {
         clearButton.setText("Pulisci");
         clearButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 7;
-        mainPanel.add(clearButton, gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        panel7.add(clearButton, gbc);
 
     }
 

@@ -56,10 +56,9 @@ public class DetailsView implements View {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
-        gbc.insets = new Insets(16, 0, 0, 0);
-        gbc.anchor = GridBagConstraints.NORTHEAST;
+        gbc.anchor = GridBagConstraints.EAST;
         gbc.fill = GridBagConstraints.VERTICAL;
-
+        gbc.insets = new Insets(16, 0, 0, 0);
         mainPanel.add(panel2, gbc);
 
         final JLabel firstNameLabel = new JLabel();
@@ -68,19 +67,17 @@ public class DetailsView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.anchor = GridBagConstraints.WEST;
         panel2.add(firstNameLabel, gbc);
 
         firstNameField = new JTextField();
+        firstNameField.setColumns(15);
         firstNameField.setFont(AppUtils.text);
-        firstNameField.setColumns(13);
-        firstNameField.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.ipadx = 150;
-        // gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.ipadx = 100;
         panel2.add(firstNameField, gbc);
 
         // row 1
@@ -91,28 +88,27 @@ public class DetailsView implements View {
         gbc.gridy = 1;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.NORTHEAST;
+        gbc.anchor = GridBagConstraints.EAST;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainPanel.add(panel3, gbc);
 
-        final JLabel label2 = new JLabel();
-        label2.setText("Cognome: ");
-        label2.setFont(AppUtils.text);
+        final JLabel lastNameLabel = new JLabel();
+        lastNameLabel.setText("Cognome: ");
+        lastNameLabel.setFont(AppUtils.text);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        panel3.add(label2, gbc);
+        gbc.anchor = GridBagConstraints.WEST;
+        panel3.add(lastNameLabel, gbc);
 
         lastNameField = new JTextField();
-        lastNameField.setColumns(13);
-        lastNameField.setEditable(false);
+        lastNameField.setColumns(15);
         lastNameField.setFont(AppUtils.text);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.ipadx = 150;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.ipadx = 100;
         // gbc.fill = GridBagConstraints.HORIZONTAL;
         panel3.add(lastNameField, gbc);
 
@@ -124,29 +120,29 @@ public class DetailsView implements View {
         gbc.gridy = 2;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.NORTHEAST;
+        gbc.anchor = GridBagConstraints.EAST;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainPanel.add(panel4, gbc);
 
-        final JLabel label4 = new JLabel();
-        label4.setText("Telefono: ");
-        label4.setFont(AppUtils.text);
+        final JLabel phoneLabel = new JLabel();
+        phoneLabel.setText("Telefono: ");
+        phoneLabel.setFont(AppUtils.text);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        panel4.add(label4, gbc);
+        gbc.anchor = GridBagConstraints.WEST;
+        panel4.add(phoneLabel, gbc);
 
         phoneField = new JTextField();
+        phoneField.setColumns(15);
         phoneField.setFont(AppUtils.text);
-        phoneField.setColumns(13);
-        phoneField.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.ipadx = 150;
+        gbc.ipadx = 100;
+        gbc.anchor = GridBagConstraints.WEST;
         // gbc.fill = GridBagConstraints.HORIZONTAL;
+        // gbc.ipadx = 22;
         panel4.add(phoneField, gbc);
 
         // row 3
@@ -157,32 +153,29 @@ public class DetailsView implements View {
         gbc.gridy = 3;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.NORTHEAST;
+        gbc.anchor = GridBagConstraints.EAST;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainPanel.add(panel5, gbc);
 
-        final JLabel label5 = new JLabel();
-        label5.setFont(AppUtils.text);
-        label5.setText("Email: ");
-        label5.setFont(AppUtils.text);
+        final JLabel emailLabel = new JLabel();
+        emailLabel.setText("Email: ");
+        emailLabel.setFont(AppUtils.text);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        panel5.add(label5, gbc);
+        gbc.anchor = GridBagConstraints.WEST;
+        panel5.add(emailLabel, gbc);
 
         emailField = new JTextField();
+        emailField.setColumns(15);
         emailField.setFont(AppUtils.text);
-        emailField.setColumns(13);
-        emailField.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.ipadx = 150;
+        gbc.ipadx = 100;
+        gbc.anchor = GridBagConstraints.WEST;
         // gbc.fill = GridBagConstraints.HORIZONTAL;
         panel5.add(emailField, gbc);
-
 
         // row 4
         final JPanel panel6 = new JPanel();
@@ -192,29 +185,27 @@ public class DetailsView implements View {
         gbc.gridy = 4;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.NORTHEAST;
+        gbc.anchor = GridBagConstraints.EAST;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainPanel.add(panel6, gbc);
 
-        final JLabel label6 = new JLabel();
-        label6.setFont(AppUtils.text);
-        label6.setText("Cod. fisc.: ");
+        final JLabel userIdLabel = new JLabel();
+        userIdLabel.setText("Cod. fisc.: ");
+        userIdLabel.setFont(AppUtils.text);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        panel6.add(label6, gbc);
+        gbc.anchor = GridBagConstraints.WEST;
+        panel6.add(userIdLabel, gbc);
 
         userIdField = new JTextField();
+        userIdField.setColumns(15);
         userIdField.setFont(AppUtils.text);
-        userIdField.setColumns(13);
-        userIdField.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        // gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.ipadx = 150;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.ipadx = 100;
         panel6.add(userIdField, gbc);
 
 

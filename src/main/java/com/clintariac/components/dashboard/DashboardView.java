@@ -55,12 +55,12 @@ public class DashboardView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.weightx = 1;
+        gbc.weightx = 2;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.insets = new Insets(3, 3, 3, 3);
-        gbc.ipadx = 50;
+        gbc.ipadx = 100;
         gbc.ipady = 650;
         mainPanel.add(resListController.getView(), gbc);
 
@@ -72,7 +72,7 @@ public class DashboardView implements View {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.insets = new Insets(3, 3, 3, 3);
-        gbc.ipadx = 50;
+        gbc.ipadx = 100;
         mainPanel.add(patientsController.getView(), gbc);
 
         gbc = new GridBagConstraints();

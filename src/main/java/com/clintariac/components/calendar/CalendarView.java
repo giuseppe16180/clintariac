@@ -42,7 +42,7 @@ public class CalendarView implements View {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(12, 12, 0, 12);
+        gbc.insets = new Insets(24, 3, 0, 3);
 
         mainPanel.add(calendarPanel, gbc);
 
@@ -50,12 +50,12 @@ public class CalendarView implements View {
         allReserv.setSelected(false);
         allReserv.setText("Tutti gli appuntamenti");
         allReserv.setFont(AppUtils.text);
-        allReserv.setMargin(new Insets(3, 3, 3, 3));
+        allReserv.setMargin(new Insets(0, 3, 12, 3));
 
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.insets = new Insets(12, 12, 12, 12);
+        gbc.insets = new Insets(12, 3, 12, 3);
 
         mainPanel.add(allReserv, gbc);
     }
