@@ -9,6 +9,17 @@ public class DashboardModel {
     private String selectedTicket;
     private boolean isUserSelected;
     private boolean isTicketSelected;
+    private boolean isDayView;
+
+    public boolean isDayView() {
+        return isDayView;
+    }
+
+
+    public void setDayView(boolean isDayView) {
+        this.isDayView = isDayView;
+    }
+
 
     public DashboardModel() {
         this.selectedDate = LocalDate.now();
@@ -16,6 +27,7 @@ public class DashboardModel {
         this.selectedTicket = "";
         this.isUserSelected = false;
         this.isTicketSelected = false;
+        this.isDayView = true;
     }
 
 
@@ -90,7 +102,7 @@ public class DashboardModel {
 
     public void unselectTicket() {
         this.isTicketSelected = false;
-        this.selectedTicket = null;
+        this.selectedTicket = "";
     }
 
 }

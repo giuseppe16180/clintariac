@@ -19,6 +19,7 @@ public class PatientsView implements View {
     private JTextField userIdField;
     private JButton saveButton;
     private JButton searchButton;
+    private JButton clearButton;
 
     private JPanel mainPanel;
 
@@ -27,7 +28,7 @@ public class PatientsView implements View {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
-        mainPanel.setBorder(AppUtils.createMainBorder("Aggiunta o aggiornamento paziente"));
+        mainPanel.setBorder(AppUtils.createMainBorder("Gestione pazienti"));
 
         // row 0
         final JPanel panel2 = new JPanel();
@@ -204,7 +205,7 @@ public class PatientsView implements View {
         saveButton.setText("Aggiungi");
         saveButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.insets = new Insets(0, 12, 12, 12);
         mainPanel.add(saveButton, gbc);
@@ -216,8 +217,18 @@ public class PatientsView implements View {
         searchButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 7;
+        gbc.gridy = 6;
         mainPanel.add(searchButton, gbc);
+
+        clearButton = new JButton();
+        clearButton.setHorizontalTextPosition(0);
+        clearButton.setFont(AppUtils.text);
+        clearButton.setText("Pulisci");
+        clearButton.setMargin(new Insets(3, 3, 3, 3));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        mainPanel.add(clearButton, gbc);
 
     }
 
@@ -300,6 +311,10 @@ public class PatientsView implements View {
 
     public JButton getSearchButton() {
         return searchButton;
+    }
+
+    public JButton getClearButton() {
+        return clearButton;
     }
 
     /**

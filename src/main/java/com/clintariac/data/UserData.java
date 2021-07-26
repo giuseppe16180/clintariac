@@ -32,6 +32,10 @@ public class UserData {
         this(firstName, lastName, id, email, phone, new ArrayList<MessageData>());
     }
 
+    public UserData() {
+        this("", "", "", "", "", new ArrayList<MessageData>());
+    }
+
     /**
      * @return String
      */

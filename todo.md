@@ -8,7 +8,7 @@
 - [ ] Creare una vista in ordine cronologico di tutti gli appuntamenti a partire dall'ora corrente
 - [x] Abilitare le giornate passate nel calendario
 - [x] Inserire il seletore del calendario nella colonna degli appuntamenti
-- [ ] Inserire un bottone per tornare alla vista cronologica
+- [x] Inserire un bottone per tornare alla vista cronologica
 - [ ] Le prenotazioni scadute, o eliminate compaiono nella lista appuntamenti, solo in modo diverso
 - [ ] L'appuntamento non confermato deve esserre riproponibile (?)
 - [ ] In caso di eliminazione alterare la grafica del ticket nella lista
@@ -68,3 +68,5 @@
 
 - [ ] Riprogettare email handler   
 - [ ] Caricare la data dell'appuntamento fissato in details quando e` presente un appuntamento fissato
+- [x] l'eliminazione quando siamo in vista pazienti non funziona (solleva eccezione)
+- [ ] aggiornare i testi delle email

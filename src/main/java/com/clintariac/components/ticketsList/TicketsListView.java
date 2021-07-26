@@ -21,7 +21,7 @@ public class TicketsListView implements View {
         mainPanel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         mainPanel.setBackground(null);
 
-        mainPanel.setBorder(AppUtils.createMainBorder("Lista ticket in attesa"));
+        mainPanel.setBorder(AppUtils.createMainBorder("Notifiche"));
 
         list = new JList<>();
         list.setCellRenderer(new TicketRenderer());

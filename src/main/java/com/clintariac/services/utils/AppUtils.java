@@ -50,6 +50,13 @@ public interface AppUtils {
                 TitledBorder.ABOVE_BOTTOM, AppUtils.textSmall, null);
     }
 
+    public static TitledBorder createSimpleBorderTop(String title) {
+        return BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), title,
+                TitledBorder.DEFAULT_JUSTIFICATION,
+                TitledBorder.TOP, AppUtils.text, null);
+    }
+
     public static TitledBorder smallBorderLeft(String title) {
         return BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), title,

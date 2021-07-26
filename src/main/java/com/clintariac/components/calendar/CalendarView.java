@@ -5,7 +5,7 @@ import java.awt.Component;
 import java.awt.Insets;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import com.clintariac.components.mvc.View;
@@ -18,7 +18,7 @@ public class CalendarView implements View {
     private JPanel mainPanel;
     private DatePickerSettings settings;
     private CalendarPanel calendarPanel;
-    private JButton allReserv;
+    private JCheckBox allReserv;
 
     public CalendarView() {
 
@@ -32,6 +32,7 @@ public class CalendarView implements View {
         settings.setFontTodayLabel(AppUtils.text);
         settings.setFontMonthAndYearMenuLabels(AppUtils.text);
         settings.setFontCalendarWeekdayLabels(AppUtils.text);
+        settings.setVisibleClearButton(false);
 
         calendarPanel = new CalendarPanel(settings);
 
@@ -45,8 +46,8 @@ public class CalendarView implements View {
 
         mainPanel.add(calendarPanel, gbc);
 
-        allReserv = new JButton();
-        allReserv.setHorizontalTextPosition(0);
+        allReserv = new JCheckBox();
+        allReserv.setSelected(false);
         allReserv.setText("Tutti gli appuntamenti");
         allReserv.setFont(AppUtils.text);
         allReserv.setMargin(new Insets(3, 3, 3, 3));
@@ -59,11 +60,11 @@ public class CalendarView implements View {
         mainPanel.add(allReserv, gbc);
     }
 
-    public JButton getAllReserv() {
+    public JCheckBox getAllReserv() {
         return allReserv;
     }
 
-    public void setAllReserv(JButton allReserv) {
+    public void setAllReserv(JCheckBox allReserv) {
         this.allReserv = allReserv;
     }
 

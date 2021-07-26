@@ -8,8 +8,7 @@ import com.clintariac.components.mvc.Controller;
 /**
  * Calendar controller
  * 
- * Classe che gestisce l'evento per selezionare una data nel
- * {@code CalendarPanel}.
+ * Classe che gestisce l'evento per selezionare una data nel {@code CalendarPanel}.
  */
 
 public class CalendarController implements Controller {
@@ -19,8 +18,7 @@ public class CalendarController implements Controller {
     private Consumer<LocalDate> onAllSelect;
 
     /**
-     * Costruttore di CalendarController, instanzia model e view del Calendar e
-     * aggiunge l'evento.
+     * Costruttore di CalendarController, instanzia model e view del Calendar e aggiunge l'evento.
      */
     public CalendarController() {
 
@@ -41,7 +39,8 @@ public class CalendarController implements Controller {
      * Metodo che permette di aggiungere un ascoltatore al CalendarPanel.
      */
     private void init() {
-        view.getCalendarPanel().addCalendarListener((CalendarSelectDateListener) (e) -> dateSelect());
+        view.getCalendarPanel()
+                .addCalendarListener((CalendarSelectDateListener) (e) -> dateSelect());
         view.getAllReserv().addActionListener((e) -> allSelect());
     }
 
@@ -49,6 +48,7 @@ public class CalendarController implements Controller {
      * 
      */
     private void dateSelect() {
+        view.getAllReserv().setSelected(false);
         onDateSelect.accept(view.getCalendarPanel().getSelectedDate());
     }
 
@@ -63,6 +63,7 @@ public class CalendarController implements Controller {
      * 
      */
     private void allSelect() {
+        view.getAllReserv().setSelected(true);
         onAllSelect.accept(LocalDate.now());
     }
 

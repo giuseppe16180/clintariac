@@ -279,7 +279,7 @@ public class DetailsView implements View {
         gbc.gridy = 9;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.insets = new Insets(3, 8, 0, 3);
+        gbc.insets = new Insets(3, 8, 0, 8);
         gbc.anchor = GridBagConstraints.EAST;
         mainPanel.add(sendButton, gbc);
 
@@ -292,35 +292,20 @@ public class DetailsView implements View {
         gbc.ipady = 30;
         mainPanel.add(spacer5, gbc);
 
-        final JLabel label7 = new JLabel();
-        label7.setFont(AppUtils.text);
-        label7.setText("Gestione data e ora per la prenotazione:");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 11;
-        gbc.gridwidth = 5;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.insets = new Insets(3, 8, 0, 0);
-        gbc.anchor = GridBagConstraints.WEST;
-        mainPanel.add(label7, gbc);
 
-        final JPanel spacer6 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 12;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.ipady = 8;
-        mainPanel.add(spacer6, gbc);
 
         final JPanel panel7 = new JPanel();
         panel7.setLayout(new GridBagLayout());
+        panel7.setBorder(
+                AppUtils.createSimpleBorderTop("Gestione prenotazione"));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 13;
+        gbc.gridy = 11;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.gridwidth = 5;
+        gbc.insets = new Insets(3, 8, 3, 8);
+        gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.BOTH;
         mainPanel.add(panel7, gbc);
 
@@ -350,49 +335,49 @@ public class DetailsView implements View {
 
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.ipadx = 11;
-        gbc.insets = new Insets(3, 8, 3, 3);
+        gbc.gridy = 0;
+        gbc.insets = new Insets(12, 36, 3, 36);
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        panel7.add(dateTimePicker, gbc);
+        panel7.add(dateTimePicker, gbc); // todo sistemare altrove
 
-        final JPanel spacer8 = new JPanel();
+        final JPanel bottomPanel = new JPanel(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 14;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.ipady = 26;
-        mainPanel.add(spacer8, gbc);
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel7.add(bottomPanel, gbc);
 
         deleteButton = new JButton();
-        deleteButton.setFont(AppUtils.text);
         deleteButton.setHorizontalTextPosition(0);
         deleteButton.setText("Elimina");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 14;
+        deleteButton.setFont(AppUtils.text);
         deleteButton.setMargin(new Insets(3, 3, 3, 3));
-        mainPanel.add(deleteButton, gbc);
-
-        final JPanel spacer9 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 14;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.ipadx = 100;
-        mainPanel.add(spacer9, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.BOTH;
+        bottomPanel.add(deleteButton, gbc);
 
         validateButton = new JButton();
-
         validateButton.setHorizontalTextPosition(0);
         validateButton.setText("Controlla");
         validateButton.setFont(AppUtils.text);
         validateButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 14;
-        mainPanel.add(validateButton, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.BOTH;
+        bottomPanel.add(validateButton, gbc);
 
         saveButton = new JButton();
         saveButton.setFont(AppUtils.text);
@@ -400,17 +385,14 @@ public class DetailsView implements View {
         saveButton.setText("Salva");
         saveButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 14;
-        mainPanel.add(saveButton, gbc);
-
-        final JPanel spacer10 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 14;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.ipadx = 100;
-        mainPanel.add(spacer10, gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.BOTH;
+        bottomPanel.add(saveButton, gbc);
     }
 
 
