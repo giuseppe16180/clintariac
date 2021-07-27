@@ -368,9 +368,13 @@ public class ContextManager {
         if (user.isPresent()) {
             List<MessageData> chat = user.get().getChat();
             chat.add(new MessageData(message, LocalDateTime.now(), isUserSent));
-            dataManager.setUser(new UserData(user.get().firstName, user.get().lastName,
-                    user.get().id, user.get().email,
-                    user.get().phone, chat));
+            dataManager.setUser(new UserData(
+                    user.get().firstName,
+                    user.get().lastName,
+                    user.get().id,
+                    user.get().email,
+                    user.get().phone,
+                    chat));
         }
         return user.isPresent();
     }
@@ -383,7 +387,6 @@ public class ContextManager {
      */
     public void setTicket(TicketData newTicket) {
 
-        System.out.println(newTicket.id);
         String dateTime[] = AppUtils.localDateTimeToString(newTicket.booking).split(" ");
         // #
         final boolean wasAwaiting =
@@ -454,15 +457,16 @@ public class ContextManager {
      * @param newUser
      */
     public void setUser(UserData newUser) {
-
+        String email = newUser.email.isEmpty()
+                ? dataManager.getUser(newUser.id).get().email
+                : newUser.email;
         boolean isSent = emailManager
-                .send(new EmailData(newUser.email, "Conferma ed istruzioni",
+                .send(new EmailData(email, "Utente aggiornato",
                         StandardEmails.WELCOME));
-
         if (isSent) {
-
             dataManager.setUser(newUser);
         }
+
     }
 
     /**
@@ -514,7 +518,7 @@ public class ContextManager {
         return dataManager.getUsersList().stream().collect(Collectors.toList());
     }
 
-    public List<TicketData> getReservationsStartToDate(LocalDate date) {
+    public List<TicketData> getReservationsStartFromDate(LocalDate date) {
         return dataManager.getTicketsList().stream().filter(ticket -> {
             return (ticket.state != TicketState.AWAITING)
                     && (ticket.booking.toLocalDate().equals(date)

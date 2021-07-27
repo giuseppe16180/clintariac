@@ -11,6 +11,7 @@ public class PatientsController implements Controller {
     private PatientsView view;
 
     private Consumer<UserData> onSave;
+    private Consumer<UserData> onEdit;
     private Consumer<UserData> onSearch;
     private Consumer<UserData> onClear;
 
@@ -31,6 +32,7 @@ public class PatientsController implements Controller {
     private void init() {
 
         view.getSaveButton().addActionListener(e -> save());
+        view.getEditButton().addActionListener(e -> edit());
         view.getSearchButton().addActionListener(e -> search());
         view.getClearButton().addActionListener(e -> clear());
     }
@@ -97,6 +99,60 @@ public class PatientsController implements Controller {
         }
     }
 
+
+
+    public void addOnEdit(Consumer<UserData> onEdit) {
+        this.onEdit = onEdit;
+    }
+
+    private void edit() {
+        boolean isCorrect = true;
+
+        StringBuilder message = new StringBuilder();
+
+        // controllo sul numero di telefono
+        String phone = view.getPhoneField().getText();
+        if (!phone.isEmpty() && !view.getPhoneField().getText().matches("[0-9]{8,10}")) {
+            message.append("È presente un errore nel numero di telefono!\n");
+            isCorrect = false;
+        }
+
+        // controllo email
+        String email = view.getEmailField().getText();
+        if (!email.isEmpty()
+                && !email.matches("^[A-Za-z0-9+_.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)")) {
+            message.append("È presente un errore nella mail!\n");
+            isCorrect = false;
+        }
+
+        // controllo codice fiscale
+        String id = view.getUserIdField().getText().toUpperCase();
+        if (id.isEmpty()) {
+            message.append(
+                    "È necessario inserire il codice fiscale per aggiornare le informazioni!\n");
+            isCorrect = false;
+        } else if (!id.matches("[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]")) {
+            message.append("È presente un errore nel codice fiscale!\n");
+            isCorrect = false;
+        }
+
+        if (isCorrect) {
+
+            UserData newUser = new UserData(
+                    view.getFirstNameField().getText(),
+                    view.getLastNameField().getText(),
+                    id, email, phone);
+
+            onEdit.accept(newUser);
+            resetView();
+
+        } else {
+            JOptionPane.showMessageDialog(null, message.toString(),
+                    "Informazioni utente non valide",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     /**
      * @param onSearch
      */
@@ -120,7 +176,7 @@ public class PatientsController implements Controller {
     private void clear() {
         UserData emptyUser = new UserData();
         resetView();
-        onSearch.accept(emptyUser);
+        onClear.accept(emptyUser);
     }
 
     public void resetView() {

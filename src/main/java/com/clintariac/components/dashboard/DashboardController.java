@@ -97,7 +97,7 @@ public class DashboardController implements Controller {
 			return new ReservationsListModel(
 					model.isDayView()
 							? parser.apply(context.getReservationsForDate(model.getSelectedDate()))
-							: parser.apply(context.getReservationsStartToDate(LocalDate.now())));
+							: parser.apply(context.getReservationsStartFromDate(LocalDate.now())));
 		});
 
 		ticketsList = view.getTicketsListController();
@@ -131,7 +131,6 @@ public class DashboardController implements Controller {
 		details.addOnDelete(this::detailsDelete);
 
 		details.setModelSupplier(() -> {
-			// System.out.println("detailsModelSupplier:" + model.getSelectedTicket());
 			if (model.isUserSelected()) {
 				// todo: il context dovrebbe predisporre questo metodo
 				// todo: togliere cose inutili
@@ -174,6 +173,7 @@ public class DashboardController implements Controller {
 
 		patient = view.getPatientsController();
 		patient.addOnSave(this::patientSave);
+		patient.addOnEdit(this::patientEdit);
 		patient.addOnSearch(this::patientSearch);
 		patient.addOnClear(this::patientSearch);
 
@@ -218,9 +218,7 @@ public class DashboardController implements Controller {
 	private void detailsDelete() {
 		if (model.isTicketSelected()) {
 			context.deleteTicket(model.getSelectedTicket());
-			model.unselectUser();
-			Stream.of(details, ticketsList, resList).forEach(Controller::updateView);
-			context.startTask();
+			reload();
 		} else {
 			JOptionPane.showMessageDialog(null, "Selezionare prima un ticket");
 		}
@@ -234,8 +232,7 @@ public class DashboardController implements Controller {
 	 * </p>
 	 */
 	private void contextUpdate() {
-		Stream.of(resList, ticketsList).forEach(Controller::updateView);
-
+		Stream.of(resList, ticketsList, details).forEach(Controller::updateView);
 	}
 
 	/**
@@ -261,7 +258,6 @@ public class DashboardController implements Controller {
 	}
 
 	private void allDateSelect(LocalDate date) {
-
 		model.setSelectedDate(date);
 		model.setDayView(false);
 		resList.updateView();
@@ -288,6 +284,21 @@ public class DashboardController implements Controller {
 			JOptionPane.showMessageDialog(null, "Nuovo utente salvato con successo!");
 
 		} else {
+			JOptionPane.showMessageDialog(null,
+					"Utente già presente! Se si vogliono aggiornare i dati cliccare su aggiorna.");
+		}
+		usersList.updateView();
+	}
+
+	private void patientEdit(UserData newUser) {
+
+		Optional<UserData> existing = context.getUser(newUser.id);
+
+		if (existing.isEmpty()) {
+			JOptionPane.showMessageDialog(null,
+					"Utente non presente! Cliccare su aggiungi per registrarlo.");
+		} else {
+			context.getUser(newUser.id);
 			context.setUser(newUser);
 			JOptionPane.showMessageDialog(null,
 					"Le informazioni per l'utente sono state aggiornate");
@@ -322,7 +333,6 @@ public class DashboardController implements Controller {
 	 * @param userId
 	 */
 	private void ticketSelect(Senders sender, String ticketId, String userId) {
-		System.out.println(ticketId);
 		model.setSelectedTicket(ticketId);
 		model.setSelectedUser(userId);
 		if (sender == Senders.RES_LIST) {
@@ -331,7 +341,7 @@ public class DashboardController implements Controller {
 			resList.updateView();
 		}
 
-		context.stopTask();
+		// context.stopTask();
 		// model.setSelectedUser(ticketId);
 
 		// resList.updateView();

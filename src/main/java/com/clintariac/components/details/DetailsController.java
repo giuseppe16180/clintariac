@@ -144,7 +144,6 @@ public class DetailsController implements Controller {
     private void save() {
         // #
         LocalDateTime dateTime = view.getDateTimePicker().getDateTimeStrict();
-        System.out.println("save: " + model.getTicketId());
         TicketData newTicket =
                 new TicketData(model.getTicketId(), model.getUserId(), TicketState.BOOKED, dateTime,
                         LocalDateTime.now(), model.getMessage());
@@ -234,7 +233,6 @@ public class DetailsController implements Controller {
     }
 
     private void didEditMessage() {
-        // System.out.println(view.getMessagePane().getText());
         model.setMessage(view.getMessagePane().getText());
     }
 }

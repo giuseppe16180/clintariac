@@ -13,7 +13,7 @@ public class ChatController implements Controller {
     private ChatModel model;
     private ChatView view;
 
-    private Consumer<String> onMessageSelect;
+    // private Consumer<String> onMessageSelect;
 
     private Supplier<ChatModel> modelSupplier;
 
@@ -50,25 +50,11 @@ public class ChatController implements Controller {
         view.scrollToBottom();
     }
 
-    /**
-     * 
-     * @param onMessageSelect
-     */
-    public void addOnMessageSelect(Consumer<String> onMessageSelect) {
-        this.onMessageSelect = onMessageSelect;
-    }
+
 
     private void init() {
         view.scrollToBottom();
 
-        view.getList().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting() && view.getList().getSelectedValue() != null) {
-                messageSelect();
-            }
-        });
     }
 
-    private void messageSelect() {
-        onMessageSelect.accept(view.getList().getSelectedValue().getText());
-    }
 }

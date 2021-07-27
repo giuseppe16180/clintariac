@@ -74,4 +74,4 @@
 - [ ] se un booked scade portarlo in stato waiting
 - [ ] se un ticket viene riproposto mandare un messaggio diverso. (Se lo stato prima dello spostamento non era awaiting)
 - [ ] mettere nel model di dashboard controlle rtutto il ticket
-- [ ] al click di un messaggio nella chat viene lanciata un'eccezione
+- [x] al click di un messaggio nella chat viene lanciata un'eccezione

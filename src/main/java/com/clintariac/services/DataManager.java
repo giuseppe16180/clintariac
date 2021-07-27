@@ -261,8 +261,19 @@ public class DataManager {
 
         if (getUser(newUser.id).isPresent()) {
 
-            usersList = usersList.stream().map(user -> user.id.equals(newUser.id) ? newUser : user)
-                    .collect(Collectors.toList());
+            usersList = usersList.stream().map(user -> {
+                if (user.id.equals(newUser.id)) {
+                    UserData temp = new UserData(
+                            newUser.firstName.isEmpty() ? user.firstName : newUser.firstName,
+                            newUser.lastName.isEmpty() ? user.lastName : newUser.lastName,
+                            newUser.id,
+                            newUser.email.isEmpty() ? user.email : newUser.email,
+                            newUser.phone.isEmpty() ? user.phone : newUser.phone,
+                            user.getChat());
+                    return temp;
+                }
+                return user;
+            }).collect(Collectors.toList());
         }
 
         else {

@@ -20,6 +20,7 @@ public class PatientsView implements View {
     private JButton saveButton;
     private JButton searchButton;
     private JButton clearButton;
+    private JButton editButton;
 
     private JPanel mainPanel;
 
@@ -221,13 +222,23 @@ public class PatientsView implements View {
         gbc.gridy = 0;
         panel7.add(saveButton, gbc);
 
+        editButton = new JButton();
+        editButton.setHorizontalTextPosition(0);
+        editButton.setFont(AppUtils.text);
+        editButton.setText("Modifica");
+        editButton.setMargin(new Insets(3, 3, 3, 3));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        panel7.add(editButton, gbc);
+
         searchButton = new JButton();
         searchButton.setHorizontalTextPosition(0);
         searchButton.setFont(AppUtils.text);
         searchButton.setText("Ricerca");
         searchButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 0;
         panel7.add(searchButton, gbc);
 
@@ -237,7 +248,7 @@ public class PatientsView implements View {
         clearButton.setText("Pulisci");
         clearButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 0;
         panel7.add(clearButton, gbc);
 
@@ -326,6 +337,10 @@ public class PatientsView implements View {
 
     public JButton getClearButton() {
         return clearButton;
+    }
+
+    public JButton getEditButton() {
+        return editButton;
     }
 
     /**
