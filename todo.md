@@ -71,7 +71,8 @@
 - [x] l'eliminazione quando siamo in vista pazienti non funziona (solleva eccezione)
 - [ ] aggiornare i testi delle email
 - [ ] i ticket cancellati non devono essere eliminabili
-- [ ] se un booked scade portarlo in stato waiting
+- [x] se un booked scade portarlo in stato waiting (lasciamo scaduto con possibilità di riprenotarlo)
 - [ ] se un ticket viene riproposto mandare un messaggio diverso. (Se lo stato prima dello spostamento non era awaiting)
 - [ ] mettere nel model di dashboard controlle rtutto il ticket
 - [x] al click di un messaggio nella chat viene lanciata un'eccezione
+- [ ] distinguere i ticket nel caso siano cancellati o scaduti
