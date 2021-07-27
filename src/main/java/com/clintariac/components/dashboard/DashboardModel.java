@@ -1,25 +1,17 @@
 package com.clintariac.components.dashboard;
 
 import java.time.LocalDate;
+import com.clintariac.data.TicketData;
 
 public class DashboardModel {
 
     private LocalDate selectedDate;
+    private TicketData ticket;
     private String selectedUser;
     private String selectedTicket;
     private boolean isUserSelected;
     private boolean isTicketSelected;
     private boolean isDayView;
-
-    public boolean isDayView() {
-        return isDayView;
-    }
-
-
-    public void setDayView(boolean isDayView) {
-        this.isDayView = isDayView;
-    }
-
 
     public DashboardModel() {
         this.selectedDate = LocalDate.now();
@@ -30,6 +22,24 @@ public class DashboardModel {
         this.isDayView = true;
     }
 
+    public TicketData getTicket() {
+        return ticket;
+    }
+
+
+    public void setTicket(TicketData ticket) {
+        this.ticket = ticket;
+    }
+
+
+    public boolean isDayView() {
+        return isDayView;
+    }
+
+
+    public void setDayView(boolean isDayView) {
+        this.isDayView = isDayView;
+    }
 
     /**
      * @return LocalDate

@@ -382,6 +382,8 @@ public class ContextManager {
      * @param newTicket ticket caricare
      */
     public void setTicket(TicketData newTicket) {
+
+        System.out.println(newTicket.id);
         String dateTime[] = AppUtils.localDateTimeToString(newTicket.booking).split(" ");
         // #
         final boolean wasAwaiting =
@@ -393,9 +395,9 @@ public class ContextManager {
 
         if (isSent) {
             addToChat(newTicket.user,
-                    String.format(wasAwaiting
-                            ? "Proposta appuntamento - %s %s"
-                            : "Spostamento appuntamento - %s %s",
+                    String.format(
+                            wasAwaiting ? "Proposta appuntamento - %s %s"
+                                    : "Spostamento appuntamento - %s %s",
                             dateTime[0], dateTime[1]),
                     false);
             dataManager.setTicket(newTicket);
@@ -500,6 +502,12 @@ public class ContextManager {
         return dataManager.getTicketsList().stream()
                 .filter(ticket -> ticket.state == TicketState.AWAITING)
                 .collect(Collectors.toList());
+    }
+
+    public Optional<TicketData> getPendingTicketForUser(String userId) {
+        return getTicketsList().stream().filter(
+                ticket -> ticket.user.equals(userId) && ticket.state != TicketState.CONFIRMED)
+                .findFirst();
     }
 
     public List<UserData> getUsers() {

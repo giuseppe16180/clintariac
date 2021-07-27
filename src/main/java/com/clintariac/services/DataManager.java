@@ -158,16 +158,11 @@ public class DataManager {
                         ticket -> ticket.id.equals(id) && ticket.state == TicketState.AWAITING))
                 .map(ticket -> {
                     return ticket.id.equals(id)
-                            ? new TicketData(
-                                    ticket.id,
-                                    ticket.user,
-                                    TicketState.DELETED,
+                            ? new TicketData(ticket.id, ticket.user, TicketState.DELETED,
                                     ticket.booking,
-                                    ticket.lastInteraction,
-                                    ticket.message)
+                                    ticket.lastInteraction, ticket.message)
                             : ticket;
-                })
-                .collect(Collectors.toList());
+                }).collect(Collectors.toList());
 
         storeTicketsList();
     }

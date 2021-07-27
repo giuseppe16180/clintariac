@@ -51,17 +51,15 @@ public class DetailsController implements Controller {
 
         chat = view.getChatController();
         chat.setModelSupplier(() -> {
-            return new ChatModel(model.getChat().stream()
-                    .map(it -> new MessageModel(
-                            AppUtils.plaiTextToHTML(it.text, 6),
-                            AppUtils.localDateTimeToString(it.dateTime),
-                            it.isUserSent))
-                    .collect(Collectors.toList()));
+            return new ChatModel(
+                    model.getChat().stream()
+                            .map(it -> new MessageModel(AppUtils.plaiTextToHTML(it.text, 6),
+                                    AppUtils.localDateTimeToString(it.dateTime), it.isUserSent))
+                            .collect(Collectors.toList()));
         });
 
         init();
     }
-
 
     /**
      * Metodo per istanziare il modello di Details attraverso un {@code Supplier<DetailsModel>}
@@ -82,7 +80,6 @@ public class DetailsController implements Controller {
 
         model = modelSupplier.get();
 
-
         view.getFirstNameField().setText(model.getFirstName());
         view.getLastNameField().setText(model.getLastName());
         view.getEmailField().setText(model.getEmail());
@@ -97,7 +94,6 @@ public class DetailsController implements Controller {
         chat.updateView();
     }
 
-
     /**
      * @return Component
      */
@@ -105,8 +101,6 @@ public class DetailsController implements Controller {
     public Component getView() {
         return this.view.getMainComponent();
     }
-
-
 
     private void init() {
 
@@ -119,7 +113,6 @@ public class DetailsController implements Controller {
                 .addDocumentListener((DocumentUpdateListener) (e) -> didEditMessage());
     }
 
-
     /**
      * @param onSave
      */
@@ -127,14 +120,12 @@ public class DetailsController implements Controller {
         this.onSave = onSave;
     }
 
-
     /**
      * @param onValidate
      */
     public void addOnValidate(Predicate<LocalDateTime> onValidate) {
         this.onValidate = onValidate;
     }
-
 
     /**
      * @param onDelete
@@ -153,14 +144,10 @@ public class DetailsController implements Controller {
     private void save() {
         // #
         LocalDateTime dateTime = view.getDateTimePicker().getDateTimeStrict();
+        System.out.println("save: " + model.getTicketId());
         TicketData newTicket =
-                new TicketData(
-                        model.getTicketId(),
-                        model.getUserId(),
-                        TicketState.BOOKED,
-                        dateTime,
-                        LocalDateTime.now(),
-                        model.getMessage());
+                new TicketData(model.getTicketId(), model.getUserId(), TicketState.BOOKED, dateTime,
+                        LocalDateTime.now(), model.getMessage());
         onSave.accept(newTicket);
         JOptionPane.showMessageDialog(null, "Salvataggio effettuato con successo");
     }
@@ -172,9 +159,7 @@ public class DetailsController implements Controller {
 
         if (ticketId.equals("")) {
 
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Selezionare il ticket che si vuole processare!",
+            JOptionPane.showMessageDialog(null, "Selezionare il ticket che si vuole processare!",
                     "Validazione ticket",
                     JOptionPane.ERROR_MESSAGE);
 
@@ -186,37 +171,29 @@ public class DetailsController implements Controller {
 
         if (dateTime == null) {
 
-            JOptionPane.showMessageDialog(
-                    null,
+            JOptionPane.showMessageDialog(null,
                     "Si prega di impostare sia la data che l'ora dell'appuntamento!",
-                    "Appuntamento non valido",
-                    JOptionPane.ERROR_MESSAGE);
+                    "Appuntamento non valido", JOptionPane.ERROR_MESSAGE);
         }
 
         else if (dateTime
                 .isBefore(LocalDateTime.now().plusMinutes(Preferences.examDuration.minutes))) {
 
-            JOptionPane.showMessageDialog(
-                    null,
+            JOptionPane.showMessageDialog(null,
                     "Si prega di impostare un orario successivo, quello selezionato è trascorso oppure è troppo imminente!",
-                    "Appuntamento non valido",
-                    JOptionPane.ERROR_MESSAGE);
+                    "Appuntamento non valido", JOptionPane.ERROR_MESSAGE);
         }
 
         else if (onValidate.test(dateTime)) {
 
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Nessun impegno per la data e l'ora impostati!");
+            JOptionPane.showMessageDialog(null, "Nessun impegno per la data e l'ora impostati!");
 
             view.getSaveButton().setEnabled(true);
         } else {
 
-            JOptionPane.showMessageDialog(
-                    null,
+            JOptionPane.showMessageDialog(null,
                     "È già presente un impegno per la data e l'ora impostati!",
-                    "Appuntamento non valido",
-                    JOptionPane.ERROR_MESSAGE);
+                    "Appuntamento non valido", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -226,25 +203,20 @@ public class DetailsController implements Controller {
 
         if (!ticketId.isEmpty()) { // ticket selezionato
 
-            int option = JOptionPane.showConfirmDialog(
-                    null,
+            int option = JOptionPane.showConfirmDialog(null,
                     "Sei sicuro/a di voler eliminare il ticket selezionato?",
                     "Eliminazione ticket", JOptionPane.YES_NO_OPTION);
 
             if (option == JOptionPane.YES_OPTION) {
                 onDelete.run();
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Il ticket è stato eliminato.",
+                JOptionPane.showMessageDialog(null, "Il ticket è stato eliminato.",
                         "Eliminazione completata!",
                         JOptionPane.INFORMATION_MESSAGE);
             }
 
         } else {
 
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Selezionare il ticket che si vuole eliminare",
+            JOptionPane.showMessageDialog(null, "Selezionare il ticket che si vuole eliminare",
                     "Eliminazione ticket",
                     JOptionPane.ERROR_MESSAGE);
         }

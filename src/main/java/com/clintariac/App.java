@@ -23,16 +23,12 @@ interface App {
 	 */
 	public static void main(String... args) {
 
-		SwingUtilities.invokeLater(() -> {
-
-			DashboardController dashboard = new DashboardController();
-
-			JFrame frame = new JFrame("Clintariac - Gestionale per appuntamenti");
-			frame.getContentPane().add(dashboard.getView());
-			frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-			frame.setLocationRelativeTo(null);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setVisible(true);
-		});
+		DashboardController dashboard = new DashboardController();
+		JFrame frame = new JFrame("Clintariac - Gestionale per appuntamenti");
+		frame.getContentPane().add(dashboard.getView());
+		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		frame.setLocationRelativeTo(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 	}
 }

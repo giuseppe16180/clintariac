@@ -77,14 +77,12 @@ public class DashboardController implements Controller {
 		resList = view.getReservationsListController();
 		// todo: sistemare questi nomi, sono ambigui, parliamo di ticket, restituiamo un
 		// user
+		// $$
 		resList.addOnTicketSelect((ticketId, userId) -> {
 			ticketSelect(Senders.RES_LIST, ticketId, userId);
 		});
 
-
-
 		resList.setModelSupplier(() -> {
-
 			Function<List<TicketData>, List<ReservationModel>> parser =
 					(tickets) -> tickets.stream().map(ticket -> {
 						UserData user = context.getUser(ticket.user).get();
@@ -92,7 +90,8 @@ public class DashboardController implements Controller {
 								user.firstName + " " + user.lastName,
 								AppUtils.localDateTimeToString(ticket.booking),
 								ticket.user,
-								ticket.id, ticket.state);
+								ticket.id,
+								ticket.state);
 					}).collect(Collectors.toList());
 
 			return new ReservationsListModel(
@@ -102,13 +101,17 @@ public class DashboardController implements Controller {
 		});
 
 		ticketsList = view.getTicketsListController();
+		// $$
 		ticketsList.addOnTicketSelect(
 				(ticketId, userId) -> ticketSelect(Senders.TICKETS_LIST, ticketId, userId));
 		ticketsList.setModelSupplier(() -> {
 			return new TicketsListModel(context.getAwaitingTickets().stream().map(ticket -> {
 				UserData user = context.getUser(ticket.user).get();
-				return new TicketModel(user.firstName + " " + user.lastName, ticket.message,
-						AppUtils.localDateTimeToString(ticket.lastInteraction), ticket.user,
+				return new TicketModel(
+						user.firstName + " " + user.lastName,
+						ticket.message,
+						AppUtils.localDateTimeToString(ticket.lastInteraction),
+						ticket.user,
 						ticket.id);
 			}).collect(Collectors.toList()));
 		});
@@ -128,31 +131,40 @@ public class DashboardController implements Controller {
 		details.addOnDelete(this::detailsDelete);
 
 		details.setModelSupplier(() -> {
+			// System.out.println("detailsModelSupplier:" + model.getSelectedTicket());
 			if (model.isUserSelected()) {
 				// todo: il context dovrebbe predisporre questo metodo
-				Optional<TicketData> awaitingTicket = context.getTicketsList().stream().filter(
-						ticket -> ticket.user.equals(model.getSelectedUser())
-								&& ticket.state != TicketState.CONFIRMED)
-						.findFirst();
-				if (awaitingTicket.isPresent()) {
-					TicketData ticket = awaitingTicket.get(); // toccato
+				// todo: togliere cose inutili
+				Optional<TicketData> pending =
+						context.getPendingTicketForUser(model.getSelectedUser());
+				if (pending.isPresent()) {
+					TicketData ticket = pending.get(); // toccato
 					UserData user = context.getUser(ticket.user).get();
-					model.setSelectedTicket(ticket.id);
-					return new DetailsModel.Builder().withUserId(ticket.user)
+					// model.setSelectedTicket(ticket.id);
+					// $$
+					return new DetailsModel.Builder()
+							.withUserId(user.id)
 							.withFirstName(user.firstName)
-							.withLastName(user.lastName).withEmail(user.email).withPhone(user.phone)
+							.withLastName(user.lastName)
+							.withEmail(user.email)
+							.withPhone(user.phone)
 							.withAwaiting(true)
 							.withDateTime(context.firstAvailableReservation())
-							.withTicketId(ticket.id)
-							.withChat(user.getChat()).build();
+							.withTicketId(model.getSelectedTicket())
+							.withChat(user.getChat())
+							.build();
 				} else {
 					UserData user = context.getUser(model.getSelectedUser()).get();
-					model.setSelectedUser(user.id);
-					return new DetailsModel.Builder().withUserId(user.id)
+					// model.setSelectedUser(user.id);
+					return new DetailsModel.Builder()
+							.withUserId(user.id)
 							.withFirstName(user.firstName)
-							.withLastName(user.lastName).withEmail(user.email).withPhone(user.phone)
+							.withLastName(user.lastName)
+							.withEmail(user.email)
+							.withPhone(user.phone)
 							.withAwaiting(false)
-							.withChat(user.getChat()).withTicketId(model.getSelectedTicket())
+							.withChat(user.getChat())
+							.withTicketId(model.getSelectedTicket())
 							.build();
 				}
 			} else {
@@ -189,6 +201,7 @@ public class DashboardController implements Controller {
 	 */
 	private void reload() {
 		model.unselectUser();
+		model.unselectTicket();
 		Stream.of(details, ticketsList, resList, usersList).forEach(Controller::updateView);
 		context.startTask();
 	}
@@ -295,7 +308,6 @@ public class DashboardController implements Controller {
 		usersList.updateView();
 	}
 
-
 	/**
 	 * Metodo per caricare la schermata dei dettagli per il ticket selezionato nella lista dei
 	 * ticket in attesa. Provvede ad arrestare il processo di aggiornamento del context, per
@@ -310,6 +322,7 @@ public class DashboardController implements Controller {
 	 * @param userId
 	 */
 	private void ticketSelect(Senders sender, String ticketId, String userId) {
+		System.out.println(ticketId);
 		model.setSelectedTicket(ticketId);
 		model.setSelectedUser(userId);
 		if (sender == Senders.RES_LIST) {
@@ -363,7 +376,6 @@ public class DashboardController implements Controller {
 	 */
 	private void detailsSave(TicketData newTicket) {
 		context.setTicket(newTicket);
-
 		reload();
 	}
 
