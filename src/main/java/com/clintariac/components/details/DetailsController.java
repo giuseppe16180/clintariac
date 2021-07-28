@@ -2,14 +2,11 @@ package com.clintariac.components.details;
 
 import java.awt.Component;
 import java.time.LocalDateTime;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 import com.clintariac.components.details.chat.ChatController;
 import com.clintariac.components.details.chat.ChatModel;
 import com.clintariac.components.details.chat.message.MessageModel;
@@ -76,10 +73,10 @@ public class DetailsController implements Controller {
     /**
      * Metodo per caricare nella view le informazioni di un ticket contenute nel model.
      */
-    public void updateView() {
-
+    @Override
+    public void fullUpdateView() {
+        System.out.println("Detailcontroller::fullUpdateView");
         model = modelSupplier.get();
-
         view.getFirstNameField().setText(model.getFirstName());
         view.getLastNameField().setText(model.getLastName());
         view.getEmailField().setText(model.getEmail());
@@ -90,8 +87,16 @@ public class DetailsController implements Controller {
         view.getSaveButton().setEnabled(false);
         view.getDateTimePicker().setDateTimeStrict(model.getDateTime());
         view.getDateTimePicker().setEnabled(true);
+        chat.fullUpdateView();
+    }
 
-        chat.updateView();
+    @Override
+    public void updateView() {
+        System.out.println("Detailcontroller::updateView");
+        String message = model.getMessage();
+        model = modelSupplier.get();
+        model.setMessage(message);
+        chat.fullUpdateView();
     }
 
     /**
@@ -224,7 +229,7 @@ public class DetailsController implements Controller {
     private void send() {
         onSend.accept(model.getMessage());
         view.getMessagePane().setText("");
-        updateView();
+        fullUpdateView();
         chat.scrollToBottom();
     }
 

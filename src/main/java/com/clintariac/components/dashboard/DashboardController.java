@@ -59,9 +59,6 @@ public class DashboardController implements Controller {
 	 * sara' ricaricata opportunamente con il model aggiornato.
 	 */
 
-	private enum Senders {
-		TICKETS_LIST, RES_LIST
-	}
 
 	public DashboardController() {
 
@@ -79,7 +76,7 @@ public class DashboardController implements Controller {
 		// user
 		// $$
 		resList.addOnTicketSelect((ticketId, userId) -> {
-			ticketSelect(Senders.RES_LIST, ticketId, userId);
+			ticketSelect(ticketId, userId);
 		});
 
 		resList.setModelSupplier(() -> {
@@ -103,7 +100,7 @@ public class DashboardController implements Controller {
 		ticketsList = view.getTicketsListController();
 		// $$
 		ticketsList.addOnTicketSelect(
-				(ticketId, userId) -> ticketSelect(Senders.TICKETS_LIST, ticketId, userId));
+				(ticketId, userId) -> ticketSelect(ticketId, userId));
 		ticketsList.setModelSupplier(() -> {
 			return new TicketsListModel(context.getAwaitingTickets().stream().map(ticket -> {
 				UserData user = context.getUser(ticket.user).get();
@@ -183,10 +180,11 @@ public class DashboardController implements Controller {
 		context.addOnDataException(this::dataException);
 		context.addOnEmailException(this::emailException);
 
+		context.addOnFullUpdate(this::contextFullUpdate);
 		context.addOnUpdate(this::contextUpdate);
 		context.loadData();
 
-		Stream.of(ticketsList, resList, usersList).forEach(Controller::updateView);
+		Stream.of(ticketsList, resList, usersList).forEach(Controller::fullUpdateView);
 
 		context.startTask();
 	}
@@ -202,7 +200,9 @@ public class DashboardController implements Controller {
 	private void reload() {
 		model.unselectUser();
 		model.unselectTicket();
-		Stream.of(details, ticketsList, resList, usersList).forEach(Controller::updateView);
+		Stream.of(details, ticketsList, resList, usersList).forEach(Controller::fullUpdateView);
+		System.out.println("reload");
+
 		context.startTask();
 	}
 
@@ -231,7 +231,13 @@ public class DashboardController implements Controller {
 	 * È pensato per essere chiamato in seguito all'aggiornamento del context.
 	 * </p>
 	 */
+	private void contextFullUpdate() {
+		System.out.println("contextFullUpdate");
+		Stream.of(resList, ticketsList, details).forEach(Controller::fullUpdateView);
+	}
+
 	private void contextUpdate() {
+		System.out.println("contextUpdate");
 		Stream.of(resList, ticketsList, details).forEach(Controller::updateView);
 	}
 
@@ -254,13 +260,13 @@ public class DashboardController implements Controller {
 	private void dateSelect(LocalDate date) {
 		model.setSelectedDate(date);
 		model.setDayView(true);
-		resList.updateView();
+		resList.fullUpdateView();
 	}
 
 	private void allDateSelect(LocalDate date) {
 		model.setSelectedDate(date);
 		model.setDayView(false);
-		resList.updateView();
+		resList.fullUpdateView();
 	}
 
 	/**
@@ -287,7 +293,7 @@ public class DashboardController implements Controller {
 			JOptionPane.showMessageDialog(null,
 					"Utente già presente! Se si vogliono aggiornare i dati cliccare su aggiorna.");
 		}
-		usersList.updateView();
+		usersList.fullUpdateView();
 	}
 
 	private void patientEdit(UserData newUser) {
@@ -303,7 +309,7 @@ public class DashboardController implements Controller {
 			JOptionPane.showMessageDialog(null,
 					"Le informazioni per l'utente sono state aggiornate");
 		}
-		usersList.updateView();
+		usersList.fullUpdateView();
 	}
 
 	private void patientSearch(UserData searchUser) {
@@ -316,7 +322,7 @@ public class DashboardController implements Controller {
 			}).collect(Collectors.toList()));
 		});
 
-		usersList.updateView();
+		usersList.fullUpdateView();
 	}
 
 	/**
@@ -332,32 +338,24 @@ public class DashboardController implements Controller {
 	 * 
 	 * @param userId
 	 */
-	private void ticketSelect(Senders sender, String ticketId, String userId) {
+	private void ticketSelect(String ticketId, String userId) {
 		model.setSelectedTicket(ticketId);
 		model.setSelectedUser(userId);
-		if (sender == Senders.RES_LIST) {
-			ticketsList.updateView();
-		} else if (sender == Senders.TICKETS_LIST) {
-			resList.updateView();
-		}
-
-		// context.stopTask();
-		// model.setSelectedUser(ticketId);
-
-		// resList.updateView();
-		usersList.updateView();
-		details.updateView();
+		ticketsList.fullUpdateView();
+		resList.fullUpdateView();
+		usersList.fullUpdateView();
+		details.fullUpdateView();
+		context.stopTask();
 	}
 
 	private void userSelect(String userId) {
-
 		model.setSelectedUser(userId);
 		model.unselectTicket();
-		details.updateView();
-		ticketsList.updateView();
-		resList.updateView();
-		// usersList.updateView();
-		// context.stopTask();
+		usersList.fullUpdateView();
+		details.fullUpdateView();
+		ticketsList.fullUpdateView();
+		resList.fullUpdateView();
+		context.stopTask();
 	}
 
 	/**

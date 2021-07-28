@@ -20,7 +20,7 @@ public class UsersListController implements Controller {
         init();
     }
 
-    public void updateView() {
+    public void fullUpdateView() {
         model = modelSupplier.get();
         view.getList().setModel(model.getUsers());
     }

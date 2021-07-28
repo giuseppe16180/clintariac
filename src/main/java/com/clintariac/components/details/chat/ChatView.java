@@ -1,11 +1,8 @@
 package com.clintariac.components.details.chat;
 
-import java.awt.Component;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JList;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import com.clintariac.components.details.chat.message.MessageModel;
 import com.clintariac.components.details.chat.message.MessageRenderer;

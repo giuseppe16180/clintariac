@@ -269,7 +269,7 @@ public class DataManager {
                             newUser.id,
                             newUser.email.isEmpty() ? user.email : newUser.email,
                             newUser.phone.isEmpty() ? user.phone : newUser.phone,
-                            user.getChat());
+                            newUser.getChat());
                     return temp;
                 }
                 return user;

@@ -49,6 +49,7 @@ public class ContextManager {
     private Future<?> task;
 
     private boolean shouldUpdate;
+    private Procedure onFullUpdate;
     private Procedure onUpdate;
 
     /**
@@ -95,10 +96,10 @@ public class ContextManager {
 
             initEmailHandler();
 
-            shouldUpdate = false;
+            shouldUpdate = true;
             isInstantiated = true;
 
-            onUpdate = Procedure.doNothing();
+            onFullUpdate = Procedure.doNothing();
         }
     }
 
@@ -283,9 +284,13 @@ public class ContextManager {
         emailManager.pull().stream().forEach(emailHandler::accept);
         expireBooked();
         if (shouldUpdate) {
+            onFullUpdate.run();
+        } else {
             onUpdate.run();
         }
     }
+
+
 
     /**
      * Metodo per eliminare le proposte di prenotazione che non sono state confermate dai pazienti
@@ -331,7 +336,7 @@ public class ContextManager {
      */
     public void stopTask() {
         shouldUpdate = false;
-        task.cancel(false);
+        // task.cancel(false);
     }
 
     /**
@@ -492,6 +497,11 @@ public class ContextManager {
      * @param onUpdate
      * @return ContextManager
      */
+    public ContextManager addOnFullUpdate(Procedure onFullUpdate) {
+        this.onFullUpdate = onFullUpdate;
+        return this;
+    }
+
     public ContextManager addOnUpdate(Procedure onUpdate) {
         this.onUpdate = onUpdate;
         return this;

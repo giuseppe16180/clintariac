@@ -6,7 +6,11 @@ public interface Controller {
 
     Component getView();
 
-    default void updateView() {
+    default void fullUpdateView() {
 
+    }
+
+    default void updateView() {
+        fullUpdateView();
     }
 }

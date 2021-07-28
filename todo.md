@@ -76,3 +76,4 @@
 - [ ] mettere nel model di dashboard controlle rtutto il ticket
 - [x] al click di un messaggio nella chat viene lanciata un'eccezione
 - [ ] distinguere i ticket nel caso siano cancellati o scaduti
+- [ ] metodo diverso per set e update di user

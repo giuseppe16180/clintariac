@@ -1,10 +1,8 @@
 package com.clintariac.components.details.chat;
 
 
-import java.awt.*;
-import java.util.function.Consumer;
+import java.awt.Component;
 import java.util.function.Supplier;
-import javax.swing.JScrollBar;
 import com.clintariac.components.mvc.Controller;
 
 
@@ -23,7 +21,7 @@ public class ChatController implements Controller {
         init();
     }
 
-    public void updateView() {
+    public void fullUpdateView() {
         model = modelSupplier.get();
         view.getList().setModel(model.getChat());
         view.scrollToBottom();

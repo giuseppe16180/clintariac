@@ -22,10 +22,13 @@ public class ReservationsListController implements Controller {
         init();
     }
 
-    public void updateView() {
+    @Override
+    public void fullUpdateView() {
         model = modelSupplier.get();
         view.getList().setModel(model.getReservations());
     }
+
+
 
     /**
      * @param modelSupplier

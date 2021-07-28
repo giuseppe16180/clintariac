@@ -1,8 +1,7 @@
 package com.clintariac.components.ticketsList;
 
-import java.awt.*;
+import java.awt.Component;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 import com.clintariac.components.mvc.Controller;
 
@@ -32,7 +31,8 @@ public class TicketsListController implements Controller {
         return this;
     }
 
-    public void updateView() {
+    @Override
+    public void fullUpdateView() {
         model = modelSupplier.get();
         view.getList().setModel(model.getTickets());
     }

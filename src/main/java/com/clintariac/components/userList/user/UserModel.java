@@ -1,7 +1,5 @@
 package com.clintariac.components.userList.user;
 
-import org.apache.commons.lang3.StringUtils;
-
 public class UserModel {
 
     private String fullName;

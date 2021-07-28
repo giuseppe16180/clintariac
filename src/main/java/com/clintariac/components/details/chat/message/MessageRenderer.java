@@ -4,17 +4,12 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.sql.Array;
-import java.util.Arrays;
-import java.util.stream.IntStream;
-import javax.management.modelmbean.ModelMBean;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import com.clintariac.services.config.AppColors;
 import com.clintariac.services.utils.AppUtils;
-import java.awt.*;
 
 public class MessageRenderer implements ListCellRenderer<MessageModel> {
 
