@@ -25,7 +25,6 @@ import com.clintariac.components.userList.user.UserModel;
 import com.clintariac.components.reservationsList.ReservationsListController;
 import com.clintariac.components.reservationsList.ReservationsListModel;
 import com.clintariac.data.TicketData;
-import com.clintariac.data.TicketState;
 import com.clintariac.data.UserData;
 import com.clintariac.services.ContextManager;
 import com.clintariac.services.utils.AppUtils;
@@ -67,18 +66,34 @@ public class DashboardController implements Controller {
 
 		context = new ContextManager();
 
+		initCalendar();
+		initResList();
+		initUserList();
+		initDetails();
+		initTicketList();
+		initPatient();
+		initOptionBar();
+
+		context.addOnReload(this::reloadView);
+		context.addOnUpdate(this::updateView);
+		context.addOnDataException(this::dataException);
+		context.addOnEmailException(this::emailException);
+		context.loadData();
+
+		Stream.of(ticketsList, resList, usersList).forEach(Controller::reloadView);
+
+		context.startTask();
+	}
+
+	private void initCalendar() {
 		calendar = view.getCalendarController();
 		calendar.addOnDateSelect(this::dateSelect);
-		calendar.addAllSelect(this::allDateSelect);
+		calendar.addOnAllSelect(this::allDateSelect);
+	}
 
+	private void initResList() {
 		resList = view.getReservationsListController();
-		// todo: sistemare questi nomi, sono ambigui, parliamo di ticket, restituiamo un
-		// user
-		// $$
-		resList.addOnTicketSelect((ticketId, userId) -> {
-			ticketSelect(ticketId, userId);
-		});
-
+		resList.addOnTicketSelect(this::ticketSelect);
 		resList.setModelSupplier(() -> {
 			Function<List<TicketData>, List<ReservationModel>> parser =
 					(tickets) -> tickets.stream().map(ticket -> {
@@ -90,15 +105,15 @@ public class DashboardController implements Controller {
 								ticket.id,
 								ticket.state);
 					}).collect(Collectors.toList());
-
 			return new ReservationsListModel(
 					model.isDayView()
 							? parser.apply(context.getReservationsForDate(model.getSelectedDate()))
 							: parser.apply(context.getReservationsStartFromDate(LocalDate.now())));
 		});
+	}
 
+	private void initTicketList() {
 		ticketsList = view.getTicketsListController();
-		// $$
 		ticketsList.addOnTicketSelect(
 				(ticketId, userId) -> ticketSelect(ticketId, userId));
 		ticketsList.setModelSupplier(() -> {
@@ -112,7 +127,9 @@ public class DashboardController implements Controller {
 						ticket.id);
 			}).collect(Collectors.toList()));
 		});
+	}
 
+	public void initUserList() {
 		usersList = view.getUsersListController();
 		usersList.addOnUserSelect(id -> userSelect(id));
 		usersList.setModelSupplier(() -> {
@@ -120,6 +137,9 @@ public class DashboardController implements Controller {
 				return new UserModel(user.firstName + " " + user.lastName, user.id);
 			}).collect(Collectors.toList()));
 		});
+	}
+
+	public void initDetails() {
 
 		details = view.getDetailsController();
 		details.addOnSave(this::detailsSave);
@@ -136,8 +156,6 @@ public class DashboardController implements Controller {
 				if (pending.isPresent()) {
 					TicketData ticket = pending.get(); // toccato
 					UserData user = context.getUser(ticket.user).get();
-					// model.setSelectedTicket(ticket.id);
-					// $$
 					return new DetailsModel.Builder()
 							.withUserId(user.id)
 							.withFirstName(user.firstName)
@@ -167,26 +185,23 @@ public class DashboardController implements Controller {
 				return DetailsModel.empty();
 			}
 		});
+	}
 
+	private void initPatient() {
 		patient = view.getPatientsController();
 		patient.addOnSave(this::patientSave);
 		patient.addOnEdit(this::patientEdit);
 		patient.addOnSearch(this::patientSearch);
 		patient.addOnClear(this::patientSearch);
+	}
 
+	private void initOptionBar() {
 		optionBar = view.getOptionBarController();
-		optionBar.addOnReload(this::reload);
-
-		context.addOnDataException(this::dataException);
-		context.addOnEmailException(this::emailException);
-
-		context.addOnFullUpdate(this::contextFullUpdate);
-		context.addOnUpdate(this::contextUpdate);
-		context.loadData();
-
-		Stream.of(ticketsList, resList, usersList).forEach(Controller::fullUpdateView);
-
-		context.startTask();
+		optionBar.addOnReload(() -> {
+			model.unselectUser();
+			model.unselectTicket();
+			this.reloadView();
+		});
 	}
 
 	/**
@@ -197,13 +212,15 @@ public class DashboardController implements Controller {
 	 * È pensato per essere chiamato in seguito alla compilazione di un nuovo ticket.
 	 * </p>
 	 */
-	private void reload() {
-		model.unselectUser();
-		model.unselectTicket();
-		Stream.of(details, ticketsList, resList, usersList).forEach(Controller::fullUpdateView);
-		System.out.println("reload");
+	@Override
+	public void reloadView() {
+		Stream.of(details, ticketsList, resList, usersList).forEach(Controller::reloadView);
+		// context.startTask();
+	}
 
-		context.startTask();
+	@Override
+	public void updateView() {
+		Stream.of(details, ticketsList, resList, usersList).forEach(Controller::updateView);
 	}
 
 	/**
@@ -218,7 +235,7 @@ public class DashboardController implements Controller {
 	private void detailsDelete() {
 		if (model.isTicketSelected()) {
 			context.deleteTicket(model.getSelectedTicket());
-			reload();
+			reloadView();
 		} else {
 			JOptionPane.showMessageDialog(null, "Selezionare prima un ticket");
 		}
@@ -231,15 +248,10 @@ public class DashboardController implements Controller {
 	 * È pensato per essere chiamato in seguito all'aggiornamento del context.
 	 * </p>
 	 */
-	private void contextFullUpdate() {
-		System.out.println("contextFullUpdate");
-		Stream.of(resList, ticketsList, details).forEach(Controller::fullUpdateView);
-	}
+	// private void contextFullUpdate() {
+	// Stream.of(resList, ticketsList, details).forEach(Controller::reloadView);
+	// }
 
-	private void contextUpdate() {
-		System.out.println("contextUpdate");
-		Stream.of(resList, ticketsList, details).forEach(Controller::updateView);
-	}
 
 	/**
 	 * Metodo che restituisce il component principale del controller, cioè la view del MVC
@@ -260,13 +272,14 @@ public class DashboardController implements Controller {
 	private void dateSelect(LocalDate date) {
 		model.setSelectedDate(date);
 		model.setDayView(true);
-		resList.fullUpdateView();
+		resList.reloadView();
 	}
 
 	private void allDateSelect(LocalDate date) {
 		model.setSelectedDate(date);
 		model.setDayView(false);
-		resList.fullUpdateView();
+		resList.reloadView();
+		calendar.reloadView();
 	}
 
 	/**
@@ -293,7 +306,7 @@ public class DashboardController implements Controller {
 			JOptionPane.showMessageDialog(null,
 					"Utente già presente! Se si vogliono aggiornare i dati cliccare su aggiorna.");
 		}
-		usersList.fullUpdateView();
+		usersList.reloadView();
 	}
 
 	private void patientEdit(UserData newUser) {
@@ -309,7 +322,7 @@ public class DashboardController implements Controller {
 			JOptionPane.showMessageDialog(null,
 					"Le informazioni per l'utente sono state aggiornate");
 		}
-		usersList.fullUpdateView();
+		usersList.reloadView();
 	}
 
 	private void patientSearch(UserData searchUser) {
@@ -322,7 +335,7 @@ public class DashboardController implements Controller {
 			}).collect(Collectors.toList()));
 		});
 
-		usersList.fullUpdateView();
+		usersList.reloadView();
 	}
 
 	/**
@@ -341,21 +354,15 @@ public class DashboardController implements Controller {
 	private void ticketSelect(String ticketId, String userId) {
 		model.setSelectedTicket(ticketId);
 		model.setSelectedUser(userId);
-		ticketsList.fullUpdateView();
-		resList.fullUpdateView();
-		usersList.fullUpdateView();
-		details.fullUpdateView();
-		context.stopTask();
+		reloadView();
+		// context.stopTask();
 	}
 
 	private void userSelect(String userId) {
 		model.setSelectedUser(userId);
 		model.unselectTicket();
-		usersList.fullUpdateView();
-		details.fullUpdateView();
-		ticketsList.fullUpdateView();
-		resList.fullUpdateView();
-		context.stopTask();
+		reloadView();
+		// context.stopTask();
 	}
 
 	/**
@@ -384,7 +391,7 @@ public class DashboardController implements Controller {
 	 */
 	private void detailsSave(TicketData newTicket) {
 		context.setTicket(newTicket);
-		reload();
+		reloadView();
 	}
 
 	private void sendMessage(String message) {
