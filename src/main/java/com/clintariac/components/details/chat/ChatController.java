@@ -21,7 +21,7 @@ public class ChatController implements Controller {
         init();
     }
 
-    public void fullUpdateView() {
+    public void reloadView() {
         model = modelSupplier.get();
         view.getList().setModel(model.getChat());
         view.scrollToBottom();

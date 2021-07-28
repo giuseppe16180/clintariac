@@ -20,7 +20,8 @@ public class UsersListController implements Controller {
         init();
     }
 
-    public void fullUpdateView() {
+    @Override
+    public void reloadView() {
         model = modelSupplier.get();
         view.getList().setModel(model.getUsers());
     }

@@ -49,7 +49,7 @@ public class ContextManager {
     private Future<?> task;
 
     private boolean shouldUpdate;
-    private Procedure onFullUpdate;
+    private Procedure onReload;
     private Procedure onUpdate;
 
     /**
@@ -96,10 +96,10 @@ public class ContextManager {
 
             initEmailHandler();
 
-            shouldUpdate = true;
+            shouldUpdate = false;
             isInstantiated = true;
 
-            onFullUpdate = Procedure.doNothing();
+            onReload = Procedure.doNothing();
         }
     }
 
@@ -284,8 +284,6 @@ public class ContextManager {
         emailManager.pull().stream().forEach(emailHandler::accept);
         expireBooked();
         if (shouldUpdate) {
-            onFullUpdate.run();
-        } else {
             onUpdate.run();
         }
     }
@@ -325,6 +323,7 @@ public class ContextManager {
      * Metodo per avviare il processo di aggiornamento in background.
      */
     public void startTask() {
+        onReload.run();
         shouldUpdate = true;
         int delay = 15;
         task = executor.scheduleAtFixedRate(() -> update(), delay, delay, TimeUnit.SECONDS);
@@ -336,7 +335,7 @@ public class ContextManager {
      */
     public void stopTask() {
         shouldUpdate = false;
-        // task.cancel(false);
+        task.cancel(false);
     }
 
     /**
@@ -497,8 +496,8 @@ public class ContextManager {
      * @param onUpdate
      * @return ContextManager
      */
-    public ContextManager addOnFullUpdate(Procedure onFullUpdate) {
-        this.onFullUpdate = onFullUpdate;
+    public ContextManager addOnReload(Procedure onReload) {
+        this.onReload = onReload;
         return this;
     }
 

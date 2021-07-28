@@ -92,7 +92,7 @@ public class DataManager {
      * una modifica alla lista.
      */
     public void storeTicketsList() {
-        // System.out.println("store"); todo: capire perchE viene sempre chiamato
+
         assertTicketsList();
 
         try (Writer writer = new FileWriter(ticketsFile)) {

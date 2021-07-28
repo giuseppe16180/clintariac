@@ -35,6 +35,11 @@ public class CalendarController implements Controller {
         return this.view.getMainComponent();
     }
 
+    @Override
+    public void reloadView() {
+        view.getCalendarPanel().setSelectedDate(LocalDate.now());
+    }
+
     /**
      * Metodo che permette di aggiungere un ascoltatore al CalendarPanel.
      */
@@ -70,7 +75,7 @@ public class CalendarController implements Controller {
     /**
      * @param onDateSelect
      */
-    public void addAllSelect(Consumer<LocalDate> onAllSelect) {
+    public void addOnAllSelect(Consumer<LocalDate> onAllSelect) {
         this.onAllSelect = onAllSelect;
     }
 }

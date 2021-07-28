@@ -12,6 +12,15 @@ public class DashboardModel {
     private boolean isUserSelected;
     private boolean isTicketSelected;
     private boolean isDayView;
+    private boolean shouldUpdate;
+
+    public boolean shouldUpdate() {
+        return shouldUpdate;
+    }
+
+    public void setShouldUpdate(boolean shouldUpdate) {
+        this.shouldUpdate = shouldUpdate;
+    }
 
     public DashboardModel() {
         this.selectedDate = LocalDate.now();
@@ -20,6 +29,7 @@ public class DashboardModel {
         this.isUserSelected = false;
         this.isTicketSelected = false;
         this.isDayView = true;
+        this.shouldUpdate = true;
     }
 
     public TicketData getTicket() {

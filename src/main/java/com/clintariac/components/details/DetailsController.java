@@ -74,8 +74,7 @@ public class DetailsController implements Controller {
      * Metodo per caricare nella view le informazioni di un ticket contenute nel model.
      */
     @Override
-    public void fullUpdateView() {
-        System.out.println("Detailcontroller::fullUpdateView");
+    public void reloadView() {
         model = modelSupplier.get();
         view.getFirstNameField().setText(model.getFirstName());
         view.getLastNameField().setText(model.getLastName());
@@ -87,16 +86,15 @@ public class DetailsController implements Controller {
         view.getSaveButton().setEnabled(false);
         view.getDateTimePicker().setDateTimeStrict(model.getDateTime());
         view.getDateTimePicker().setEnabled(true);
-        chat.fullUpdateView();
+        chat.reloadView();
     }
 
     @Override
     public void updateView() {
-        System.out.println("Detailcontroller::updateView");
         String message = model.getMessage();
         model = modelSupplier.get();
         model.setMessage(message);
-        chat.fullUpdateView();
+        chat.reloadView();
     }
 
     /**
@@ -229,7 +227,7 @@ public class DetailsController implements Controller {
     private void send() {
         onSend.accept(model.getMessage());
         view.getMessagePane().setText("");
-        fullUpdateView();
+        reloadView();
         chat.scrollToBottom();
     }
 
