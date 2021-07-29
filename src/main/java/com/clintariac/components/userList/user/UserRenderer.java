@@ -26,7 +26,8 @@ public class UserRenderer implements ListCellRenderer<UserModel> {
 	@Override
 	public Component getListCellRendererComponent(
 
-			JList<? extends UserModel> list, UserModel user, int index, boolean isSelected, boolean cellHasFocus) {
+			JList<? extends UserModel> list, UserModel user, int index, boolean isSelected,
+			boolean cellHasFocus) {
 
 		panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
@@ -48,7 +49,7 @@ public class UserRenderer implements ListCellRenderer<UserModel> {
 		panel1.add(label1, gbc);
 
 		if (isSelected) {
-			panel1.setBackground(AppColors.SELECTED_BACKGROUND);
+			panel1.setBackground(AppColors.CLICK_BACKGROUND);
 		}
 
 		return panel1;
