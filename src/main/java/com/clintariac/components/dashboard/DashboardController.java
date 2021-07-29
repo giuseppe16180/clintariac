@@ -103,7 +103,8 @@ public class DashboardController implements Controller {
 								AppUtils.localDateTimeToString(ticket.booking),
 								ticket.user,
 								ticket.id,
-								ticket.state);
+								ticket.state,
+								ticket.id.equals(model.getSelectedTicket()));
 					}).collect(Collectors.toList());
 			return new ReservationsListModel(
 					model.isDayView()
@@ -124,7 +125,8 @@ public class DashboardController implements Controller {
 						ticket.message,
 						AppUtils.localDateTimeToString(ticket.lastInteraction),
 						ticket.user,
-						ticket.id);
+						ticket.id,
+						ticket.id.equals(model.getSelectedTicket()));
 			}).collect(Collectors.toList()));
 		});
 	}

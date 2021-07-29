@@ -100,10 +100,14 @@ public class ReservationRenderer implements ListCellRenderer<ReservationModel> {
 			panel1.add(label3, gbc);
 		}
 
-		if (isSelected) {
+		if (reservation.isSelected()) {
 			panel1.setBackground(AppColors.SELECTED_BACKGROUND);
 			spacer1.setBackground(AppColors.SELECTED_BACKGROUND);
 			spacer2.setBackground(AppColors.SELECTED_BACKGROUND);
+		} else if (isSelected) {
+			panel1.setBackground(AppColors.CLICK_BACKGROUND);
+			spacer1.setBackground(AppColors.CLICK_BACKGROUND);
+			spacer2.setBackground(AppColors.CLICK_BACKGROUND);
 		}
 
 		return panel1;

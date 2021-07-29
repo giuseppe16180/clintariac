@@ -8,14 +8,26 @@ public class TicketModel {
     private String dateTime;
     private String userId;
     private String ticketId;
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+
 
     public TicketModel(String fullName, String messagePreview, String dateTime, String userId,
-            String ticketId) {
+            String ticketId, boolean isSelected) {
         this.fullName = fullName;
         this.messagePreview = messagePreview;
         this.dateTime = dateTime;
         this.userId = userId;
         this.ticketId = ticketId;
+        this.isSelected = isSelected;
     }
 
 

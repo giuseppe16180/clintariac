@@ -89,10 +89,15 @@ public class TicketRenderer implements ListCellRenderer<TicketModel> {
 		gbc.insets = new Insets(2, 6, 0, 6);
 		panel1.add(label3, gbc);
 
-		if (isSelected) {
+
+		if (ticket.isSelected()) {
 			panel1.setBackground(AppColors.SELECTED_BACKGROUND);
 			spacer1.setBackground(AppColors.SELECTED_BACKGROUND);
 			spacer2.setBackground(AppColors.SELECTED_BACKGROUND);
+		} else if (isSelected) {
+			panel1.setBackground(AppColors.CLICK_BACKGROUND);
+			spacer1.setBackground(AppColors.CLICK_BACKGROUND);
+			spacer2.setBackground(AppColors.CLICK_BACKGROUND);
 		}
 
 		return panel1;

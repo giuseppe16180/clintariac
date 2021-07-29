@@ -73,6 +73,7 @@ public class DetailsView implements View {
         firstNameField = new JTextField();
         firstNameField.setColumns(15);
         firstNameField.setFont(AppUtils.text);
+        firstNameField.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -104,6 +105,7 @@ public class DetailsView implements View {
         lastNameField = new JTextField();
         lastNameField.setColumns(15);
         lastNameField.setFont(AppUtils.text);
+        lastNameField.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -136,6 +138,7 @@ public class DetailsView implements View {
         phoneField = new JTextField();
         phoneField.setColumns(15);
         phoneField.setFont(AppUtils.text);
+        phoneField.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -169,6 +172,7 @@ public class DetailsView implements View {
         emailField = new JTextField();
         emailField.setColumns(15);
         emailField.setFont(AppUtils.text);
+        emailField.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -201,6 +205,7 @@ public class DetailsView implements View {
         userIdField = new JTextField();
         userIdField.setColumns(15);
         userIdField.setFont(AppUtils.text);
+        userIdField.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;

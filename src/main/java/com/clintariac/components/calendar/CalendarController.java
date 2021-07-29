@@ -53,6 +53,7 @@ public class CalendarController implements Controller {
      * 
      */
     private void dateSelect() {
+        System.out.println("dateSelect");
         view.getAllReserv().setSelected(false);
         onDateSelect.accept(view.getCalendarPanel().getSelectedDate());
     }

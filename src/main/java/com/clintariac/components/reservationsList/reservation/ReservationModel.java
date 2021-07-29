@@ -9,19 +9,32 @@ public class ReservationModel {
     private String userId;
     private String ticketId;
     private TicketState state;
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+
 
     public ReservationModel(
             String fullName,
             String dateTime,
             String userId,
             String ticketId,
-            TicketState state) {
+            TicketState state,
+            boolean isSelected) {
 
         this.fullName = fullName;
         this.dateTime = dateTime;
         this.userId = userId;
         this.ticketId = ticketId;
         this.state = state;
+        this.isSelected = isSelected;
     }
 
 
