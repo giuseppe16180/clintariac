@@ -14,6 +14,7 @@ import com.clintariac.components.mvc.Controller;
 public class CalendarController implements Controller {
 
     private CalendarView view;
+    private CalendarModel model;
     private Consumer<LocalDate> onDateSelect;
     private Consumer<LocalDate> onAllSelect;
 
@@ -23,6 +24,7 @@ public class CalendarController implements Controller {
     public CalendarController() {
 
         this.view = new CalendarView();
+        this.model = new CalendarModel();
         view.getCalendarPanel().setSelectedDate(LocalDate.now());
         init();
     }
@@ -53,8 +55,8 @@ public class CalendarController implements Controller {
      * 
      */
     private void dateSelect() {
-        System.out.println("dateSelect");
-        view.getAllReserv().setSelected(false);
+        view.getAllReserv().setSelected(model.isAllView());
+        model.setAllView(false);
         onDateSelect.accept(view.getCalendarPanel().getSelectedDate());
     }
 
@@ -69,7 +71,8 @@ public class CalendarController implements Controller {
      * 
      */
     private void allSelect() {
-        view.getAllReserv().setSelected(true);
+        model.setAllView(true);
+        view.getAllReserv().setSelected(model.isAllView());
         onAllSelect.accept(LocalDate.now());
     }
 
