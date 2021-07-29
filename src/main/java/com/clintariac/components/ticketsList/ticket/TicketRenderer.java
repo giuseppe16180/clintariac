@@ -58,7 +58,7 @@ public class TicketRenderer implements ListCellRenderer<TicketModel> {
 
 		final JLabel label2 = new JLabel();
 		label2.setFont(AppUtils.textSmall);
-		label2.setText(StringUtils.abbreviate(ticket.getMessagePreview(), 32));
+		label2.setText(StringUtils.abbreviate(ticket.getMessagePreview(), 17));
 
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;

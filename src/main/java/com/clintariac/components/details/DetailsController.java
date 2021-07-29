@@ -94,7 +94,7 @@ public class DetailsController implements Controller {
         String message = model.getMessage();
         model = modelSupplier.get();
         model.setMessage(message);
-        chat.reloadView();
+        chat.updateView();
     }
 
     /**
@@ -228,7 +228,7 @@ public class DetailsController implements Controller {
         onSend.accept(model.getMessage());
         view.getMessagePane().setText("");
         reloadView();
-        chat.scrollToBottom();
+        chat.reloadView();
     }
 
     private void didChange() {

@@ -2,6 +2,7 @@ package com.clintariac.components.details.chat;
 
 
 import java.awt.Component;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import com.clintariac.components.mvc.Controller;
 
@@ -10,6 +11,8 @@ public class ChatController implements Controller {
 
     private ChatModel model;
     private ChatView view;
+
+    private int scrollPosition;
 
     // private Consumer<String> onMessageSelect;
 
@@ -25,6 +28,19 @@ public class ChatController implements Controller {
         model = modelSupplier.get();
         view.getList().setModel(model.getChat());
         view.scrollToBottom();
+    }
+
+    @Override
+    public void updateView() {
+        model = modelSupplier.get();
+        if (view.getList().getPreferredSize().getHeight() == scrollPosition) {
+            System.out
+                    .println(view.getList().getPreferredSize().getHeight() + " " + scrollPosition);
+            view.getList().setModel(model.getChat());
+            view.scrollToBottom();
+        } else {
+            view.getList().setModel(model.getChat());
+        }
     }
 
     /**
@@ -44,15 +60,13 @@ public class ChatController implements Controller {
         return this.view.getMainComponent();
     }
 
-    public void scrollToBottom() {
-        view.scrollToBottom();
-    }
-
-
-
     private void init() {
         view.scrollToBottom();
-
+        view.getMainComponent().getVerticalScrollBar().addAdjustmentListener(e -> scroll());
     }
 
+    private void scroll() {
+        scrollPosition = (int) view.getMainComponent().getVerticalScrollBar().getValue();
+        System.out.println(scrollPosition);
+    }
 }
