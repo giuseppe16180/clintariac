@@ -67,12 +67,9 @@ public class MessageRenderer implements ListCellRenderer<MessageModel> {
 		gbc.insets = new Insets(6, 6, 2, 6);
 		panel.add(messageLabel, gbc);
 
-
 		panel.setBackground(message.isUserSent()
 				? AppColors.MESSAGE_BACKGROUND1
 				: AppColors.MESSAGE_BACKGROUND2);
-
-
 
 		return mainPanel;
 	}

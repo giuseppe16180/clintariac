@@ -48,11 +48,12 @@ public class DetailsController implements Controller {
 
         chat = view.getChatController();
         chat.setModelSupplier(() -> {
-            return new ChatModel(
-                    model.getChat().stream()
-                            .map(it -> new MessageModel(AppUtils.plaiTextToHTML(it.text, 4),
-                                    AppUtils.localDateTimeToString(it.dateTime), it.isUserSent))
-                            .collect(Collectors.toList()));
+            return new ChatModel(model.getChat().stream()
+                    .map(it -> new MessageModel(
+                            AppUtils.plaiTextToHTML(it.text, 4),
+                            AppUtils.localDateTimeToString(it.dateTime),
+                            it.isUserSent))
+                    .collect(Collectors.toList()));
         });
 
         init();
@@ -81,12 +82,13 @@ public class DetailsController implements Controller {
         view.getEmailField().setText(model.getEmail());
         view.getPhoneField().setText(model.getPhone());
         view.getUserField().setText(model.getUserId());
+        view.getTicketField().setText(model.getTicketId());
         view.getMessagePane().setText(model.getMessage());
-        view.getDeleteButton().setEnabled(model.getTicketId() != "" ? true : false);
-        view.getValidateButton().setEnabled(model.getTicketId() != "" ? true : false);
+        view.getDeleteButton().setEnabled(!model.getTicketId().isEmpty());
+        view.getValidateButton().setEnabled(!model.getTicketId().isEmpty());
         view.getSaveButton().setEnabled(false);
         view.getDateTimePicker().setDateTimeStrict(model.getDateTime());
-        view.getDateTimePicker().setEnabled(model.getTicketId() != "" ? true : false);
+        view.getDateTimePicker().setEnabled(!model.getTicketId().isEmpty());
         chat.reloadView();
     }
 
@@ -146,41 +148,41 @@ public class DetailsController implements Controller {
     }
 
     private void save() {
-        // #
+
         LocalDateTime dateTime = view.getDateTimePicker().getDateTimeStrict();
-        TicketData newTicket =
-                new TicketData(model.getTicketId(), model.getUserId(), TicketState.BOOKED, dateTime,
-                        LocalDateTime.now(), model.getMessage());
+
+        TicketData newTicket = new TicketData(
+                model.getTicketId(),
+                model.getUserId(),
+                TicketState.BOOKED,
+                dateTime,
+                LocalDateTime.now(),
+                model.getMessage());
+
         onSave.accept(newTicket);
         JOptionPane.showMessageDialog(null, "Salvataggio effettuato con successo");
     }
 
     private void validate() {
 
-        // controllo se il ticket è selezionato
         String ticketId = model.getTicketId();
-
-        if (ticketId.equals("")) {
-
-            JOptionPane.showMessageDialog(null, "Selezionare il ticket che si vuole processare!",
-                    "Validazione ticket",
-                    JOptionPane.ERROR_MESSAGE);
-
-            return;
-        }
-
-        // controllo sulla data e ora
         LocalDateTime dateTime = view.getDateTimePicker().getDateTimeStrict();
 
-        if (dateTime == null) {
+        if (ticketId.isEmpty()) {
+
+            JOptionPane.showMessageDialog(null,
+                    "Selezionare il ticket che si vuole processare!",
+                    "Validazione ticket", JOptionPane.ERROR_MESSAGE);
+
+        } else if (dateTime == null) {
 
             JOptionPane.showMessageDialog(null,
                     "Si prega di impostare sia la data che l'ora dell'appuntamento!",
                     "Appuntamento non valido", JOptionPane.ERROR_MESSAGE);
         }
 
-        else if (dateTime
-                .isBefore(LocalDateTime.now().plusMinutes(Preferences.examDuration.minutes))) {
+        else if (dateTime.isBefore(LocalDateTime.now()
+                .plusMinutes(Preferences.examDuration.minutes))) {
 
             JOptionPane.showMessageDialog(null,
                     "Si prega di impostare un orario successivo, quello selezionato è trascorso oppure è troppo imminente!",
@@ -188,12 +190,10 @@ public class DetailsController implements Controller {
         }
 
         else if (onValidate.test(dateTime)) {
-
+            view.getSaveButton().setEnabled(true);
             JOptionPane.showMessageDialog(null, "Nessun impegno per la data e l'ora impostati!");
 
-            view.getSaveButton().setEnabled(true);
         } else {
-
             JOptionPane.showMessageDialog(null,
                     "È già presente un impegno per la data e l'ora impostati!",
                     "Appuntamento non valido", JOptionPane.ERROR_MESSAGE);
@@ -204,7 +204,7 @@ public class DetailsController implements Controller {
 
         String ticketId = model.getTicketId();
 
-        if (!ticketId.isEmpty()) { // ticket selezionato
+        if (!ticketId.isEmpty()) {
 
             int option = JOptionPane.showConfirmDialog(null,
                     "Sei sicuro/a di voler eliminare il ticket selezionato?",
@@ -213,15 +213,12 @@ public class DetailsController implements Controller {
             if (option == JOptionPane.YES_OPTION) {
                 onDelete.run();
                 JOptionPane.showMessageDialog(null, "Il ticket è stato eliminato.",
-                        "Eliminazione completata!",
-                        JOptionPane.INFORMATION_MESSAGE);
+                        "Eliminazione completata!", JOptionPane.INFORMATION_MESSAGE);
             }
 
         } else {
-
             JOptionPane.showMessageDialog(null, "Selezionare il ticket che si vuole eliminare",
-                    "Eliminazione ticket",
-                    JOptionPane.ERROR_MESSAGE);
+                    "Eliminazione ticket", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -229,7 +226,6 @@ public class DetailsController implements Controller {
         onSend.accept(model.getMessage());
         view.getMessagePane().setText("");
         reloadView();
-        chat.reloadView();
     }
 
     private void didChange() {

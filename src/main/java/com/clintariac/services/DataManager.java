@@ -13,11 +13,13 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import com.clintariac.data.MessageData;
 import com.clintariac.data.TicketData;
 import com.clintariac.data.TicketState;
 import com.clintariac.data.UserData;
 import com.clintariac.services.utils.ListNotLoadedException;
 import com.clintariac.services.utils.SingletonException;
+import com.clintariac.services.utils.UserNotFoundException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -269,6 +271,23 @@ public class DataManager {
         }
 
         storeUsersList();
+    }
+
+    public void updateChat(String userId, List<MessageData> chat) {
+
+        Optional<UserData> user = getUser(userId);
+
+        if (user.isPresent()) {
+            setUser(new UserData(
+                    user.get().firstName,
+                    user.get().lastName,
+                    user.get().id,
+                    user.get().email,
+                    user.get().phone,
+                    chat));
+        }
+
+        throw new UserNotFoundException(userId);
     }
 
     /**

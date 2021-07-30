@@ -69,11 +69,10 @@
 - [x] Riprogettare email handler   
 - [x] Caricare la data dell'appuntamento fissato in details quando e` presente un appuntamento fissato
 - [x] l'eliminazione quando siamo in vista pazienti non funziona (solleva eccezione)
-- [ ] aggiornare i testi delle email
+- [x] aggiornare i testi delle email
 - [ ] i ticket cancellati non devono essere eliminabili
 - [x] se un booked scade portarlo in stato waiting (lasciamo scaduto con possibilità di riprenotarlo)
-- [ ] se un ticket viene riproposto mandare un messaggio diverso. (Se lo stato prima dello spostamento non era awaiting)
-- [ ] mettere nel model di dashboard controlle rtutto il ticket
+- [x] se un ticket viene riproposto mandare un messaggio diverso. (Se lo stato prima dello spostamento non era awaiting)
 - [x] al click di un messaggio nella chat viene lanciata un'eccezione
 - [ ] distinguere i ticket nel caso siano cancellati o scaduti
-- [ ] metodo diverso per set e update di user
+- [x] metodo diverso per set e update di user

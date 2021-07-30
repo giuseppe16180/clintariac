@@ -83,7 +83,6 @@ public class DashboardView implements View {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.insets = new Insets(3, 3, 3, 3);
-        // gbc.ipadx = 50;
         gbc.ipady = 650;
         mainPanel.add(usersListController.getView(), gbc);
 
@@ -114,9 +113,7 @@ public class DashboardView implements View {
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 4;
-        // gbc.weightx = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        // gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(3, 3, 3, 3);
         mainPanel.add(optionBarController.getView(), gbc);
 

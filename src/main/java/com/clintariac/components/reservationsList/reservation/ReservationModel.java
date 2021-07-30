@@ -11,16 +11,6 @@ public class ReservationModel {
     private TicketState state;
     private boolean isSelected;
 
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-
-    public void setSelected(boolean isSelected) {
-        this.isSelected = isSelected;
-    }
-
-
     public ReservationModel(
             String fullName,
             String dateTime,
@@ -37,6 +27,14 @@ public class ReservationModel {
         this.isSelected = isSelected;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
 
     /**
      * @return String

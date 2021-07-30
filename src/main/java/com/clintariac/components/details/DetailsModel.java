@@ -53,8 +53,8 @@ public class DetailsModel {
         }
 
         public DetailsModel build() {
-            return new DetailsModel(firstName, lastName, email,
-                    phone, dateTime, isAwaiting, userId, ticketId, message, chat);
+            return new DetailsModel(firstName, lastName, email, phone, dateTime,
+                    isAwaiting, userId, ticketId, message, chat);
         }
 
         public Builder withFirstName(String firstName) {
@@ -241,7 +241,6 @@ public class DetailsModel {
     public String toString() {
         return "DetailsModel [dateTime=" + dateTime + ", email=" + email + ", firstName="
                 + firstName
-
                 + ", lastName=" + lastName + ", phone=" + phone + ", state=" + isAwaiting
                 + ", ticketId="
                 + ticketId + ", userId=" + userId + "Message=" + message + "]";

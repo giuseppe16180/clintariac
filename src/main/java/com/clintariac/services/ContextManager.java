@@ -99,6 +99,7 @@ public class ContextManager {
             isInstantiated = true;
 
             onReload = Procedure.doNothing();
+            onUpdate = Procedure.doNothing();
         }
     }
 
@@ -170,12 +171,7 @@ public class ContextManager {
             UserData user = dataManager.getUserByEmail(email.address).get();
             List<MessageData> chat = user.getChat();
             chat.add(new MessageData(email.message, LocalDateTime.now(), true));
-            dataManager.setUser(new UserData(user.firstName, user.lastName, user.id, user.email,
-                    user.phone, chat)); // todo:
-                                        // cosa
-                                        // migliore
-                                        // nel
-                                        // datamangarer
+            dataManager.updateChat(user.id, chat);
 
             Optional<TicketData> oldWaitingTicket = dataManager.getTicketsList().stream()
                     .filter(ticket -> ticket.user.equals(user.id)
@@ -183,7 +179,7 @@ public class ContextManager {
                     .findFirst();
 
             if (oldWaitingTicket.isPresent()) {
-                dataManager.deleteTicket(oldWaitingTicket.get().id); // todo: cambiare stato
+                dataManager.deleteTicket(oldWaitingTicket.get().id);
             }
 
             String newTicketId = Integer
@@ -191,9 +187,13 @@ public class ContextManager {
                             .map(ticket -> Integer.parseInt(ticket.id))
                             .reduce(1000, (acc, curr) -> curr > acc ? curr : acc) + 1);
 
-            dataManager.setTicket(
-                    new TicketData(newTicketId, user.id, TicketState.AWAITING, LocalDateTime.MAX,
-                            LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), email.message));
+            dataManager.setTicket(new TicketData(
+                    newTicketId,
+                    user.id,
+                    TicketState.AWAITING,
+                    LocalDateTime.MAX,
+                    LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES),
+                    email.message));
         };
 
         final Predicate<EmailData> isNotValidSubject = email -> {
@@ -255,13 +255,13 @@ public class ContextManager {
             }
         };
 
-        emailHandler = email -> Stream
-                .of(EmailHandler.of(isUserNotPresent, consumeUserNotPresent),
-                        EmailHandler.of(isNewMessage, consumeNewMessage),
-                        EmailHandler.of(isNotValidSubject, consumeNotValidSubject),
-                        EmailHandler.of(isNotValidTicket, consumeNotValidTicket),
-                        EmailHandler.of(isConfirmTicket, consumeConfirmTicket),
-                        EmailHandler.of(isDeleteTicket, consumeDeleteTicket))
+        emailHandler = email -> Stream.of(
+                EmailHandler.of(isUserNotPresent, consumeUserNotPresent),
+                EmailHandler.of(isNewMessage, consumeNewMessage),
+                EmailHandler.of(isNotValidSubject, consumeNotValidSubject),
+                EmailHandler.of(isNotValidTicket, consumeNotValidTicket),
+                EmailHandler.of(isConfirmTicket, consumeConfirmTicket),
+                EmailHandler.of(isDeleteTicket, consumeDeleteTicket))
                 .reduce(EmailHandler.identity(), (before, after) -> before.andThen(after))
                 .apply(Optional.of(email));
     }
@@ -384,29 +384,35 @@ public class ContextManager {
     }
 
     /**
-     * Metodo per aggiungere o modificare un ticket, a patto che l'email di notifica al paziente
-     * possa essere inviata
+     * Metodo per modificare un ticket, a patto che l'email di notifica al paziente possa essere
+     * inviata
      * 
      * @param newTicket ticket caricare
      */
-    public void setTicket(TicketData newTicket) {
+    public void updateTicket(TicketData newTicket) {
+
+        Optional<TicketData> ticket = dataManager.getTicket(newTicket.id);
+
+        if (ticket.isEmpty() || !ticket.get().user.equals(newTicket.user)) {
+            throw new TicketNotFoundException(newTicket.id + " and user" + newTicket.user);
+        }
 
         String dateTime[] = AppUtils.localDateTimeToString(newTicket.booking).split(" ");
-        // #
-        final boolean wasAwaiting =
-                dataManager.getTicket(newTicket.id).get().state == TicketState.AWAITING;
+
+        final boolean wasAwaiting = ticket.get().state == TicketState.AWAITING;
 
         boolean isSent = sendEmail(newTicket.user,
                 wasAwaiting ? "Proposta appuntamento" : "Spostamento appuntamento",
                 StandardEmails.ticketMessage(dateTime[0], dateTime[1], newTicket.id));
 
         if (isSent) {
-            addToChat(newTicket.user,
-                    String.format(
-                            wasAwaiting ? "Proposta appuntamento - %s %s"
-                                    : "Spostamento appuntamento - %s %s",
-                            dateTime[0], dateTime[1]),
+
+            addToChat(newTicket.user, String.format(wasAwaiting
+                    ? "Proposta appuntamento - %s %s"
+                    : "Spostamento appuntamento - %s %s",
+                    dateTime[0], dateTime[1]),
                     false);
+
             dataManager.setTicket(newTicket);
         }
     }
@@ -502,8 +508,11 @@ public class ContextManager {
                 dataManager.setUser(temp);
                 return true;
             }
+            return false;
+
+        } else {
+            throw new UserNotFoundException(updatedUser.id);
         }
-        return false;
     }
 
     public Optional<UserData> getUserByEmail(String email) {

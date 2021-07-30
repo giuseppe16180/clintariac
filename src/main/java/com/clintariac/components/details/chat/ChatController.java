@@ -1,6 +1,5 @@
 package com.clintariac.components.details.chat;
 
-
 import java.awt.Component;
 import java.util.function.Supplier;
 import com.clintariac.components.mvc.Controller;
@@ -13,8 +12,6 @@ public class ChatController implements Controller {
 
     private int scrollPosition;
 
-    // private Consumer<String> onMessageSelect;
-
     private Supplier<ChatModel> modelSupplier;
 
     public ChatController() {
@@ -23,6 +20,7 @@ public class ChatController implements Controller {
         init();
     }
 
+    @Override
     public void reloadView() {
         model = modelSupplier.get();
         view.getList().setModel(model.getChat());
