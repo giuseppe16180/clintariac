@@ -216,7 +216,7 @@ public class PatientsView implements View {
         saveButton.setHorizontalTextPosition(0);
         saveButton.setFont(AppUtils.text);
         saveButton.setText("Aggiungi");
-        saveButton.setMargin(new Insets(3, 3, 3, 3));
+        saveButton.setMargin(new Insets(3, 0, 3, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -226,7 +226,7 @@ public class PatientsView implements View {
         editButton.setHorizontalTextPosition(0);
         editButton.setFont(AppUtils.text);
         editButton.setText("Modifica");
-        editButton.setMargin(new Insets(3, 3, 3, 3));
+        editButton.setMargin(new Insets(3, 0, 3, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -236,7 +236,7 @@ public class PatientsView implements View {
         searchButton.setHorizontalTextPosition(0);
         searchButton.setFont(AppUtils.text);
         searchButton.setText("Ricerca");
-        searchButton.setMargin(new Insets(3, 3, 3, 3));
+        searchButton.setMargin(new Insets(3, 0, 3, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;
@@ -246,7 +246,7 @@ public class PatientsView implements View {
         clearButton.setHorizontalTextPosition(0);
         clearButton.setFont(AppUtils.text);
         clearButton.setText("Pulisci");
-        clearButton.setMargin(new Insets(3, 3, 3, 3));
+        clearButton.setMargin(new Insets(3, 0, 3, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 0;
