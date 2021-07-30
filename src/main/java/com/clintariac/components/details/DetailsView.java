@@ -26,9 +26,8 @@ public class DetailsView implements View {
     private JTextField phoneField;
     private JTextField emailField;
     private JTextField userIdField;
+    private JTextField ticketIdField;
     private JTextPane messagePane;
-    private JTextField dateSpinner;
-    private JTextField timeSpinner;
     private JButton validateButton;
     private JButton saveButton;
     private JButton deleteButton;
@@ -111,7 +110,6 @@ public class DetailsView implements View {
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.ipadx = 100;
-        // gbc.fill = GridBagConstraints.HORIZONTAL;
         panel3.add(lastNameField, gbc);
 
         // row 2
@@ -144,8 +142,6 @@ public class DetailsView implements View {
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.anchor = GridBagConstraints.WEST;
-        // gbc.fill = GridBagConstraints.HORIZONTAL;
-        // gbc.ipadx = 22;
         panel4.add(phoneField, gbc);
 
         // row 3
@@ -178,7 +174,6 @@ public class DetailsView implements View {
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.anchor = GridBagConstraints.WEST;
-        // gbc.fill = GridBagConstraints.HORIZONTAL;
         panel5.add(emailField, gbc);
 
         // row 4
@@ -214,10 +209,43 @@ public class DetailsView implements View {
         panel6.add(userIdField, gbc);
 
 
-        final JPanel spacer4 = new JPanel();
+        final JPanel panel10 = new JPanel();
+        panel10.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        mainPanel.add(panel10, gbc);
+
+        final JLabel ticketIdLabel = new JLabel();
+        ticketIdLabel.setText("Ticket: ");
+        ticketIdLabel.setFont(AppUtils.text);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel10.add(ticketIdLabel, gbc);
+
+        ticketIdField = new JTextField();
+        ticketIdField.setColumns(15);
+        ticketIdField.setFont(AppUtils.text);
+        ticketIdField.setEditable(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.ipadx = 100;
+        panel10.add(ticketIdField, gbc);
+
+
+
+        final JPanel spacer4 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 6;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 20;
         mainPanel.add(spacer4, gbc);
@@ -239,7 +267,7 @@ public class DetailsView implements View {
         final JPanel spacer7 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 0;
         mainPanel.add(spacer7, gbc);
@@ -251,7 +279,7 @@ public class DetailsView implements View {
         messagePane.setEditable(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         gbc.gridwidth = 5;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
@@ -272,7 +300,7 @@ public class DetailsView implements View {
         sendButton.setMargin(new Insets(3, 3, 3, 3));
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.insets = new Insets(3, 8, 0, 8);
@@ -283,7 +311,7 @@ public class DetailsView implements View {
         final JPanel spacer5 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 10;
+        gbc.gridy = 11;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.ipady = 30;
         mainPanel.add(spacer5, gbc);
@@ -292,11 +320,10 @@ public class DetailsView implements View {
 
         final JPanel panel7 = new JPanel();
         panel7.setLayout(new GridBagLayout());
-        panel7.setBorder(
-                AppUtils.createSimpleBorderTop("Gestione prenotazione"));
-        gbc = new GridBagConstraints();
+        panel7.setBorder(AppUtils.createSimpleBorderTop("Gestione prenotazione"));
         gbc.gridx = 0;
-        gbc.gridy = 11;
+        gbc = new GridBagConstraints();
+        gbc.gridy = 12;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.gridwidth = 5;
@@ -336,7 +363,7 @@ public class DetailsView implements View {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        panel7.add(dateTimePicker, gbc); // todo sistemare altrove
+        panel7.add(dateTimePicker, gbc);
 
         final JPanel bottomPanel = new JPanel(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -439,28 +466,15 @@ public class DetailsView implements View {
         return userIdField;
     }
 
+    public JTextField getTicketField() {
+        return ticketIdField;
+    }
 
     /**
      * @return JTextPane
      */
     public JTextPane getMessagePane() {
         return messagePane;
-    }
-
-
-    /**
-     * @return JTextField
-     */
-    public JTextField getDateSpinner() {
-        return dateSpinner;
-    }
-
-
-    /**
-     * @return JTextField
-     */
-    public JTextField getTimeSpinner() {
-        return timeSpinner;
     }
 
 
@@ -531,6 +545,10 @@ public class DetailsView implements View {
      */
     public void setTimeSettings(TimePickerSettings timeSettings) {
         this.timeSettings = timeSettings;
+    }
+
+    public JTextField getTicketIdField() {
+        return ticketIdField;
     }
 
     public ChatController getChatController() {

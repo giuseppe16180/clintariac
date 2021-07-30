@@ -25,6 +25,7 @@ import com.clintariac.components.userList.user.UserModel;
 import com.clintariac.components.reservationsList.ReservationsListController;
 import com.clintariac.components.reservationsList.ReservationsListModel;
 import com.clintariac.data.TicketData;
+import com.clintariac.data.TicketState;
 import com.clintariac.data.UserData;
 import com.clintariac.services.ContextManager;
 import com.clintariac.services.utils.AppUtils;
@@ -150,32 +151,36 @@ public class DashboardController implements Controller {
 		details.addOnDelete(this::detailsDelete);
 
 		details.setModelSupplier(() -> {
-			if (model.isUserSelected()) {
 
-				Optional<TicketData> pending =
-						context.getPendingTicketForUser(model.getSelectedUser());
+			if (model.isUserSelected()) {
 
 				UserData user = context.getUser(model.getSelectedUser()).get();
 
-				DetailsModel.Builder detailsModel = new DetailsModel.Builder()
+				DetailsModel.Builder builder = new DetailsModel.Builder()
 						.withUserId(user.id)
 						.withFirstName(user.firstName)
 						.withLastName(user.lastName)
 						.withEmail(user.email)
 						.withPhone(user.phone)
-						.withTicketId(model.getSelectedTicket())
 						.withChat(user.getChat());
 
-				if (pending.isPresent()) {
-					return detailsModel
-							.withAwaiting(true)
-							.withDateTime(context.firstAvailableReservation())
-							.build();
-				} else {
-					return detailsModel
-							.withAwaiting(false)
-							.build();
+				if (model.isTicketSelected()) {
+
+					TicketData ticket = context.getTicket(model.getSelectedTicket()).get();
+
+					builder.withTicketId(model.getSelectedTicket());
+
+					if (ticket.state == TicketState.AWAITING) {
+						builder.withAwaiting(true)
+								.withDateTime(context.firstAvailableReservation());
+
+					} else {
+						builder.withAwaiting(false).withDateTime(ticket.booking);
+					}
 				}
+
+				return builder.build();
+
 			} else {
 				return DetailsModel.empty();
 			}
@@ -374,7 +379,7 @@ public class DashboardController implements Controller {
 	 * @param newTicket il ticket da sostituire alla versione non processata nel context.
 	 */
 	private void detailsSave(TicketData newTicket) {
-		context.setTicket(newTicket);
+		context.updateTicket(newTicket);
 		reloadView();
 	}
 

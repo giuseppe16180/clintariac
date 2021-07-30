@@ -92,7 +92,6 @@ public class PatientsView implements View {
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.ipadx = 100;
-        // gbc.fill = GridBagConstraints.HORIZONTAL;
         panel3.add(lastNameField, gbc);
 
         // row 2
@@ -124,8 +123,6 @@ public class PatientsView implements View {
         gbc.gridy = 0;
         gbc.ipadx = 100;
         gbc.anchor = GridBagConstraints.WEST;
-        // gbc.fill = GridBagConstraints.HORIZONTAL;
-        // gbc.ipadx = 22;
         panel4.add(phoneField, gbc);
 
         // row 3

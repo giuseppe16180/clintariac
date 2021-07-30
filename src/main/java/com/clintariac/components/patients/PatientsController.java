@@ -82,12 +82,12 @@ public class PatientsController implements Controller {
         }
 
         if (isCorrect) {
-
-            UserData newUser = new UserData(view.getFirstNameField().getText(),
+            UserData newUser = new UserData(
+                    view.getFirstNameField().getText(),
                     view.getLastNameField().getText(),
-                    view.getUserIdField().getText().toUpperCase(), view.getEmailField().getText(),
+                    view.getUserIdField().getText().toUpperCase(),
+                    view.getEmailField().getText(),
                     view.getPhoneField().getText());
-
             onSave.accept(newUser);
 
         } else {
@@ -159,7 +159,8 @@ public class PatientsController implements Controller {
     }
 
     private void search() {
-        UserData searchUser = new UserData(view.getFirstNameField().getText().trim(),
+        UserData searchUser = new UserData(
+                view.getFirstNameField().getText().trim(),
                 view.getLastNameField().getText().trim(),
                 view.getUserIdField().getText().toUpperCase().trim(),
                 view.getEmailField().getText().trim(),
