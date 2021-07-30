@@ -285,9 +285,9 @@ public class DataManager {
                     user.get().email,
                     user.get().phone,
                     chat));
+        } else {
+            throw new UserNotFoundException(userId);
         }
-
-        throw new UserNotFoundException(userId);
     }
 
     /**
