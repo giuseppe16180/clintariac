@@ -115,8 +115,7 @@ public class DashboardController implements Controller {
 
 	private void initTicketList() {
 		ticketsList = view.getTicketsListController();
-		ticketsList.addOnTicketSelect(
-				(ticketId, userId) -> ticketSelect(ticketId, userId));
+		ticketsList.addOnTicketSelect(this::ticketSelect);
 		ticketsList.setModelSupplier(() -> {
 			return new TicketsListModel(context.getAwaitingTickets().stream().map(ticket -> {
 				UserData user = context.getUser(ticket.user).get();
@@ -133,11 +132,12 @@ public class DashboardController implements Controller {
 
 	public void initUserList() {
 		usersList = view.getUsersListController();
-		usersList.addOnUserSelect(id -> userSelect(id));
+		usersList.addOnUserSelect(this::userSelect);
 		usersList.setModelSupplier(() -> {
-			return new UsersListModel(context.getUsers().stream().map(user -> {
-				return new UserModel(user.firstName + " " + user.lastName, user.id);
-			}).collect(Collectors.toList()));
+			return new UsersListModel(context.searchUsers(model.getSearchFields()).stream()
+					.map(user -> {
+						return new UserModel(user.firstName + " " + user.lastName, user.id);
+					}).collect(Collectors.toList()));
 		});
 	}
 
@@ -151,36 +151,29 @@ public class DashboardController implements Controller {
 
 		details.setModelSupplier(() -> {
 			if (model.isUserSelected()) {
-				// todo: il context dovrebbe predisporre questo metodo
-				// todo: togliere cose inutili
+
 				Optional<TicketData> pending =
 						context.getPendingTicketForUser(model.getSelectedUser());
+
+				UserData user = context.getUser(model.getSelectedUser()).get();
+
+				DetailsModel.Builder detailsModel = new DetailsModel.Builder()
+						.withUserId(user.id)
+						.withFirstName(user.firstName)
+						.withLastName(user.lastName)
+						.withEmail(user.email)
+						.withPhone(user.phone)
+						.withTicketId(model.getSelectedTicket())
+						.withChat(user.getChat());
+
 				if (pending.isPresent()) {
-					TicketData ticket = pending.get(); // toccato
-					UserData user = context.getUser(ticket.user).get();
-					return new DetailsModel.Builder()
-							.withUserId(user.id)
-							.withFirstName(user.firstName)
-							.withLastName(user.lastName)
-							.withEmail(user.email)
-							.withPhone(user.phone)
+					return detailsModel
 							.withAwaiting(true)
 							.withDateTime(context.firstAvailableReservation())
-							.withTicketId(model.getSelectedTicket())
-							.withChat(user.getChat())
 							.build();
 				} else {
-					UserData user = context.getUser(model.getSelectedUser()).get();
-					// model.setSelectedUser(user.id);
-					return new DetailsModel.Builder()
-							.withUserId(user.id)
-							.withFirstName(user.firstName)
-							.withLastName(user.lastName)
-							.withEmail(user.email)
-							.withPhone(user.phone)
+					return detailsModel
 							.withAwaiting(false)
-							.withChat(user.getChat())
-							.withTicketId(model.getSelectedTicket())
 							.build();
 				}
 			} else {
@@ -206,6 +199,7 @@ public class DashboardController implements Controller {
 		});
 	}
 
+
 	/**
 	 * Metodo per ricaricare le view del controller, quando invocato ha come effetto la deselezione
 	 * del ticket selezionato, e l'upload di details, ticketsList, resList.
@@ -217,7 +211,6 @@ public class DashboardController implements Controller {
 	@Override
 	public void reloadView() {
 		Stream.of(details, ticketsList, resList, usersList).forEach(Controller::reloadView);
-		// context.startTask();
 	}
 
 	@Override
@@ -241,21 +234,9 @@ public class DashboardController implements Controller {
 			model.unselectUser();
 			reloadView();
 		} else {
-			JOptionPane.showMessageDialog(null, "Selezionare prima un ticket");
+			JOptionPane.showMessageDialog(null, "Selezionare prima un ticket.");
 		}
 	}
-
-	/**
-	 * Metodo che contiene le istruzioni da eseguire per ricaricare le view.
-	 * 
-	 * <p>
-	 * È pensato per essere chiamato in seguito all'aggiornamento del context.
-	 * </p>
-	 */
-	// private void contextFullUpdate() {
-	// Stream.of(resList, ticketsList, details).forEach(Controller::reloadView);
-	// }
-
 
 	/**
 	 * Metodo che restituisce il component principale del controller, cioè la view del MVC
@@ -279,8 +260,8 @@ public class DashboardController implements Controller {
 		resList.reloadView();
 	}
 
-	private void allDateSelect(LocalDate date) {
-		model.setSelectedDate(date);
+	private void allDateSelect() {
+		model.setSelectedDate(LocalDate.now());
 		model.setDayView(false);
 		resList.reloadView();
 		calendar.reloadView();
@@ -304,6 +285,7 @@ public class DashboardController implements Controller {
 			if (context.getUserByEmail(newUser.email).isEmpty()) {
 				context.addUser(newUser);
 				patient.reloadView();
+				reloadView();
 				JOptionPane.showMessageDialog(null, "Nuovo utente salvato con successo.");
 			} else {
 				JOptionPane.showMessageDialog(null,
@@ -313,7 +295,6 @@ public class DashboardController implements Controller {
 			JOptionPane.showMessageDialog(null,
 					"Utente già presente, se si vuole aggiornare i dati cliccare su aggiorna.");
 		}
-		reloadView();
 	}
 
 	private void patientEdit(UserData newUser) {
@@ -327,27 +308,19 @@ public class DashboardController implements Controller {
 			Optional<UserData> userByEmail = context.getUserByEmail(newUser.email);
 			if (userByEmail.isEmpty() || newUser.id.equals(userByEmail.get().id)) {
 				context.editUser(newUser);
+				patient.reloadView();
+				reloadView();
 				JOptionPane.showMessageDialog(null,
 						"Le informazioni per l'utente sono state aggiornate.");
-				patient.reloadView();
 			} else {
 				JOptionPane.showMessageDialog(null,
 						"Esiste già un utente per questa email, si prega di riprovare.");
 			}
-			reloadView();
 		}
 	}
 
-	private void patientSearch(UserData searchUser) {
-
-		List<UserData> results = context.searchUsers(searchUser);
-
-		usersList.setModelSupplier(() -> {
-			return new UsersListModel(results.stream().map(user -> {
-				return new UserModel(user.firstName + " " + user.lastName, user.id);
-			}).collect(Collectors.toList()));
-		});
-
+	private void patientSearch(UserData searchFields) {
+		model.setSearchFields(searchFields);
 		usersList.reloadView();
 	}
 
@@ -368,14 +341,12 @@ public class DashboardController implements Controller {
 		model.setSelectedTicket(ticketId);
 		model.setSelectedUser(userId);
 		reloadView();
-		// context.stopTask();
 	}
 
 	private void userSelect(String userId) {
 		model.setSelectedUser(userId);
 		model.unselectTicket();
 		reloadView();
-		// context.stopTask();
 	}
 
 	/**
@@ -409,7 +380,6 @@ public class DashboardController implements Controller {
 
 	private void sendMessage(String message) {
 		context.sendMessage(model.getSelectedUser(), message); // todo mettere l'id dell'utente
-		// reload();
 	}
 
 	/**

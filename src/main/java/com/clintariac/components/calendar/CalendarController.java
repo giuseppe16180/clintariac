@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.time.LocalDate;
 import java.util.function.Consumer;
 import com.clintariac.components.mvc.Controller;
+import com.clintariac.services.utils.Procedure;
 
 /**
  * Calendar controller
@@ -16,7 +17,7 @@ public class CalendarController implements Controller {
     private CalendarView view;
     private CalendarModel model;
     private Consumer<LocalDate> onDateSelect;
-    private Consumer<LocalDate> onAllSelect;
+    private Procedure onAllSelect;
 
     /**
      * Costruttore di CalendarController, instanzia model e view del Calendar e aggiunge l'evento.
@@ -74,13 +75,13 @@ public class CalendarController implements Controller {
     private void allSelect() {
         model.setAllView(true);
         view.getAllReserv().setSelected(model.isAllView());
-        onAllSelect.accept(LocalDate.now());
+        onAllSelect.run();
     }
 
     /**
-     * @param onDateSelect
+     * @param onAllSelect
      */
-    public void addOnAllSelect(Consumer<LocalDate> onAllSelect) {
+    public void addOnAllSelect(Procedure onAllSelect) {
         this.onAllSelect = onAllSelect;
     }
 }

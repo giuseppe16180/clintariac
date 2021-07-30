@@ -2,6 +2,7 @@ package com.clintariac.components.dashboard;
 
 import java.time.LocalDate;
 import com.clintariac.data.TicketData;
+import com.clintariac.data.UserData;
 
 public class DashboardModel {
 
@@ -13,6 +14,15 @@ public class DashboardModel {
     private boolean isTicketSelected;
     private boolean isDayView;
     private boolean shouldUpdate;
+    private UserData searchFields;
+
+    public UserData getSearchFields() {
+        return searchFields;
+    }
+
+    public void setSearchFields(UserData searchFields) {
+        this.searchFields = searchFields;
+    }
 
     public boolean shouldUpdate() {
         return shouldUpdate;
@@ -30,6 +40,7 @@ public class DashboardModel {
         this.isTicketSelected = false;
         this.isDayView = true;
         this.shouldUpdate = true;
+        this.searchFields = new UserData();
     }
 
     public TicketData getTicket() {
