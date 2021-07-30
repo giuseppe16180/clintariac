@@ -66,10 +66,7 @@ public class TicketsListController implements Controller {
     private void ticketSelect() {
         onTicketSelect.accept(
                 view.getList().getSelectedValue().getTicketId(),
-                view.getList().getSelectedValue().getUserId()); // TODO: da rivedere
-                                                                // ancora
-                                                                // era con il ticket
-
+                view.getList().getSelectedValue().getUserId());
     }
 }
 

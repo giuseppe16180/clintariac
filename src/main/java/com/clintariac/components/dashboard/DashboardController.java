@@ -106,6 +106,7 @@ public class DashboardController implements Controller {
 								ticket.state,
 								ticket.id.equals(model.getSelectedTicket()));
 					}).collect(Collectors.toList());
+			System.out.println(model.isDayView());
 			return new ReservationsListModel(
 					model.isDayView()
 							? parser.apply(context.getReservationsForDate(model.getSelectedDate()))
@@ -272,12 +273,14 @@ public class DashboardController implements Controller {
 	 * @param date data per la quale si vogliono visualizzare gli appuntamenti.
 	 */
 	private void dateSelect(LocalDate date) {
+		System.out.println("dateSelect");
 		model.setSelectedDate(date);
 		model.setDayView(true);
 		resList.reloadView();
 	}
 
 	private void allDateSelect(LocalDate date) {
+		System.out.println("allDateSelect");
 		model.setSelectedDate(date);
 		model.setDayView(false);
 		resList.reloadView();
@@ -301,7 +304,7 @@ public class DashboardController implements Controller {
 		Optional<UserData> existing = context.getUser(newUser.id);
 
 		if (existing.isEmpty()) {
-			context.setUser(newUser);
+			context.addUser(newUser);
 			JOptionPane.showMessageDialog(null, "Nuovo utente salvato con successo!");
 
 		} else {
@@ -319,8 +322,7 @@ public class DashboardController implements Controller {
 			JOptionPane.showMessageDialog(null,
 					"Utente non presente! Cliccare su aggiungi per registrarlo.");
 		} else {
-			context.getUser(newUser.id);
-			context.setUser(newUser);
+			context.editUser(newUser);
 			JOptionPane.showMessageDialog(null,
 					"Le informazioni per l'utente sono state aggiornate");
 		}
@@ -411,6 +413,7 @@ public class DashboardController implements Controller {
 		JOptionPane.showMessageDialog(null,
 				"Verifica che il programma sia in una cartella con i permessi di lettura e scrittura e che ci sia spazio sul disco",
 				"Errore di lettura o scrittura su file", JOptionPane.ERROR_MESSAGE);
+		e.printStackTrace();
 		System.exit(0);
 	}
 
@@ -424,6 +427,7 @@ public class DashboardController implements Controller {
 		JOptionPane.showMessageDialog(null,
 				"Verifica la connessione o la configurazione del tuo account di posta. Prova ad accedere all'account dal browser,\nse il problema persiste assicurati di aver concesso l'esecuzione alle app meno sicure",
 				"Errore nel servizio di email", JOptionPane.ERROR_MESSAGE);
+		e.printStackTrace();
 		System.exit(0);
 	}
 }

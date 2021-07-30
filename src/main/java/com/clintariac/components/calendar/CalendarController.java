@@ -56,8 +56,9 @@ public class CalendarController implements Controller {
      */
     private void dateSelect() {
         view.getAllReserv().setSelected(model.isAllView());
+        if (!model.isAllView())
+            onDateSelect.accept(view.getCalendarPanel().getSelectedDate());
         model.setAllView(false);
-        onDateSelect.accept(view.getCalendarPanel().getSelectedDate());
     }
 
     /**

@@ -1,9 +1,7 @@
 package com.clintariac.components.reservationsList;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 import com.clintariac.components.mvc.Controller;
 

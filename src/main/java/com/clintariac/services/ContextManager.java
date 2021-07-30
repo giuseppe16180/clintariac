@@ -14,7 +14,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import com.clintariac.components.ticketsList.TicketsListView;
 import com.clintariac.data.EmailData;
 import com.clintariac.data.MessageData;
 import com.clintariac.data.TicketData;
@@ -360,7 +359,8 @@ public class ContextManager {
     }
 
     public boolean sendMessage(String userId, String message) {
-        boolean isSent = sendEmail(userId, "Comunicazione", message);;
+        boolean isSent = sendEmail(userId, "Comunicazione",
+                String.format("<h3>%s</h3><br>%s", message, StandardEmails.COMUNICATION));
         if (isSent) {
             addToChat(userId, message, false);
         }
@@ -458,20 +458,54 @@ public class ContextManager {
      * Metodo per aggiungere un nuovo utente. a patto che l'email con le istruzioni al paziente
      * possa essere inviata
      * 
-     * @param newUser
+     * @param updatedUser
      */
-    public void setUser(UserData newUser) {
-        String email = newUser.email.isEmpty()
-                ? dataManager.getUser(newUser.id).get().email
-                : newUser.email;
-        boolean isSent = emailManager
-                .send(new EmailData(email, "Utente aggiornato",
-                        StandardEmails.WELCOME));
+    public boolean addUser(UserData updatedUser) {
+        boolean isSent = emailManager.send(new EmailData(
+                updatedUser.email,
+                "Conferma ed istruzioni",
+                StandardEmails.WELCOME));
         if (isSent) {
-            dataManager.setUser(newUser);
+            dataManager.setUser(updatedUser);
         }
-
+        return isSent;
     }
+
+    public boolean editUser(UserData updatedUser) {
+        Optional<UserData> user = dataManager.getUser(updatedUser.id);
+
+        if (user.isPresent()) {
+
+            UserData temp = new UserData(
+                    updatedUser.firstName.isEmpty()
+                            ? user.get().firstName
+                            : updatedUser.firstName,
+                    updatedUser.lastName.isEmpty()
+                            ? user.get().lastName
+                            : updatedUser.lastName,
+                    updatedUser.id,
+                    updatedUser.email.isEmpty()
+                            ? user.get().email
+                            : updatedUser.email,
+                    updatedUser.phone.isEmpty()
+                            ? user.get().phone
+                            : updatedUser.phone,
+                    user.get().getChat());
+
+            boolean isSent = emailManager
+                    .send(new EmailData(
+                            temp.email,
+                            "Utente aggiornato",
+                            StandardEmails.WELCOME));
+
+            if (isSent) {
+                dataManager.setUser(temp);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Metodo per ottenere un utente dal suo id. Resituisce un optional perché potrebbe non essere
@@ -518,7 +552,7 @@ public class ContextManager {
     }
 
     public Optional<TicketData> getPendingTicketForUser(String userId) {
-        return getTicketsList().stream().filter(
+        return dataManager.getTicketsList().stream().filter(
                 ticket -> ticket.user.equals(userId) && ticket.state != TicketState.CONFIRMED)
                 .findFirst();
     }
@@ -528,10 +562,11 @@ public class ContextManager {
     }
 
     public List<TicketData> getReservationsStartFromDate(LocalDate date) {
+        System.out.println("getstartfrom");
         return dataManager.getTicketsList().stream().filter(ticket -> {
-            return (ticket.state != TicketState.AWAITING)
+            return ((ticket.state != TicketState.AWAITING)
                     && (ticket.booking.toLocalDate().equals(date)
-                            || ticket.booking.toLocalDate().isAfter(date));
+                            || ticket.booking.toLocalDate().isAfter(date)));
         }).sorted((ticket1, ticket2) -> ticket1.booking.compareTo(ticket2.booking))
                 .collect(Collectors.toList());
     }
@@ -597,14 +632,5 @@ public class ContextManager {
         return dataManager.getTicketsList().stream()
                 .filter(ticket -> candidateDateTime.equals(ticket.booking))
                 .collect(Collectors.toList()).isEmpty();
-    }
-
-    // TODO: non va fatto cosi', il context mangaer dovrebbe avere un metodo per
-    // fare ci`o per cui
-    // serve sto coso dal context manager stesso, vedi l'uso che si fa del metodo
-    // nel
-    // dashboardcontroller
-    public List<TicketData> getTicketsList() {
-        return dataManager.getTicketsList();
     }
 }

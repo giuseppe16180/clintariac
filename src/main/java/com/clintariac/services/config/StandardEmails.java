@@ -8,7 +8,7 @@ public interface StandardEmails {
                         .format("<p>Cordiali saluti, la segreteria dell'ambulatorio %s.</p>", NAME);
 
         final String INSTRUCTION = String.format(
-                        "<h3>Le ricordiamo che per utilizzare il servizio deve inviare un email all'indirizzo <a href=mailto:%s>%s</a> seguendo le istruzioni qui riportate:</h3><ul><li><b>Nuova richiesta</b>: per richiedere un nuovo appuntamento inserisca come oggetto <code>PRENOTAZIONE</code>. Le sar&agrave; possibile comunicare il motivo della visita o delle eventuali esigenze particolari utilizzando il corpo del messaggio, in alternativa, per richiedere un nuovo appuntamento clicchi qui <a href=mailto:%s?subject=prenotazione>NUOVA PRENOTAZIONE</a></li><li><b>Conferma appuntamento</b>: per confermare una proposta di appuntamento inserisca come oggetto <code>CONFERMA</code> e come corpo del messaggio il <code>CODICE_TICKET</code> relativo alla sua richiesta.</li><li><b>Cancella appuntamento</b>: per cancellare un appuntamento (sia confermato che in attesa di conferma) inserisca come oggetto <code>ANNULLA</code> e come corpo del messaggio il <code>CODICE_TICKET</code> relativo alla sua richiesta.</li></ul>",
+                        "<h3>Le ricordiamo che per utilizzare il servizio deve inviare un email all'indirizzo <a href=mailto:%s>%s</a> seguendo le istruzioni qui riportate:</h3><ul><li><b>Comunicazione</b>: per comunicare con il nostro ambulatorio e richiedere un nuovo appuntamento inserisca come oggetto <code>COMUNICAZIONE</code>. Le sar&agrave; possibile comunicare il motivo della visita o delle eventuali esigenze particolari utilizzando il corpo del messaggio, in alternativa, per richiedere un nuovo appuntamento clicchi qui <a href=mailto:%s?subject=comunicazione>NUOVA COMUNICAZIONE</a></li><li><b>Conferma appuntamento</b>: per confermare una proposta di appuntamento inserisca come oggetto <code>CONFERMA</code> e come corpo del messaggio il <code>CODICE_TICKET</code> relativo alla sua richiesta.</li><li><b>Cancella appuntamento</b>: per cancellare un appuntamento (sia confermato che in attesa di conferma) inserisca come oggetto <code>ANNULLA</code> e come corpo del messaggio il <code>CODICE_TICKET</code> relativo alla sua richiesta.</li></ul>",
                         Credentials.email, Credentials.email, Credentials.email);
 
         final String WELCOME =
@@ -22,8 +22,12 @@ public interface StandardEmails {
 
 
         final String ERROR =
-                        "<h3>Gentile paziente, la sua richiesta è mal formattata, pertanto non pu&ograve; essere processata, la preghiamo di riprovare.</h3>"
+                        "<h3>Gentile paziente, la sua richiesta non pu&ograve; essere gestita, le chiediamo di verificare che la sua email osservi le nostre istruzioni, la preghiamo di riprovare.</h3>"
                                         + INSTRUCTION + GREETINGS;
+
+        final String COMUNICATION = String.format(
+                        "<h3>Può rispondere direttamente a questa email o può inviarci un messaggio cliccando <a href=mailto:%s?subject=comunicazione>NUOVA COMUNICAZIONE</a>.<h3>",
+                        Credentials.email) + GREETINGS;
 
         final String NOT_VALID =
                         "<h3>Gentile paziente, il suo codice ticket della sua precedente interazione non &egrave; corretto, pertanto la sua richiesta non pu&ograve; essere processata, la preghiamo di riprovare.</h3>"

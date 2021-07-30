@@ -2,7 +2,6 @@ package com.clintariac.components.details.chat;
 
 
 import java.awt.Component;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 import com.clintariac.components.mvc.Controller;
 
@@ -34,8 +33,6 @@ public class ChatController implements Controller {
     public void updateView() {
         model = modelSupplier.get();
         if (view.getList().getPreferredSize().getHeight() == scrollPosition) {
-            System.out
-                    .println(view.getList().getPreferredSize().getHeight() + " " + scrollPosition);
             view.getList().setModel(model.getChat());
             view.scrollToBottom();
         } else {
@@ -67,6 +64,5 @@ public class ChatController implements Controller {
 
     private void scroll() {
         scrollPosition = (int) view.getMainComponent().getVerticalScrollBar().getValue();
-        System.out.println(scrollPosition);
     }
 }
