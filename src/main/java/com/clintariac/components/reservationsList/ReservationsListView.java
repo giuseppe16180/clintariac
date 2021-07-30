@@ -21,7 +21,7 @@ public class ReservationsListView implements View {
         mainPanel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         mainPanel.setBackground(null);
 
-        mainPanel.setBorder(AppUtils.createMainBorder("Appuntamenti"));
+        mainPanel.setBorder(AppUtils.createMainBorder("Tickets Appuntamenti"));
 
         list = new JList<>();
         list.setCellRenderer(new ReservationRenderer());

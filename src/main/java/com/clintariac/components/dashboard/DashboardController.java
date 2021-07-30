@@ -300,15 +300,18 @@ public class DashboardController implements Controller {
 	 */
 	private void patientSave(UserData newUser) {
 
-		Optional<UserData> existing = context.getUser(newUser.id);
-
-		if (existing.isEmpty()) {
-			context.addUser(newUser);
-			JOptionPane.showMessageDialog(null, "Nuovo utente salvato con successo!");
-			patient.reloadView();
+		if (context.getUser(newUser.id).isEmpty()) {
+			if (context.getUserByEmail(newUser.email).isEmpty()) {
+				context.addUser(newUser);
+				patient.reloadView();
+				JOptionPane.showMessageDialog(null, "Nuovo utente salvato con successo.");
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Esiste già un utente per questa email, si prega di riprovare.");
+			}
 		} else {
 			JOptionPane.showMessageDialog(null,
-					"Utente già presente! Se si vogliono aggiornare i dati cliccare su aggiorna.");
+					"Utente già presente, se si vuole aggiornare i dati cliccare su aggiorna.");
 		}
 		reloadView();
 	}
@@ -319,12 +322,18 @@ public class DashboardController implements Controller {
 
 		if (existing.isEmpty()) {
 			JOptionPane.showMessageDialog(null,
-					"Utente non presente! Cliccare su aggiungi per registrarlo.");
+					"Utente non presente, clicca su aggiungi per registrarlo.");
 		} else {
-			context.editUser(newUser);
-			JOptionPane.showMessageDialog(null,
-					"Le informazioni per l'utente sono state aggiornate");
-			patient.reloadView();
+			Optional<UserData> userByEmail = context.getUserByEmail(newUser.email);
+			if (userByEmail.isEmpty() || newUser.id.equals(userByEmail.get().id)) {
+				context.editUser(newUser);
+				JOptionPane.showMessageDialog(null,
+						"Le informazioni per l'utente sono state aggiornate.");
+				patient.reloadView();
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Esiste già un utente per questa email, si prega di riprovare.");
+			}
 			reloadView();
 		}
 	}

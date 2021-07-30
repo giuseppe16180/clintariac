@@ -32,9 +32,9 @@ public interface StandardEmails {
         final String NOT_VALID =
                         "<h3>Gentile paziente, il suo codice ticket della sua precedente interazione non &egrave; corretto, pertanto la sua richiesta non pu&ograve; essere processata, la preghiamo di riprovare.</h3>"
                                         + INSTRUCTION + GREETINGS;
-        final String NOT_ACCEPTED =
-                        "<h3>Gentile paziente, ci dispiace comunicarle che la sua richiesta &egrave; stata cancellata. La preghiamo, eventualmente, di richiedere un nuovo appuntamento.</h3><h3>Per <b>richiedere</b> un nuovo appuntamento clicchi qui <a href=mailto:%s?subject=Prenotazione>NUOVA PRENOTAZIONE</a>."
-                                        + GREETINGS;
+        final String NOT_ACCEPTED = String.format(
+                        "<h3>Gentile paziente, ci dispiace comunicarle che la sua richiesta &egrave; stata cancellata. La preghiamo, eventualmente, di richiedere un nuovo appuntamento.</h3><h3>Per <b>richiedere</b> un nuovo appuntamento clicchi qui <a href=mailto:%s?subject=Comunicazione>NUOVA PRENOTAZIONE</a>.",
+                        Credentials.email) + GREETINGS;
 
         final String UNREGISTERED =
                         "<h3>Gentile paziente, le ricordiamo che il servizio è riservato a gli utenti registrati, pertanto le chiediamo di effettuare la registrazione presso la nostra segreteria.</h3>"
@@ -49,7 +49,7 @@ public interface StandardEmails {
 
         static String expireBooked(String ticketId) {
                 return String.format(
-                                "<h3>Gentile paziente, ci dispiace ma il tempo a disposizione per confermare il suo appuntamento con codice ticket <code>%s</code> è scaduto. La preghiamo, eventualmente, di richiedere un nuovo appuntamento.</h3><h3>Per <b>richiedere</b> un nuovo appuntamento clicchi qui <a href=mailto:%s?subject=prenotazione>NUOVA PRENOTAZIONE</a>.</h3>%s",
+                                "<h3>Gentile paziente, ci dispiace ma il tempo a disposizione per confermare il suo appuntamento con codice ticket <code>%s</code> è scaduto. La preghiamo, eventualmente, di richiedere un nuovo appuntamento.</h3><h3>Per <b>richiedere</b> un nuovo appuntamento clicchi qui <a href=mailto:%s?subject=Comunicazione>NUOVA PRENOTAZIONE</a>.</h3>%s",
                                 ticketId,
                                 Credentials.email,
                                 GREETINGS);
@@ -58,7 +58,7 @@ public interface StandardEmails {
         static String removeMessage(String ticketId) {
 
                 return String.format(
-                                "<h3>Gentile paziente, ci dispiace comunicarle che il suo appuntamento con codice ticket <code>%s</code> &egrave; stato cancellato. La preghiamo, eventualmente, di richiedere un nuovo appuntamento.</h3><h3>Per <b>richiedere</b> un nuovo appuntamento clicchi qui <a href=mailto:%s?subject=Prenotazione>NUOVA PRENOTAZIONE</a>.%s",
+                                "<h3>Gentile paziente, ci dispiace comunicarle che il suo appuntamento con codice ticket <code>%s</code> &egrave; stato cancellato. La preghiamo, eventualmente, di richiedere un nuovo appuntamento.</h3><h3>Per <b>richiedere</b> un nuovo appuntamento clicchi qui <a href=mailto:%s?subject=Comunicazione>NUOVA PRENOTAZIONE</a>.%s",
                                 ticketId, Credentials.email, GREETINGS);
         }
 

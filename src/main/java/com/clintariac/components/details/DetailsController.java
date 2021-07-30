@@ -82,10 +82,11 @@ public class DetailsController implements Controller {
         view.getPhoneField().setText(model.getPhone());
         view.getUserField().setText(model.getUserId());
         view.getMessagePane().setText(model.getMessage());
-        view.getValidateButton().setEnabled(true);
+        view.getDeleteButton().setEnabled(model.getTicketId() != "" ? true : false);
+        view.getValidateButton().setEnabled(model.getTicketId() != "" ? true : false);
         view.getSaveButton().setEnabled(false);
         view.getDateTimePicker().setDateTimeStrict(model.getDateTime());
-        view.getDateTimePicker().setEnabled(true);
+        view.getDateTimePicker().setEnabled(model.getTicketId() != "" ? true : false);
         chat.reloadView();
     }
 

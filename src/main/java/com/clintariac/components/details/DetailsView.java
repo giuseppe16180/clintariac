@@ -46,7 +46,7 @@ public class DetailsView implements View {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
-        mainPanel.setBorder(AppUtils.createMainBorder("Gestione tickets"));
+        mainPanel.setBorder(AppUtils.createMainBorder("Gestione ticket"));
 
         // row 0
         final JPanel panel2 = new JPanel();

@@ -506,6 +506,10 @@ public class ContextManager {
         return false;
     }
 
+    public Optional<UserData> getUserByEmail(String email) {
+        return dataManager.getUserByEmail(email);
+    }
+
 
     /**
      * Metodo per ottenere un utente dal suo id. Resituisce un optional perché potrebbe non essere
