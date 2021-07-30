@@ -562,7 +562,6 @@ public class ContextManager {
     }
 
     public List<TicketData> getReservationsStartFromDate(LocalDate date) {
-        System.out.println("getstartfrom");
         return dataManager.getTicketsList().stream().filter(ticket -> {
             return ((ticket.state != TicketState.AWAITING)
                     && (ticket.booking.toLocalDate().equals(date)

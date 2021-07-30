@@ -106,7 +106,6 @@ public class DashboardController implements Controller {
 								ticket.state,
 								ticket.id.equals(model.getSelectedTicket()));
 					}).collect(Collectors.toList());
-			System.out.println(model.isDayView());
 			return new ReservationsListModel(
 					model.isDayView()
 							? parser.apply(context.getReservationsForDate(model.getSelectedDate()))
@@ -238,6 +237,8 @@ public class DashboardController implements Controller {
 	private void detailsDelete() {
 		if (model.isTicketSelected()) {
 			context.deleteTicket(model.getSelectedTicket());
+			model.unselectTicket();
+			model.unselectUser();
 			reloadView();
 		} else {
 			JOptionPane.showMessageDialog(null, "Selezionare prima un ticket");
@@ -273,14 +274,12 @@ public class DashboardController implements Controller {
 	 * @param date data per la quale si vogliono visualizzare gli appuntamenti.
 	 */
 	private void dateSelect(LocalDate date) {
-		System.out.println("dateSelect");
 		model.setSelectedDate(date);
 		model.setDayView(true);
 		resList.reloadView();
 	}
 
 	private void allDateSelect(LocalDate date) {
-		System.out.println("allDateSelect");
 		model.setSelectedDate(date);
 		model.setDayView(false);
 		resList.reloadView();
@@ -306,12 +305,12 @@ public class DashboardController implements Controller {
 		if (existing.isEmpty()) {
 			context.addUser(newUser);
 			JOptionPane.showMessageDialog(null, "Nuovo utente salvato con successo!");
-
+			patient.reloadView();
 		} else {
 			JOptionPane.showMessageDialog(null,
 					"Utente già presente! Se si vogliono aggiornare i dati cliccare su aggiorna.");
 		}
-		usersList.reloadView();
+		reloadView();
 	}
 
 	private void patientEdit(UserData newUser) {
@@ -325,8 +324,9 @@ public class DashboardController implements Controller {
 			context.editUser(newUser);
 			JOptionPane.showMessageDialog(null,
 					"Le informazioni per l'utente sono state aggiornate");
+			patient.reloadView();
+			reloadView();
 		}
-		usersList.reloadView();
 	}
 
 	private void patientSearch(UserData searchUser) {

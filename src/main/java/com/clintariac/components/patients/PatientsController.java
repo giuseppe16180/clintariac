@@ -89,7 +89,6 @@ public class PatientsController implements Controller {
                     view.getPhoneField().getText());
 
             onSave.accept(newUser);
-            resetView();
 
         } else {
 
@@ -144,7 +143,6 @@ public class PatientsController implements Controller {
                     id, email, phone);
 
             onEdit.accept(newUser);
-            resetView();
 
         } else {
             JOptionPane.showMessageDialog(null, message.toString(),
@@ -175,11 +173,12 @@ public class PatientsController implements Controller {
 
     private void clear() {
         UserData emptyUser = new UserData();
-        resetView();
+        reloadView();
         onClear.accept(emptyUser);
     }
 
-    public void resetView() {
+    @Override
+    public void reloadView() {
         view.getFirstNameField().setText("");
         view.getLastNameField().setText("");
         view.getUserIdField().setText("");
