@@ -142,6 +142,11 @@ public class DashboardController implements Controller {
 		});
 	}
 
+	public void createNewTicket(LocalDateTime dateTime) {
+		context.createNewTicket(model.getSelectedUser(), dateTime);
+		updateView();
+	}
+
 	public void initDetails() {
 
 		details = view.getDetailsController();
@@ -149,7 +154,7 @@ public class DashboardController implements Controller {
 		details.addOnSend(this::sendMessage);
 		details.addOnValidate(this::detailsValidate);
 		details.addOnDelete(this::detailsDelete);
-
+		details.addOnCreateNewTicket(this::createNewTicket);
 		details.setModelSupplier(() -> {
 
 			if (model.isUserSelected()) {

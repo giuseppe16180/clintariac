@@ -182,10 +182,7 @@ public class ContextManager {
                 dataManager.deleteTicket(oldWaitingTicket.get().id);
             }
 
-            String newTicketId = Integer
-                    .toString(dataManager.getTicketsList().stream()
-                            .map(ticket -> Integer.parseInt(ticket.id))
-                            .reduce(1000, (acc, curr) -> curr > acc ? curr : acc) + 1);
+            String newTicketId = dataManager.newTicketId();
 
             dataManager.setTicket(new TicketData(
                     newTicketId,
@@ -296,7 +293,35 @@ public class ContextManager {
         }
     }
 
+    public void createNewTicket(String userId, LocalDateTime dateTime) {
 
+        String dateAndTime[] = AppUtils.localDateTimeToString(dateTime).split(" ");
+
+        String ticketId = dataManager.newTicketId();
+
+
+
+        boolean isSent = sendEmail(
+                userId,
+                "Proposta appuntamento",
+                StandardEmails.ticketMessage(dateAndTime[0], dateAndTime[1], ticketId));
+
+        if (isSent) {
+
+            addToChat(userId, String.format("Proposta appuntamento - %s %s - ",
+                    dateAndTime[0], dateAndTime[1]) + ticketId,
+                    false);
+
+            dataManager.setTicket(new TicketData(
+                    ticketId,
+                    userId,
+                    TicketState.BOOKED,
+                    dateTime,
+                    LocalDateTime.now(),
+                    ""));
+        }
+
+    }
 
     /**
      * Metodo per eliminare le proposte di prenotazione che non sono state confermate dai pazienti

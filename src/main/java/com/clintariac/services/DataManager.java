@@ -367,4 +367,11 @@ public class DataManager {
             throw new ListNotLoadedException("usersList not loaded");
         }
     }
+
+    public String newTicketId() {
+        return Integer.toString(ticketsList.stream()
+                .map(ticket -> Integer.parseInt(ticket.id))
+                .reduce(1000, (acc, curr) -> curr > acc ? curr : acc) + 1);
+
+    }
 }

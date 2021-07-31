@@ -35,6 +35,11 @@ public class DetailsController implements Controller {
     private Consumer<TicketData> onSave;
     private Procedure onDelete;
     private Consumer<String> onSend;
+    private Consumer<LocalDateTime> onCreateNewTicket;
+
+    public void addOnCreateNewTicket(Consumer<LocalDateTime> onCreateNewTicket) {
+        this.onCreateNewTicket = onCreateNewTicket;
+    }
 
     private ChatController chat;
 
@@ -84,11 +89,11 @@ public class DetailsController implements Controller {
         view.getUserField().setText(model.getUserId());
         view.getTicketField().setText(model.getTicketId());
         view.getMessagePane().setText(model.getMessage());
-        view.getDeleteButton().setEnabled(!model.getTicketId().isEmpty());
-        view.getValidateButton().setEnabled(!model.getTicketId().isEmpty());
+        view.getDeleteButton().setEnabled(!model.getUserId().isEmpty());
+        view.getValidateButton().setEnabled(!model.getUserId().isEmpty());
         view.getSaveButton().setEnabled(false);
         view.getDateTimePicker().setDateTimeStrict(model.getDateTime());
-        view.getDateTimePicker().setEnabled(!model.getTicketId().isEmpty());
+        view.getDateTimePicker().setEnabled(!model.getUserId().isEmpty());
         chat.reloadView();
     }
 
@@ -151,16 +156,21 @@ public class DetailsController implements Controller {
 
         LocalDateTime dateTime = view.getDateTimePicker().getDateTimeStrict();
 
-        TicketData newTicket = new TicketData(
-                model.getTicketId(),
-                model.getUserId(),
-                TicketState.BOOKED,
-                dateTime,
-                LocalDateTime.now(),
-                model.getMessage());
+        if (!model.getTicketId().isEmpty()) {
+            TicketData newTicket = new TicketData(
+                    model.getTicketId(),
+                    model.getUserId(),
+                    TicketState.BOOKED,
+                    dateTime,
+                    LocalDateTime.now(),
+                    model.getMessage());
 
-        onSave.accept(newTicket);
-        JOptionPane.showMessageDialog(null, "Salvataggio effettuato con successo");
+            onSave.accept(newTicket);
+            JOptionPane.showMessageDialog(null, "Salvataggio effettuato con successo");
+        } else {
+            onCreateNewTicket.accept(dateTime);
+            JOptionPane.showMessageDialog(null, "Prenotazione effettuata con successo");
+        }
     }
 
     private void validate() {
@@ -168,13 +178,14 @@ public class DetailsController implements Controller {
         String ticketId = model.getTicketId();
         LocalDateTime dateTime = view.getDateTimePicker().getDateTimeStrict();
 
-        if (ticketId.isEmpty()) {
+        // if (ticketId.isEmpty()) {
 
-            JOptionPane.showMessageDialog(null,
-                    "Selezionare il ticket che si vuole processare!",
-                    "Validazione ticket", JOptionPane.ERROR_MESSAGE);
+        // JOptionPane.showMessageDialog(null,
+        // "Selezionare il ticket che si vuole processare!",
+        // "Validazione ticket", JOptionPane.ERROR_MESSAGE);
 
-        } else if (dateTime == null) {
+        // } else
+        if (dateTime == null) {
 
             JOptionPane.showMessageDialog(null,
                     "Si prega di impostare sia la data che l'ora dell'appuntamento!",
