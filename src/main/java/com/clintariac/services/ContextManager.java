@@ -209,8 +209,13 @@ public class ContextManager {
         };
 
         final Predicate<EmailData> isNotValidTicket =
-                email -> !dataManager.getTicket(email.message.split("\\s+")[0])
-                        .isPresent();
+                (email) -> {
+                    Optional<TicketData> ticket =
+                            dataManager.getTicket(email.message.split("\\s+")[0]);
+                    Optional<UserData> user = dataManager.getUserByEmail(email.address);
+
+                    return ticket.isEmpty() || !ticket.get().user.equals(user.get().id);
+                };
 
         final Consumer<EmailData> consumeNotValidTicket = email -> {
             emailManager.send(
@@ -226,11 +231,15 @@ public class ContextManager {
 
             String dateTime[] = AppUtils.localDateTimeToString(ticket.booking).split(" ");
 
-            boolean isSent = emailManager.send(new EmailData(email.address, "Conferma appuntamento",
+            boolean isSent = emailManager.send(new EmailData(
+                    email.address,
+                    ticket.state == TicketState.CONFIRMED
+                            ? "Appuntamento già confermato"
+                            : "Conferma appuntamento",
                     StandardEmails.confirmMessage(dateTime[0], dateTime[1], ticket.id)));
 
             if (isSent) {
-                addToChat(ticket.user, "Conferma", true);
+                addToChat(ticket.user, "Conferma - " + ticket.id, true);
 
                 dataManager.setTicket(new TicketData(ticket.id, ticket.user, TicketState.CONFIRMED,
                         ticket.booking,
@@ -250,7 +259,7 @@ public class ContextManager {
                             StandardEmails.deleteMessage(ticket.id)));
 
             if (isSent) {
-                addToChat(ticket.user, "Annulla", true);
+                addToChat(ticket.user, "Annulla - " + ticket.id, true);
                 dataManager.deleteTicket(ticket.id);
             }
         };
@@ -408,9 +417,9 @@ public class ContextManager {
         if (isSent) {
 
             addToChat(newTicket.user, String.format(wasAwaiting
-                    ? "Proposta appuntamento - %s %s"
-                    : "Spostamento appuntamento - %s %s",
-                    dateTime[0], dateTime[1]),
+                    ? "Proposta appuntamento - %s %s - "
+                    : "Spostamento appuntamento - %s %s - ",
+                    dateTime[0], dateTime[1]) + newTicket.id,
                     false);
 
             dataManager.setTicket(newTicket);
