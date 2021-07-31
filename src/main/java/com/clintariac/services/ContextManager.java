@@ -308,8 +308,8 @@ public class ContextManager {
 
         if (isSent) {
 
-            addToChat(userId, String.format("Proposta appuntamento - %s %s - ",
-                    dateAndTime[0], dateAndTime[1]) + ticketId,
+            addToChat(userId, String.format("Proposta %s - %s %s",
+                    ticketId, dateAndTime[0], dateAndTime[1]),
                     false);
 
             dataManager.setTicket(new TicketData(
@@ -442,9 +442,9 @@ public class ContextManager {
         if (isSent) {
 
             addToChat(newTicket.user, String.format(wasAwaiting
-                    ? "Proposta appuntamento - %s %s - "
-                    : "Spostamento appuntamento - %s %s - ",
-                    dateTime[0], dateTime[1]) + newTicket.id,
+                    ? "Proposta %s - %s %s"
+                    : "Spostamento %s - %s %s",
+                    newTicket.id, dateTime[0], dateTime[1]),
                     false);
 
             dataManager.setTicket(newTicket);
@@ -474,7 +474,9 @@ public class ContextManager {
             }
 
             if (isSent) {
-                addToChat(ticket.get().user, "Appuntamento cancellato", false);
+                addToChat(ticket.get().user,
+                        "Appuntamento " + ticket.get().id,
+                        false);
                 dataManager.deleteTicket(id);
             }
 
