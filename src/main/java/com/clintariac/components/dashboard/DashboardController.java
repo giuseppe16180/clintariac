@@ -131,23 +131,22 @@ public class DashboardController implements Controller {
 		});
 	}
 
-	public void initUserList() {
+	private void initUserList() {
 		usersList = view.getUsersListController();
 		usersList.addOnUserSelect(this::userSelect);
 		usersList.setModelSupplier(() -> {
 			return new UsersListModel(context.searchUsers(model.getSearchFields()).stream()
-					.map(user -> {
-						return new UserModel(user.firstName + " " + user.lastName, user.id);
-					}).collect(Collectors.toList()));
+					.map(user -> new UserModel(user.firstName + " " + user.lastName, user.id))
+					.collect(Collectors.toList()));
 		});
 	}
 
-	public void createNewTicket(LocalDateTime dateTime) {
+	private void createNewTicket(LocalDateTime dateTime) {
 		context.createNewTicket(model.getSelectedUser(), dateTime);
 		updateView();
 	}
 
-	public void initDetails() {
+	private void initDetails() {
 
 		details = view.getDetailsController();
 		details.addOnSave(this::detailsSave);
@@ -156,11 +155,8 @@ public class DashboardController implements Controller {
 		details.addOnDelete(this::detailsDelete);
 		details.addOnCreateNewTicket(this::createNewTicket);
 		details.setModelSupplier(() -> {
-
 			if (model.isUserSelected()) {
-
 				UserData user = context.getUser(model.getSelectedUser()).get();
-
 				DetailsModel.Builder builder = new DetailsModel.Builder()
 						.withUserId(user.id)
 						.withFirstName(user.firstName)
@@ -168,25 +164,15 @@ public class DashboardController implements Controller {
 						.withEmail(user.email)
 						.withPhone(user.phone)
 						.withChat(user.getChat());
-
 				if (model.isTicketSelected()) {
-
 					TicketData ticket = context.getTicket(model.getSelectedTicket()).get();
-
-					builder.withTicketId(model.getSelectedTicket()).withTicketState(ticket.state);
-
-					if (ticket.state == TicketState.AWAITING) {
-						builder.withAwaiting(true)
-								.withDateTime(context.firstAvailableReservation());
-
-					} else {
-						builder.withAwaiting(false)
-								.withDateTime(ticket.booking);
-					}
+					builder.withTicketId(model.getSelectedTicket())
+							.withTicketState(ticket.state)
+							.withDateTime(ticket.state == TicketState.AWAITING
+									? context.firstAvailableReservation()
+									: ticket.booking);
 				}
-
 				return builder.build();
-
 			} else {
 				return DetailsModel.empty();
 			}

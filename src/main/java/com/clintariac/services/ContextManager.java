@@ -86,6 +86,7 @@ public class ContextManager {
 
         if (ContextManager.isInstantiated == true) {
             throw new SingletonException();
+
         } else {
 
             executor = Executors.newSingleThreadScheduledExecutor();

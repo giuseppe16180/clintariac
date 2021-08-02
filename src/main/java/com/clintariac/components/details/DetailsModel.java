@@ -20,7 +20,6 @@ public class DetailsModel {
     private String email;
     private String phone;
     private LocalDateTime dateTime;
-    private boolean isAwaiting;
     private String userId;
     private String ticketId;
     private TicketState ticketState;
@@ -38,7 +37,6 @@ public class DetailsModel {
         private String email;
         private String phone;
         private LocalDateTime dateTime;
-        private boolean isAwaiting;
         private String message;
         private List<MessageData> chat;
 
@@ -51,7 +49,6 @@ public class DetailsModel {
             email = "";
             phone = "";
             dateTime = null;
-            isAwaiting = false;
             message = "";
             ticketState = TicketState.DELETED;
             chat = new ArrayList<MessageData>();
@@ -59,7 +56,7 @@ public class DetailsModel {
 
         public DetailsModel build() {
             return new DetailsModel(firstName, lastName, email, phone, dateTime,
-                    isAwaiting, userId, ticketId, ticketState, message, chat);
+                    userId, ticketId, ticketState, message, chat);
         }
 
         public Builder withFirstName(String firstName) {
@@ -102,10 +99,7 @@ public class DetailsModel {
             return this;
         }
 
-        public Builder withAwaiting(boolean isAwaiting) {
-            this.isAwaiting = isAwaiting;
-            return this;
-        }
+
 
         public Builder withMessage(String message) {
             this.message = message;
@@ -160,13 +154,6 @@ public class DetailsModel {
     }
 
 
-    /**
-     * @return TicketState
-     */
-    public boolean isAwaiting() {
-        return isAwaiting;
-    }
-
 
     /**
      * @return String
@@ -203,12 +190,6 @@ public class DetailsModel {
     }
 
 
-    /**
-     * @param isAwaiting
-     */
-    public void setAwaiting(boolean isAwaiting) {
-        this.isAwaiting = isAwaiting;
-    }
 
     public List<MessageData> getChat() {
         return chat;
@@ -232,7 +213,6 @@ public class DetailsModel {
             String email,
             String phone,
             LocalDateTime dateTime,
-            boolean isAwaiting,
             String userId,
             String ticketId,
             TicketState ticketState,
@@ -244,7 +224,6 @@ public class DetailsModel {
         this.email = email;
         this.phone = phone;
         this.dateTime = dateTime;
-        this.isAwaiting = isAwaiting;
         this.userId = userId;
         this.ticketId = ticketId;
         this.message = message;
