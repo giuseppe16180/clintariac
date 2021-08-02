@@ -89,7 +89,8 @@ public class DetailsController implements Controller {
         view.getUserField().setText(model.getUserId());
         view.getTicketField().setText(model.getTicketId());
         view.getMessagePane().setText(model.getMessage());
-        view.getDeleteButton().setEnabled(!model.getUserId().isEmpty());
+        view.getDeleteButton().setEnabled(
+                !model.getTicketId().isEmpty() && model.getTicketState() != TicketState.DELETED);
         view.getValidateButton().setEnabled(!model.getUserId().isEmpty());
         view.getSaveButton().setEnabled(false);
         view.getDateTimePicker().setDateTimeStrict(model.getDateTime());
@@ -102,6 +103,7 @@ public class DetailsController implements Controller {
         String message = model.getMessage();
         model = modelSupplier.get();
         model.setMessage(message);
+        view.getDeleteButton().setEnabled(model.getTicketState() != TicketState.DELETED);
         chat.updateView();
     }
 
@@ -175,18 +177,9 @@ public class DetailsController implements Controller {
 
     private void validate() {
 
-        String ticketId = model.getTicketId();
         LocalDateTime dateTime = view.getDateTimePicker().getDateTimeStrict();
 
-        // if (ticketId.isEmpty()) {
-
-        // JOptionPane.showMessageDialog(null,
-        // "Selezionare il ticket che si vuole processare!",
-        // "Validazione ticket", JOptionPane.ERROR_MESSAGE);
-
-        // } else
         if (dateTime == null) {
-
             JOptionPane.showMessageDialog(null,
                     "Si prega di impostare sia la data che l'ora dell'appuntamento!",
                     "Appuntamento non valido", JOptionPane.ERROR_MESSAGE);

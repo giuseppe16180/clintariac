@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import com.clintariac.data.MessageData;
+import com.clintariac.data.TicketState;
 
 public class DetailsModel {
 
@@ -22,6 +23,8 @@ public class DetailsModel {
     private boolean isAwaiting;
     private String userId;
     private String ticketId;
+    private TicketState ticketState;
+
     private String message;
     private List<MessageData> chat;
 
@@ -31,6 +34,7 @@ public class DetailsModel {
         private String lastName;
         private String userId;
         private String ticketId;
+        private TicketState ticketState;
         private String email;
         private String phone;
         private LocalDateTime dateTime;
@@ -49,12 +53,13 @@ public class DetailsModel {
             dateTime = null;
             isAwaiting = false;
             message = "";
+            ticketState = TicketState.DELETED;
             chat = new ArrayList<MessageData>();
         }
 
         public DetailsModel build() {
             return new DetailsModel(firstName, lastName, email, phone, dateTime,
-                    isAwaiting, userId, ticketId, message, chat);
+                    isAwaiting, userId, ticketId, ticketState, message, chat);
         }
 
         public Builder withFirstName(String firstName) {
@@ -74,6 +79,11 @@ public class DetailsModel {
 
         public Builder withTicketId(String ticketId) {
             this.ticketId = ticketId;
+            return this;
+        }
+
+        public Builder withTicketState(TicketState ticketState) {
+            this.ticketState = ticketState;
             return this;
         }
 
@@ -208,6 +218,13 @@ public class DetailsModel {
         this.chat = chat;
     }
 
+    public TicketState getTicketState() {
+        return ticketState;
+    }
+
+    public void setTicketState(TicketState ticketState) {
+        this.ticketState = ticketState;
+    }
 
     public DetailsModel(
             String firstName,
@@ -218,6 +235,7 @@ public class DetailsModel {
             boolean isAwaiting,
             String userId,
             String ticketId,
+            TicketState ticketState,
             String message,
             List<MessageData> chat) {
 
@@ -231,20 +249,7 @@ public class DetailsModel {
         this.ticketId = ticketId;
         this.message = message;
         this.chat = chat;
+        this.ticketState = ticketState;
     }
-
-
-    /**
-     * @return String
-     */
-    @Override
-    public String toString() {
-        return "DetailsModel [dateTime=" + dateTime + ", email=" + email + ", firstName="
-                + firstName
-                + ", lastName=" + lastName + ", phone=" + phone + ", state=" + isAwaiting
-                + ", ticketId="
-                + ticketId + ", userId=" + userId + "Message=" + message + "]";
-    }
-
 }
 

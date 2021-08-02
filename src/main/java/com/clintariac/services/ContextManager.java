@@ -155,13 +155,16 @@ public class ContextManager {
         String deleteToken = "annulla";
         String confirmToken = "conferma";
 
+
         final Predicate<EmailData> isUserNotPresent =
                 email -> !dataManager.getUserByEmail(email.address).isPresent();
 
         final Consumer<EmailData> consumeUserNotPresent = email -> {
-            emailManager.send(new EmailData(email.address, "Utente non registrato",
+            emailManager.send(new EmailData(
+                    email.address, "Utente non registrato",
                     StandardEmails.UNREGISTERED));
         };
+
 
         final Predicate<EmailData> isNewMessage =
                 email -> email.subject.toLowerCase().contains(comunToken);
@@ -169,9 +172,8 @@ public class ContextManager {
         final Consumer<EmailData> consumeNewMessage = email -> {
 
             UserData user = dataManager.getUserByEmail(email.address).get();
-            List<MessageData> chat = user.getChat();
-            chat.add(new MessageData(email.message, LocalDateTime.now(), true));
-            dataManager.updateChat(user.id, chat);
+
+            addToChat(user.id, email.message, true);
 
             Optional<TicketData> oldWaitingTicket = dataManager.getTicketsList().stream()
                     .filter(ticket -> ticket.user.equals(user.id)
@@ -193,31 +195,34 @@ public class ContextManager {
                     email.message));
         };
 
+
+
         final Predicate<EmailData> isNotValidSubject = email -> {
-
             String subject = email.subject.toLowerCase();
-
             return Stream.of(deleteToken, confirmToken).noneMatch(token -> token.equals(subject));
         };
 
         final Consumer<EmailData> consumeNotValidSubject = email -> {
-            emailManager.send(new EmailData(email.address, "È stato riscontrato un errore",
+            emailManager.send(new EmailData(
+                    email.address, "È stato riscontrato un errore",
                     StandardEmails.ERROR));
         };
 
-        final Predicate<EmailData> isNotValidTicket =
-                (email) -> {
-                    Optional<TicketData> ticket =
-                            dataManager.getTicket(email.message.split("\\s+")[0]);
-                    Optional<UserData> user = dataManager.getUserByEmail(email.address);
 
-                    return ticket.isEmpty() || !ticket.get().user.equals(user.get().id);
-                };
+
+        final Predicate<EmailData> isNotValidTicket = (email) -> {
+            Optional<TicketData> ticket = dataManager.getTicket(email.message.split("\\s+")[0]);
+            UserData user = dataManager.getUserByEmail(email.address).get();
+            return ticket.isEmpty() || !ticket.get().user.equals(user.id);
+        };
 
         final Consumer<EmailData> consumeNotValidTicket = email -> {
-            emailManager.send(
-                    new EmailData(email.address, "Ticket non valido", StandardEmails.NOT_VALID));
+            emailManager.send(new EmailData(
+                    email.address, "Ticket non valido",
+                    StandardEmails.NOT_VALID));
         };
+
+
 
         final Predicate<EmailData> isConfirmTicket =
                 email -> email.subject.toLowerCase().equals(confirmToken);
@@ -225,24 +230,39 @@ public class ContextManager {
         final Consumer<EmailData> consumeConfirmTicket = email -> {
 
             TicketData ticket = dataManager.getTicket(email.message.split("\\s+")[0]).get();
-
             String dateTime[] = AppUtils.localDateTimeToString(ticket.booking).split(" ");
 
-            boolean isSent = emailManager.send(new EmailData(
-                    email.address,
-                    ticket.state == TicketState.CONFIRMED
-                            ? "Appuntamento già confermato"
-                            : "Conferma appuntamento",
-                    StandardEmails.confirmMessage(dateTime[0], dateTime[1], ticket.id)));
+            if (ticket.state != TicketState.AWAITING && ticket.state != TicketState.DELETED) {
 
-            if (isSent) {
-                addToChat(ticket.user, "Conferma - " + ticket.id, true);
+                if (ticket.state != TicketState.CONFIRMED) {
 
-                dataManager.setTicket(new TicketData(ticket.id, ticket.user, TicketState.CONFIRMED,
-                        ticket.booking,
-                        LocalDateTime.now(), ticket.message));
+                    boolean isSent = emailManager.send(new EmailData(
+                            email.address, "Appuntamento confermato",
+                            StandardEmails.confirmMessage(dateTime[0], dateTime[1], ticket.id)));
+
+                    if (isSent) {
+                        addToChat(ticket.user, "Conferma - " + ticket.id, true);
+                        dataManager.setTicket(new TicketData(
+                                ticket.id,
+                                ticket.user,
+                                TicketState.CONFIRMED,
+                                ticket.booking,
+                                LocalDateTime.now(),
+                                ticket.message));
+                    }
+                } else {
+                    emailManager.send(new EmailData(
+                            email.address, "Appuntamento già confermato",
+                            StandardEmails.confirmMessage(dateTime[0], dateTime[1], ticket.id)));
+                }
+            } else {
+                emailManager.send(new EmailData(
+                        email.address, "Si è verificato un errore",
+                        StandardEmails.ERROR));
             }
         };
+
+
 
         final Predicate<EmailData> isDeleteTicket =
                 email -> email.subject.toLowerCase().equals(deleteToken);
@@ -251,15 +271,30 @@ public class ContextManager {
 
             TicketData ticket = dataManager.getTicket(email.message.split("\\s+")[0]).get();
 
-            boolean isSent = emailManager.send(
-                    new EmailData(email.address, "Appuntamento cancellato",
+            if (ticket.state == TicketState.AWAITING || ticket.state == TicketState.BOOKED) {
+
+                if (ticket.state != TicketState.DELETED) {
+                    boolean isSent = emailManager.send(new EmailData(
+                            email.address, "Appuntamento cancellato",
                             StandardEmails.deleteMessage(ticket.id)));
 
-            if (isSent) {
-                addToChat(ticket.user, "Annulla - " + ticket.id, true);
-                dataManager.deleteTicket(ticket.id);
+                    if (isSent) {
+                        addToChat(ticket.user, "Annulla - " + ticket.id, true);
+                        dataManager.deleteTicket(ticket.id);
+                    }
+                } else {
+                    emailManager.send(new EmailData(
+                            email.address, "Appuntamento già cancellato",
+                            StandardEmails.deleteMessage(ticket.id)));
+                }
+            } else {
+                emailManager.send(new EmailData(
+                        email.address,
+                        "Si è verificato un errore",
+                        StandardEmails.ERROR));
             }
         };
+
 
         emailHandler = email -> Stream.of(
                 EmailHandler.of(isUserNotPresent, consumeUserNotPresent),
@@ -299,8 +334,6 @@ public class ContextManager {
 
         String ticketId = dataManager.newTicketId();
 
-
-
         boolean isSent = sendEmail(
                 userId,
                 "Proposta appuntamento",
@@ -309,8 +342,7 @@ public class ContextManager {
         if (isSent) {
 
             addToChat(userId, String.format("Proposta %s - %s %s",
-                    ticketId, dateAndTime[0], dateAndTime[1]),
-                    false);
+                    ticketId, dateAndTime[0], dateAndTime[1]), false);
 
             dataManager.setTicket(new TicketData(
                     ticketId,
@@ -475,8 +507,7 @@ public class ContextManager {
 
             if (isSent) {
                 addToChat(ticket.get().user,
-                        "Appuntamento " + ticket.get().id,
-                        false);
+                        "Richiesta cancellata " + ticket.get().id, false);
                 dataManager.deleteTicket(id);
             }
 

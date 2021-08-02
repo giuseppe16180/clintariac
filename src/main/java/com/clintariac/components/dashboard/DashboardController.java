@@ -173,14 +173,15 @@ public class DashboardController implements Controller {
 
 					TicketData ticket = context.getTicket(model.getSelectedTicket()).get();
 
-					builder.withTicketId(model.getSelectedTicket());
+					builder.withTicketId(model.getSelectedTicket()).withTicketState(ticket.state);
 
 					if (ticket.state == TicketState.AWAITING) {
 						builder.withAwaiting(true)
 								.withDateTime(context.firstAvailableReservation());
 
 					} else {
-						builder.withAwaiting(false).withDateTime(ticket.booking);
+						builder.withAwaiting(false)
+								.withDateTime(ticket.booking);
 					}
 				}
 
