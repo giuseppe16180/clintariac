@@ -4,13 +4,13 @@ numbersections: true
 author: 
 - Cristina Zappata
 - Giuseppe Marino
-date: 23 Maggio 2021
+date: 25 agosto 2021
 geometry: margin=2.1cm
 output: pdf_document
 fontsize: 12pt
 toc: true
 autoEqnLabels: true
-abstract: Nella seguente relazione verrà discusso lo sviluppo dell'applicativo da noi nominato Clintariac. Si tratta di un software pensato per automatizzare la richiesta di un appuntamento presso l'ambulatorio del proprio medico di base. Clintariac permette di automatizzare buona parte delle operazioni che sarebbero necessarie per fissare un appuntamento, cercando di mantenere un'infrastruttura semplice. Il progetto è stato realizzato concordemente a quanto richiesto dal docente Prof. Gabriele Fici del corso di "Metodi avanzati per la programmazione" al fine del sostenimento dell'esame per il suddetto corso.
+abstract: Nella seguente relazione verrà discusso lo sviluppo dell'applicativo da noi nominato Clintariac. Si tratta di un software per gestire l'agenda degli appuntamenti in un ambulatorio medico, in maniera assistita. Clintariac permette di automatizzare le operazioni che sarebbero necessarie per fissare un appuntamento, cercando di mantenere un'infrastruttura semplice. Il progetto è stato realizzato concordemente a quanto richiesto dal docente Prof. Gabriele Fici del corso di "Metodi avanzati per la programmazione" al fine del sostenimento dell'esame per il suddetto corso.
 include-before:
 - \newpage{}
 ---
@@ -19,9 +19,9 @@ include-before:
 
 # Introduzione
 
-Clintariac è un applicativo pensato per semplificare il lavoro del personale di segreteria negli ambulatori medici, con un occhio di riguardo anche ai pazienti, evitando inutili e lunghe attese. La sua funzione principale è quella di gestire gli appuntamenti in maniera assistita, integrando un'agenda elettronica. Il fulcro della sua implementazione sono le comunicazioni via email, di fatto il software funge da client di posta elettronica, le richieste da parte dei pazienti nascono da delle email opportunamente formattate, le risposte sono anch'esse delle email, processate in automatico sulla base della compilazione della segreteria.
+Clintariac è un applicativo pensato per semplificare il lavoro del personale di segreteria negli ambulatori medici, con un occhio di riguardo anche ai pazienti, evitando inutili e lunghe attese. La sua funzione principale è quella di gestire gli appuntamenti in maniera assistita, integrando un'agenda elettronica. Il fulcro della sua implementazione sono le comunicazioni via email, di fatto il software funge da client di posta elettronica, mostrando una vista chat tra la segreteria e i pazienti. Le conversazioni consistono dei messaggi scambiati tra i pazienti e la segreteria, più dei messaggi generati in automatico dalle azioni di gestione delle prenotazioni.
 
-Le interminabili attese presso il proprio medico di base potrebbero essere facilmente evitate, a patto che il personale dell'ambulatorio sia disposto a concordare gli appuntamenti tramite le tradizionali vie di comunicazione. Effettivamente, oggi, ciò è diventato la normalità, per scongiurare gli assembramenti nelle sale d'attesa, ma la richiesta di appuntamento risulta sempre dispendiosa in termini di tempo. 
+Le interminabili attese presso il proprio medico di base potrebbero essere facilmente evitate, a patto che il personale dell'ambulatorio sia disposto a concordare gli appuntamenti tramite le tradizionali vie di comunicazione. Effettivamente, oggi, ciò è diventato la normalità, per scongiurare gli assembramenti nelle sale d'attesa, ma la richiesta di appuntamento può risultare dispendiosa in termini di tempo. 
 
 Escludendo un'infrastruttura con una copertura nazionale, come ad esempio un portale predisposto dal Ministero della Salute, resta ben poco di efficace per venire incontro a queste esigenze.
 
@@ -159,33 +159,36 @@ Nelle fasi preliminari allo sviluppo del software sono stati discussi, analizzat
 
 I requisiti funzionali comprendono tutte le interazioni tra il software e la sua utenza, in questo caso sono stati delineati i seguenti:
 
-- Visualizzare gli appuntamenti per la giornata selezionata nel calendario.
-- Registrare, aggiornare o cancellare i dati di un paziente, controllando che i campi siano inseriti correttamente.
-- Visualizzare la lista delle nuove richieste (ticket in attesa), non ancora processate.
-- Visualizzare i dettagli di una richiesta, con il messaggio ricavato dall'email.
-- Calcolare e proporre il primo appuntamento utile, da assegnare eventualmente ad un ticket.
-- Impostare data e ora specifici al momento della processazione, per soddisfare le esigenze particolari dei pazienti o dei medici.
+- Visualizzare gli appuntamenti per un qualsiasi giorno.
+- Visualizzare gli appuntamenti a partire dalla data odierna.
+- Gestire i dati di un paziente, controllandone la correttezza.
+- Ricercare tra i pazienti sulla base dei vari campi che li rappresentano.
+- Visualizzare la conversazione con la cronologia delle interazioni con un utente.
+- Visualizzare la lista di tutti i messaggi in attesa di risposta.
+- Per un paziente selezionato, visualizzare i suoi dati e la conversazione con esso.
+- Ricavare e proporre automaticamente il primo appuntamento utile ad una richiesta.
+- Per un messaggio da gestire, visualizzare la conversazione con il paziente.
+- Impostare data e ora specifici al momento dell'elaborazione della richiesta.
+- Poter proporre, spostare, cancellare e riproporre un appuntamento.
 - Controllare se per una data immessa sia possibile aggiungere un appuntamento.
-- Confermare o cancellare il ticket in attesa.
-- Permettere agli assistiti di richiedere un appuntamento.
-- Inviare un messaggio al paziente con la proposta della prenotazione, appena il ticket viene inserito in agenda.
-- Cancellare il ticket con comunicazione all'utente in caso di mancata conferma entro un determinato arco temporale.
-- Aggiornare lo stato del ticket in caso di conferma da parte del paziente.
-- Inviare messaggio di errore al paziente in caso di richiesta mal formattata.
+- Permettere agli assistiti di comunicare con il personale per chiedere un appuntamento o altre informazioni.
+- Garantire che gli assistiti siano notificati di ogni azione che riguardi un loro appuntamento.
+- Le proposte di appuntamento devono essere confermate dai pazienti, entro un tempo limitato.
+- Permettere a gli assistiti di confermare, cancellare o far spostare un loro appuntamento.
+- Inviare messaggio di errore con istruzioni al paziente in caso di richieste mal poste.
 
 ## Requisiti non funzionali
 
 I requisiti non funzionali comprendono i vincoli, le proprietà e le caratteristiche relative al software, in questo caso sono stati delineati i seguenti:
 
 - Utilizzo del linguaggio Java, utilizzando le librerie grafiche AWT e Swing, mediante MVC.
-- Unica dashboard principale, da dove sia possibile visualizzare contemporaneamente gli appuntamenti e i ticket da processare.
+- Unica dashboard principale, da dove sia possibile gestire gli appuntamenti, i pazienti e le conversazioni.
 - Implementazione di un servizio per la gestione persistente dei dati, mediante scrittura su disco.
 - Implementazione di un client di posta elettronica per l'invio e la ricezione delle email.
 - Implementazione di un servizio di coordinazione tra, email, dati su disco e dati inseriti dalla GUI.
 - Rappresentazione e memorizzazione interna dei dati usando il formato JSON.
 - Aggiornamento periodico dello stato dell'applicativo, con pull delle email, verifica di prenotazioni scadute etc.
-- Processazione delle richieste per i soli utenti registrati.
-- Suddivisione modulare delle operazioni in diverse funzioni e classi.
+- Filtraggio delle richieste per i soli utenti registrati.
 
 # Descrizione del Software
 
@@ -197,7 +200,7 @@ Le interazioni con Clintariac possono essere di due tipi, da una parte abbiamo l
 
 ![Interazioni possibili](img/diagramma_flusso.pdf)
 
-Il punto di partenza sono gli utenti registrati che inviano le richieste, sotto forma di email formattate secondo le istruzioni, all'indirizzo di email impiegato nella configurazione del servizio. Se una email non risultasse scritta in una delle modalità attese dal servizio, l'utente verrà notificato da una risposta automatica, un discorso analogo avviene qualora l'utente non fosse registrato. Per gli utenti registrati, Clintariac esegue la processazione.
+Il punto di partenza sono gli utenti registrati che inviano le richieste, sotto forma di email formattate secondo le istruzioni, all'indirizzo di email impiegato nella configurazione del servizio. Se una email non risultasse scritta in una delle modalità attese dal servizio, l'utente verrà notificato da una risposta automatica, un discorso analogo avviene qualora l'utente non fosse registrato. Per gli utenti registrati, Clintariac esegue l'elaborazione.
 
 A questo punto gli scenari sono diversi, e sono specificati nel diagramma. Per sommi capi, può essere creato o modificato un ticket. Questo è da intendersi come l'entità associata alla richiesta di appuntamento, e successivamente all'appuntamento fissato. A ciascun ticket è associato un identificativo, esso è comunicato al paziente in seguito alla proposta per appuntamento, e dovrà essere specificato in tutte le interazioni future legate a quella richiesta.
 
@@ -205,9 +208,15 @@ Ad una proposta di appuntamento ne può seguire la conferma o la cancellazione d
 
 È bene sottolineare che una volta proposto un appuntamento, lo slot temporale è da considerarsi occupato nonostante non ci sia la conferma da parte del cliente, per evitare di concedere per errore uno stesso slot a più appuntamenti. Questo porta un problema, ossia, un utente potrebbe non prendere nota della proposta e lo slot resterebbe occupato inutilmente. Per evitare ciò ogni proposta ha una finestra temporale all'interno della quale essa può essere confermata, oltre questo termine temporale la richiesta viene cancellata automaticamente dal sistema.
 
-La segreteria si riserva la possibilità di eliminare un appuntamento in qualsiasi momento, a ciò segue l'invio di un messaggio al paziente, che lo notifichi e lo inviti a richiedere un nuovo appuntamento in una data futura.
+La segreteria si riserva la possibilità di eliminare un appuntamento in qualsiasi momento, alla libertà di eliminare un appuntamento segue la possibilità di spostare un appuntamento, così come quella di riproporre un appuntamento che è stato cancellato. A tutte queste interazioni segue l'invio di specifiche email agli assistiti, in modo che siano sempre tenuti al corrente,
+
+I pazienti possono inviare all'ambulatorio una generica comunicazione, e a questa viene associato un ticket. Immaginando che nella comunicazione ci siano delle richieste su quando si preferirebbe essere ricevuti, così come dei dettagli sul motivo della visita, la segreteria può rispondere ai messaggi inviandone degli altri. La risposta del paziente avviene sempre secondo la generica modalità di comunicazione, in questo caso il precedente ticket in attesa viene sovrascritto. La comunicazione tra le due parti viene rappresentata visivamente in una vista chat.
+
+La segreteria ha modo di proporre un appuntamento senza una precedente comunicazione via email, questo rende possibile registrare appuntamenti che siano stati fissati al di fuori delle comunicazioni del servizio.
 
 Per assistere l'utente nella fase di richiesta, conferma e annullamento, a partire dall'email con le istruzioni, sono integrati dei collegamenti ipertestuali per compilare in maniera automatica, o semi assistita, le email nel formato atteso.
+
+Tutte le interazioni discusse fino a questo punto vengono rappresentati come messaggi nella chat, così facendo si può tenere traccia di ogni interazione tra pazienti e segreteria.
 
 ### Gli stati di un ticket
 
