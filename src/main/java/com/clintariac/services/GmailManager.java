@@ -43,14 +43,14 @@ public class GmailManager implements EmailManager {
      * Costruttore di GmailManager.
      * 
      * <p>
-     * Permette di gestire il protocollo di invio di email (SMTP) e il protocolle
-     * per la ricezione di email (IMAP).
+     * Permette di gestire il protocollo di invio di email (SMTP) e il protocolle per la ricezione
+     * di email (IMAP).
      * </p>
      * 
      * <p>
-     * Si tratta di un singleton, in quanto gestendo i protocolli, è necessario che
-     * non possano esisterne più istanze. In caso di tentata istanziazione multipla,
-     * viene lanciata un'eccezione.
+     * Si tratta di un singleton, in quanto gestendo i protocolli, è necessario che non possano
+     * esisterne più istanze. In caso di tentata istanziazione multipla, viene lanciata
+     * un'eccezione.
      * </p>
      * 
      */
@@ -92,19 +92,17 @@ public class GmailManager implements EmailManager {
 
     /**
      * <p>
-     * Metodo per l'invio di un'email ricevuta a parametro di tipo
-     * {@code EmailData}.
+     * Metodo per l'invio di un'email ricevuta a parametro di tipo {@code EmailData}.
      * </p>
      * 
      * <p>
-     * Viene stabilito il mittente, il destinatario e l'oggetto dall'email. In
-     * seguito viene stabilita la formattazione del messaggio dell'email, cioè
-     * {@code "text/html; charset=utf-8"}.
+     * Viene stabilito il mittente, il destinatario e l'oggetto dall'email. In seguito viene
+     * stabilita la formattazione del messaggio dell'email, cioè {@code "text/html; charset=utf-8"}.
      * </p>
      * 
      * <p>
-     * Viene utilizzato il protocollo SMPT che stabilisce la connessione, e
-     * successivamente procede con l'invio dall'email.
+     * Viene utilizzato il protocollo SMPT che stabilisce la connessione, e successivamente procede
+     * con l'invio dall'email.
      * </p>
      * 
      * @param email da inviare
@@ -139,23 +137,22 @@ public class GmailManager implements EmailManager {
 
     /**
      * <p>
-     * Metodo per la lettura di email della casella postale, restituendo quindi una
-     * lista di email non lette.
+     * Metodo per la lettura di email della casella postale, restituendo quindi una lista di email
+     * non lette.
      * </p>
      * 
      * <p>
-     * Attraverso il protocollo IMAP, si stabilisce la connessione per la lettura
-     * dell'email.
+     * Attraverso il protocollo IMAP, si stabilisce la connessione per la lettura dell'email.
      * </p>
      * 
      * <p>
-     * Le email vengono memorizzate in una lista di {@code EmailData}, verrà
-     * restutuita una volta lette tutte le email con {@code Flag.SEEN} falso.
+     * Le email vengono memorizzate in una lista di {@code EmailData}, verrà restutuita una volta
+     * lette tutte le email con {@code Flag.SEEN} falso.
      * </p>
      * 
      * <p>
-     * Verrà lanciata un'eccezione nel caso in cui non è possibile stabilire la
-     * connessione o nel caso in cui l'email non ha dei campi validi.
+     * Verrà lanciata un'eccezione nel caso in cui non è possibile stabilire la connessione o nel
+     * caso in cui l'email non ha dei campi validi.
      * </p>
      * 
      * @return List<EmailData>
@@ -182,7 +179,8 @@ public class GmailManager implements EmailManager {
 
                         try {
 
-                            address = ((InternetAddress) message.getFrom()[0]).getAddress().toString();
+                            address = ((InternetAddress) message.getFrom()[0]).getAddress()
+                                    .toString();
 
                             subject = message.getSubject();
 

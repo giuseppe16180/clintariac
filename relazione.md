@@ -10,9 +10,11 @@ output: pdf_document
 fontsize: 12pt
 toc: true
 autoEqnLabels: true
-abstract: Nella seguente relazione verrà discusso lo sviluppo dell'applicativo da noi nominato Clintariac. Si tratta di un software per gestire l'agenda degli appuntamenti in un ambulatorio medico, in maniera assistita. Clintariac permette di automatizzare le operazioni che sarebbero necessarie per fissare un appuntamento, cercando di mantenere un'infrastruttura semplice. Il progetto è stato realizzato concordemente a quanto richiesto dal docente Prof. Gabriele Fici del corso di "Metodi avanzati per la programmazione" al fine del sostenimento dell'esame per il suddetto corso.
+titlepage: true
+abstract: \textbf{Abstract:} Nella seguente relazione verrà discusso lo sviluppo dell'applicativo da noi nominato Clintariac. Si tratta di un software per gestire l'agenda degli appuntamenti in un ambulatorio medico, in maniera assistita. Clintariac permette di automatizzare le operazioni che sarebbero necessarie per fissare un appuntamento, cercando di mantenere un'infrastruttura semplice. Il progetto è stato realizzato concordemente a quanto richiesto dal docente Prof. Gabriele Fici del corso di "Metodi avanzati per la programmazione" al fine del sostenimento dell'esame per il suddetto corso.
 include-before:
 - \newpage{}
+code-block-font-size: \scriptsize
 ---
 
 \newpage
@@ -194,6 +196,7 @@ I requisiti non funzionali comprendono i vincoli, le proprietà e le caratterist
 
 Dai requisiti precedentemente discussi hanno preso forma la logica dell'applicativo, la sua interfaccia grafica, così come tutta una serie di componenti software utili all'implementazione dei servizi richiesti. Per descrivere il software è bene delineare quali saranno, nel concreto, le interazioni possibili con esso, descrivendo il funzionamento di ogni aspetto.
 
+
 ## Interazioni
 
 Le interazioni con Clintariac possono essere di due tipi, da una parte abbiamo le interazioni dei pazienti, che scaturiscono dall'invio di email, dall'altra parte abbiamo le interazioni effettuate dalla segreteria sulla dashboard del servizio. Qui di seguito è proposto un diagramma intuitivo di quelle che possono essere le operazioni messe a disposizione degli utilizzatori del servizio.
@@ -235,7 +238,7 @@ Quindi abbiamo disposto le funzionalità per la fruizione dell'agenda giornalier
 
 Abbiamo la sezione più a sinistra che permette di visualizzare gli appuntamenti **per un determinato giorno, il quale può essere scelto dall'apposito selettore, **. La lista delle notifiche visualizza i messaggi i cui ticket corrispondenti sono in attesa di essere processati, la sezione più a destra è predisposta per l'interazione con un utente. Infine, è presente una sezione per la gestione degli utenti.
 
-![Esempio di dashboard con delle richieste e degli appuntamenti](img/dashbord.png){width=100%}
+![Esempio di dashboard con delle richieste e degli appuntamenti](img/dashboard.png){width=100%}
 
 ### Agenda
 
@@ -314,7 +317,7 @@ La barra inferiore contiene dei bottoni che permetterebbero di eseguire varie op
 
 Nell'utilizzo di Clintariac si potrebbero verificare alcuni errori, qualora ci fossero problemi con la scrittura su disco, nell'accesso ad Internet o nell'accesso all'account di posta. In tal caso, il software mostra delle finestre di dialogo con dei brevi messaggi per assistere nella risoluzione degli errori. 
 
-![Email con il messaggio di benvenuto](img/error.png){width=60%}
+![Errore](img/error.png){width=70%}
 
 
 
@@ -335,8 +338,6 @@ Degli esempi di collegamenti ipertestuali sono *Conferma* o *Annulla*, come nell
 Quando viene notificata la conferma della prenotazione si mette nuovamente a disposizione un collegamento ipertestuale per annullare la prenotazione in questione, come nell'immagine seguente.
 
 ![Messaggio di conferma per l'appuntamento proposto](img/conferm.png){width=80%}
-
-![Esempio di registrazione di un assistito al servizio](img/regist.png){width=50%}
 
 
 \clearpage
