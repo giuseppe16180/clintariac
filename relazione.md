@@ -222,35 +222,38 @@ Tutte le interazioni discusse fino a questo punto vengono rappresentati come mes
 
 Alla luce di ciò, ad un ticket può essere associato uno stato:
 
-- appena ricevuta la richiesta, il ticket viene creato in stato di *attesa di elaborazione*, affinché esso sia processato da parte della segreteria.
-- in seguito all'avvenuta proposta di appuntamento, e quindi dopo la processazione da parte della segreteria, il ticket passa in stato di *attesa di conferma*. 
-- non appena l'utente avrà confermato la proposta, il ticket passerà in stato *confermato* e verrà trattato come un appuntamento fissato in agenda.
-- un ticket potrebbe passare in stato *eliminato*, tuttavia, data la natura non particolarmente fiscale degli appuntamenti così presi, abbiamo pensato di eliminare semplicemente i ticket non più utili.
+- appena ricevuta una comunicazione viene creato un ticket in stato di *attesa di elaborazione*, se è già presente un ticket in questo stato per un utente viene sovrascritto;
+- in seguito all'avvenuta proposta di appuntamento, e quindi dopo l'elaborazione da parte della segreteria, il ticket passa in stato di *attesa di conferma*.;
+- se la segreteria propone un appuntamento, senza aver prima ricevuto una comunicazione, viene creato un ticket in *attesa di conferma*;
+- non appena l'utente avrà confermato la proposta, il ticket passerà in stato *confermato* e verrà trattato come un appuntamento fissato in agenda;
+- un ticket può essere cancellato in qualsiasi momento da una delle due parti, e passare quindi in stato *eliminato*, potrebbe essere poi riproposto.
 
 ## Dashboard
 
-All'avvio di Clintariac viene mostrata la finestra principale che costituisce la dashboard. Per venire incontro alle necessità del sistema, abbiamo fatto in modo che in una sola schermata potesse essere rappresentato tutto l'occorrente per la segreteria. 
-Quindi da una parte abbiamo disposto l'occorrente per la fruizione dell'agenda giornaliera, dall'altra parte abbiamo inserito l'occorrente per prendere visione ed elaborare le richieste pendenti.
+All'avvio di Clintariac viene mostrata la finestra principale che costituisce la dashboard. Per venire incontro alle necessità del sistema, abbiamo fatto in modo che in una sola schermata potesse essere rappresentato tutto il necessario per la segreteria. 
+Quindi abbiamo disposto le funzionalità per la fruizione dell'agenda giornaliera, per la gestione dei pazienti, ed infine l'occorrente per prendere visione ed elaborare le richieste pendenti.
 
-Abbiamo la sezione più a sinistra che permette di visualizzare gli appuntamenti per un determinato giorno, il quale può essere scelto dall'apposito selettore a lato. La lista centrale contiene i ticket in attesa di essere processati, e la sezione più a destra è pensata per la gestione e visualizzazione dei ticket. Infine, è presente una sezione per la gestione degli utenti.
+Abbiamo la sezione più a sinistra che permette di visualizzare gli appuntamenti **per un determinato giorno, il quale può essere scelto dall'apposito selettore, **. La lista delle notifiche visualizza i messaggi i cui ticket corrispondenti sono in attesa di essere processati, la sezione più a destra è predisposta per l'interazione con un utente. Infine, è presente una sezione per la gestione degli utenti.
 
 ![Esempio di dashboard con delle richieste e degli appuntamenti](img/dashbord.png){width=100%}
 
 ### Agenda
 
-La parte per l'agenda è abbastanza semplice ed intuitiva, consente di visualizzare tutti gli appuntamenti per una data fissata, in ordine cronologico. Il selettore del calendario permette di selezionare una qualsiasi giornata a partire dal giorno corrente, in modo da caricare a lato la lista degli appuntamenti. Per ciascuno di essi vengono indicati data, ora, identificativo, ed eventualmente stato. Una volta selezionato un appuntamento da questa lista esso può essere eliminato. In seguito all'eliminazione, il paziente viene notificato tramite email dell'avvenuta cancellazione. Si nota che questa agenda tiene traccia solo degli appuntamenti non cancellati, infatti non compariranno in alcun modo qualora siano stati eliminati dalla segreteria o dai pazienti.
+La parte per l'agenda è abbastanza semplice ed intuitiva, consente di visualizzare tutti gli appuntamenti per una data fissata, in ordine cronologico. Il selettore del calendario permette di selezionare una qualsiasi giornata a partire dal giorno corrente, in modo da caricare a lato la lista degli appuntamenti, in alternativa si può optare per la visualizzazione di tutti gli appuntamenti a partire dal giorno corrente. Per ciascun appuntamento viene indicato data, ora, identificativo e stato. Una volta selezionato un appuntamento da questa lista esso può essere eliminato o spostato. In seguito all'eliminazione o allo spostamento, il paziente viene notificato tramite opportune email. Si nota che questa agenda tiene traccia anche degli appuntamenti cancellati, al fine di poter essere riproposti in altra data.
 
-### Richieste
+### Conversazione e appuntamenti
 
-Sempre nella dashboard è presente un'altra lista che contiene tutte le richieste di appuntamenti. Accanto ad essa è presente un pannello che mostra i dettagli per la richiesta selezionata, sempre da questo è possibile completare i dettagli per l'appuntamento selezionando una data e un'ora. Se lo slot temporale risultasse libero, il personale di segreteria potrebbe procedere con la proposta di appuntamento.
+Sempre nella dashboard è presente una lista che visualizza una notifica per ciascun utente che abbia inviato dei nuovi messaggi. Una volta selezionata una notifica viene caricata la conversazione con l'utente, da qui è possibile completare i dettagli per l'appuntamento selezionando una data e un'ora. Se lo slot temporale risultasse libero, il personale di segreteria potrebbe procedere ad inoltrare la proposta di appuntamento.
 
-La segreteria può cancellare una qualsiasi richiesta, in un qualsiasi suo stato, selezionando, il ticket da una delle due liste e cliccando sul bottone di elimina, per poi confermare nella dialog seguente.
+La segreteria può cancellare o spostare un qualsiasi ticket, in un qualsiasi suo stato. Una volta selezionato l'appuntamento si può cliccare sul bottone elimina oppure si può impostare una nuova coppia di data e ora.
 
-Tutte le interazioni che possono provocare un'alterazione dei ticket dal lato della segreteria, sono precedute o seguite da delle finestre di dialog, che possano informare circa eventuali errori, conflitti, o l'avvenuta modifica con successo del ticket.
+Tutte le interazioni che possono provocare un'alterazione dei ticket dal lato della segreteria, sono precedute o seguite da delle finestre di dialog, che possano informare circa eventuali errori, conflitti, o il successo dell'azione.
 
 ### Gestione paziente
 
-Come già discusso, per restare nell'ottica dei casi d'uso del software, e per mantenere l'infrastruttura quanto più snella possibile, la registrazione di un paziente è gestita dalla segreteria. Visto che si tratta di una funzione utilizzata meno frequentemente rispetto alle altre discusse, abbiamo pensato di mantenere il form di registrazione nella dashboard, non sono presenti altre funzionalità tali da giustificare un'altra schermata. Inoltre, sempre sfruttando la stessa sezione si ha la possibilità di aggiornare i dati dei pazienti già registrati.
+Come già discusso, per restare nell'ottica dei casi d'uso del software, e per mantenere l'infrastruttura quanto più snella possibile, la registrazione di un paziente è gestita dalla segreteria.
+
+Nella dashboard è presente un form predisposto all'inserimento dei dati utente, questo ha una duplice funzione, può essere usato per registrare o modificare un utente, oppure può essere utilizzato per definire le chiavi della ricerca tra i pazienti. Di default, la lista posta sotto questo form mostra tutti gli utenti registrati al sistema, effettuando una ricerca, ne vengono mostrati solo gli utenti riscontrati. Selezionando un utente da questa lista vengono mostrati i suoi dettagli e la sua conversazione nel pannello a lato.
 
 ## Backend
 
@@ -258,17 +261,17 @@ Come già discusso, per restare nell'ottica dei casi d'uso del software, e per m
 
 Tra i requisiti abbiamo la separazione tra la logica dell'applicazione e l'interfaccia grafica, per fare ciò abbiamo utilizzato il MVC. Lo abbiamo utilizzato in una sua variante piuttosto atomica, ma rende bene l'idea della separazione tra la logica di presentazione dei dati dalla logica di business. Il design model-view-controller divide l'applicazione in questi componenti, e ne definisce le modalità di interazioni tra loro. 
 
-I *model* costituiscono le strutture dati dell'applicazione, indipendente dall'interfaccia utente, gestiscono direttamente i dati, la logica e le regole dell'applicazione. Essi sono responsabili della gestione dei dati dell'applicazione, ricevuti dal controller.
+I *model* costituiscono le strutture dati dell'applicazione, indipendentemente dall'interfaccia utente, gestiscono direttamente i dati, la logica e le regole dell'applicazione. Essi sono responsabili della gestione dei dati dell'applicazione, ricevuti dal controller.
 
-Le *view* sono la rappresentazione visuale delle informazioni, sono le modalità per rappresentare il modello in termini di campi di testo, etichette, bottoni e così via, e costituiscono l'interfaccia grafica presentata all'utente.
+Le *view* sono la rappresentazione visuale delle informazioni, sono le modalità per rappresentare il modello in termini di campi di testo, etichette, bottoni e così via, costituiscono l'interfaccia grafica presentata all'utente.
 
 I *controller* si occupano di controllare gli input e convertirli in comandi per i corrispondenti model o view. Essi rispondono agli input dell'utente ed eseguono le interazioni sugli oggetti dei model. Ogni controller riceve un input dalla view, opzionalmente lo convalida e poi lo passa al model, così come aggiorna la view in caso di aggiornamento del model.
 
-Abbiamo applicato questo pattern di software design in un modo poco canonico, in quanto abbiamo definito un albero di componenti grafiche, ognuna delle quali ha i propri model, view e controller. Così abbiamo circoscritto le responsabilità, e abbiamo fatto in modo che ogni componente esponga solo le funzionalità che effettivamente dovrebbero essere fornite all'esterno. Nella pratica ognuna di queste componenti è rappresentata dal suo controller, in quanto esso incapsula al suo interno il model e la view.
+Abbiamo applicato questo pattern di software design in un modo da definire un albero di componenti grafiche, ognuna delle quali ha i propri model, view e controller. Così abbiamo circoscritto le responsabilità, e abbiamo fatto in modo che ogni componente esponga solo le funzionalità che effettivamente dovrebbero essere fornite all'esterno. Nella pratica ognuna di queste componenti è rappresentata dal suo controller, in quanto esso incapsula al suo interno le dichiarazioni di model e view.
 
 ### Data Management
 
-Le operazioni effettuate all'interno del software sono persistenti. Infatti al primo avvio di Clintariac vengono creati due file, essi sono dei documenti in formato JSON, dentro i quali sono memorizzati gli utenti registrati al sistema ed i ticket. Da questo punto in avanti, ad ogni avvio, essi saranno caricati in memoria, e ad ogni modifica segue una scrittura sul file.
+Le operazioni effettuate all'interno del software sono persistenti. Infatti al primo avvio di Clintariac vengono creati due file, essi sono dei documenti in formato JSON, dentro i quali verranno memorizzati gli utenti registrati al sistema ed i ticket. Da questo punto in avanti, ad ogni avvio, essi saranno caricati in memoria, e ad ogni loro modifica seguirà una riscrittura sul file.
 
 Tutti questi aspetti sono delegati al `DataManager`, esso è concretizzato in un oggetto che espone i metodi necessari per lavorare con la lista dei pazienti registrati e per lavorare con i ticket. Permette quindi di caricare i dati, mantenerli in memoria, modificarli e di scriverli sul disco. 
 
@@ -276,32 +279,30 @@ Tutti questi aspetti sono delegati al `DataManager`, esso è concretizzato in un
 
 Come già discusso, Clintariac ha bisogno di collegarsi ad un server di posta elettronica, attualmente è predisposto per operare con le sole caselle di posta Gmail e non abbiamo implementato un modo per configurare l'account. Questo perché una trattazione sicura delle credenziali avrebbe richiesto troppi sforzi, ed è quindi lasciata ai possibili sviluppi futuri.
 
-La gestione delle email si deve all'`EmailManager`, esso è un oggetto che una volta configurato con le credenziali dell'account di posta, permette di inviare email e di scaricare tutti i messaggi non letti presso la casella. Noi abbiamo predisposto solo una sua variante `GmailManager`, atto a trattare con gli account Google.
+La gestione delle email si deve all'`EmailManager`, esso è un oggetto che una volta configurato con le credenziali dell'account di posta, permette di inviare email e di scaricare tutti i messaggi non letti presso la casella. Noi abbiamo predisposto solo una sua variante `GmailManager`, atta a trattare con gli account Google.
 
-Un aspetto da attenzionare riguarda le impostazioni di sicurezza dell'account di posta Google, infatti bisogna abilitare l'accesso alle app meno sicure, ragione per cui consigliamo l'impiego dell'account al solo servizio.
+Un aspetto da attenzionare riguarda le impostazioni di sicurezza dell'account di posta Google, infatti bisogna abilitare l'accesso alle app meno sicure, ragione per cui consigliamo l'impiego dell'account al solo servizio. Inoltre è necessario eseguire preventivamente al primo avvio di Clitnariac un accesso alla casella via browser.
 
 Naturalmente la casella dell'ambulatorio può ricevere email da qualsiasi indirizzo valido, non necessariamente di tipo Gmail. 
 
 
 ### Context Management
 
-Abbiamo realizzato un oggetto `ContextManager`, che concretamente contiene l'intera logica di business, dallo schema in figura si possono notare le modalità di interazione previste. Effettivamente l'applicazione può usufruire dei servizi di Data Management e di Email Management solamente attraverso il sottoinsieme di funzionalità esposto dal Context, che si occupa di avviare delle routine contestualmente a quanto accade. Grazie al `ContextManager`, i manager e l'interfaccia grafica sono messi in comunicazione.
+Abbiamo realizzato un oggetto `ContextManager`, che concretamente contiene l'intera logica di business, dallo schema in figura si possono notare le modalità di interazione previste. Effettivamente le restanti parti dell'applicazione possono usufruire dei servizi di Data Management e di Email Management solamente attraverso il sottoinsieme di funzionalità esposto dal Context, che si occupa di avviare delle routine contestualmente a quanto accade. Grazie al `ContextManager`, i manager e l'interfaccia grafica sono messi in comunicazione.
 
 ![Modalità di interazione](img/component_software.pdf)
 
-Ricordiamo che il servizio è pensato per stare sempre in esecuzione, magari con la dashboard in primo piano, sui computer della segreteria degli ambulatori medici. Quindi abbiamo pensato a far consultare in maniera automatica e periodica la casella di posta, per poter aggiornare la lista dei ticket, e gli stati dei singoli ticket in caso di interazioni lato utente. Questo avviene varie volte al minuto, e provoca l'aggiornamento della dashboard.
+Ricordiamo che il servizio è pensato per stare sempre in esecuzione, magari con la dashboard in primo piano, sui computer della segreteria degli ambulatori medici. Quindi abbiamo pensato a far consultare in maniera automatica e periodica la casella di posta, per poter aggiornare la lista dei ticket, e gli stati dei singoli ticket in caso di interazioni lato utente. Questo avviene varie volte al minuto, e provoca l'aggiornamento visuale dei componenti della dashboard.
 
-Qualora la segreteria stesse interagendo con un ticket, è bene sospendere questo processo affinché non si corra il rischio di modificare dei dati inconsistenti, cosa possibile se nel frattempo il paziente avesse cancellato, ad esempio, proprio il ticket che si stesse processando. Questo non è un problema, in quanto la coda delle richieste viene ad essere implicitamente costituita dalla lista dei messaggi non letti sulla casella di posta elettronica.
+È presente un bottone di ricarica per forzare l'aggiornamento dei dati ricaricando i contenuti della dashboard, quest'azione è eseguita scaricando tutti i messaggi accumulati sulla casella. Questo bottone è utile anche per annullare l'eventuale compilazione in corso, deselezionando qualsiasi ticket selezionato, e azzerando i campi di testo.
 
-Il bottone di ricarica è utile anche per annullare l'eventuale compilazione in corso, e rilanciare il processo, scaricando di fatto tutti i messaggi accumulati sulla casella. In generale permette di forzare il ricaricamento dei contenuti della dashboard.
+Come discusso, una proposta di appuntamento tiene lo slot temporale riservato, per evitare conflitti. Affinché le proposte scadano dopo un lasso di tempo, occorre che periodicamente le richieste scadute vengano cancellate, questa procedura viene eseguita contestualmente al pull delle nuove email, quindi nel processo di aggiornamento vengono ricaricati tutti i contenuti dell'intera dashboard.
 
-Come discusso, una proposta di appuntamento tiene lo slot temporale riservato, per evitare conflitti. Ma affinché le proposte scadano dopo un lasso di tempo, occorre che periodicamente le richieste scadute vengano cancellate, questo è integrato all'interno del processo di pull delle nuove email, quindi nel processo di aggiornamento viene ricaricata l'intera dashboard con tutti i nuovi contenuti.
+Questo lasso temporale dovrebbe fare parte degli aspetti configurabili dell'applicazione, ma ancora una volta, per ragioni di tempo, abbiamo optato per una soluzione hard coded. Nello specifico il tempo a disposizione per confermare l'appuntamento è inferiore nel caso in cui l'appuntamento sia stato fissato in giornata, e maggiore qualora fosse per un giorno successivo. Questo aspetto è utile per rendere più scorrevole la procedura di prenotazione in giornata, e evitare di tenere riservati degli slot di tempo abbastanza imminenti, col rischio che restino riservati inutilmente.
 
-Questo lasso temporale dovrebbe fare parte degli aspetti configurabili dell'applicazione, ma ancora una volta, per ragioni di tempo, abbiamo optato per una soluzione hard coded. Nello specifico il tempo a disposizione per confermare l'appuntamento è inferiore nel caso in cui l'appuntamento sia stato fissato in giornata, e maggiore qualora fosse per un giorno successivo. Questo per rendere più scorrevole la procedura di prenotazione in giornata, e evitare di tenere riservati degli slot di tempo abbastanza imminenti, col rischio che restino riservati inutilmente.
+Anche la durata media di un appuntamento dovrebbe essere parte della configurazione di Clintariac, ma non è attualmente configurabile. Si tratta di una durata media in quanto il servizio è predisposto ad assegnare degli orari prefissati per gli appuntamenti, e non arbitrari, questo per semplificare l'aspetto algoritmico della determinazione degli intervalli di tempo utili. A nostro avviso non si tratta di un grande sacrificio, in quanto anche con le vie di prenotazione convenzionali, i medici si riservano un margine di tempo per ricevere gli assistiti. 
 
-Anche la durata media di un appuntamento dovrebbe essere parte della configurazione di Clintariac, ma ancora una volta, non è attualmente configurabile. Si tratta di una durata media in quanto il servizio è predisposto ad assegnare degli orari prefissati per gli appuntamenti, e non arbitrari, questo per semplificare l'aspetto algoritmico della determinazione degli intervalli di tempo utili. A nostro avviso non si tratta di un grande sacrificio, in quanto anche con le vie di prenotazione convenzionali, i medici si riservano un margine di tempo per ricevere gli assistiti. 
-
-Gli orari proposti vanno dall'ora di apertura all'ora di chiusura, tutti distanziati tra di loro della durata media di una visita. Questo aspetto, insieme alle giornate di attività, farebbe parte della configurazione del software, e per ora sono hard coded.
+Gli orari proposti vanno dall'ora di apertura all'ora di chiusura, tutti distanziati tra di loro della durata media di una visita. Questo aspetto, insieme alle giornate di attività, farebbe parte della configurazione del software, e per ora è hard coded.
 
 Clintariac propone in maniera automatica il primo slot temporale a disposizione per una proposta di prenotazione, a patto che esso sia abbastanza distanziato da permettere a gli utenti di confermare e avere il tempo di recarsi in ambulatorio. Naturalmente tiene conto dell'orario di attività, ed in caso procede avanti nei giorni fino a trovare il primo slot libero.
 
@@ -323,7 +324,7 @@ Le email sono l'interfaccia per l'utilizzo del servizio da parte dei pazienti. L
 
 Il paziente per comunicare con il sistema deve rispettare delle regole su come richiedere confermare o cancellare un appuntamento. Il paziente viene a conoscenza di queste regole attraverso una email, al momento della registrazione al sistema, che ne attesta l'avvenuta registrazione seguita da una spiegazione di come effettuare le richieste. 
 
-![Messaggio di benvenuto, in seguito alla registrazione al servizio](img/benven.png){width=80%}
+![Messaggio di benvenuto, in seguito alla registrazione al servizio](img/benven.png){width=80%} 
 
 Per cercare di rendere la fruizione un po' più user-friendly abbiamo approfittato della possibilità di inviare email in HTML. Facendo ciò abbiamo potuto formattare i corpi dei messaggi come fossero vere e proprie pagine web, disponendo il tutto grazie all'impiego dei tag HTML e sfruttando i collegamenti ipertestuali per simulare i bottoni di un'interfaccia grafica, così da poter interagire più agevolmente col sistema.
 
@@ -357,7 +358,7 @@ Segue una trattazione degli aspetti implementativi del software, con alcuni snip
 Il pattern architetturale del MCV discusso in precedenza è stato implementato facendo in modo che le view e i controller implementassero le interfacce `View` e `Controller` rispettivamente, il loro utilizzo non è strettamente necessario ma ci porta alcuni vantaggi, come la possibilità di ricaricare più view in una sola istruzione, nel modo seguente:
 
 ```java
-Stream.of(details, ticketsList, resList).forEach(Controller::updateView);
+Stream.of(details, ticketsList, resList, usersList).forEach(Controller::updateView);
 ```
 
 ### Models
@@ -451,16 +452,39 @@ private void validate() {
     LocalDateTime dateTime = view.getDateTimePicker().getDateTimeStrict();
 
     if (dateTime == null) {
-        // notifica che non è stata impostata alcuna data
         JOptionPane.showMessageDialog(...);
     }
     else if (onValidate.test(dateTime)) {
-        // notifica la validità della dateTime impostata nella view
         JOptionPane.showMessageDialog();
-        // e abilita il bottone di salvataggio
         view.getSaveButton().setEnabled(true);
     }
     ...
+}
+...
+
+
+private void validate() {
+    
+    LocalDateTime dateTime = view.getDateTimePicker().getDateTimeStrict();
+
+    if (dateTime == null) {
+        // notifica che non è stata impostata alcuna data
+        JOptionPane.showMessageDialog(...);
+    }
+
+    else if (dateTime.isBefore(LocalDateTime.now()
+            .plusMinutes(Preferences.examDuration.minutes))) {
+                JOptionPane.showMessageDialog(...);
+    }
+
+    else if (onValidate.test(dateTime)) {
+        // notifica la validità della dateTime impostata nella view
+        JOptionPane.showMessageDialog(...);
+        // e abilita il bottone di salvataggio
+        view.getSaveButton().setEnabled(true);
+    } else {
+        JOptionPane.showMessageDialog(...);
+    }
 }
 ...
 ```
@@ -482,6 +506,7 @@ public class DetailsController implements Controller {
     private Predicate<LocalDateTime> onValidate;
     private Consumer<TicketData> onSave;
     private Procedure onDelete;
+    ...
 
     public DetailsController() {
 
@@ -548,17 +573,26 @@ public class DashboardController implements Controller {
 
 		details = view.getDetailsController();
 		details.addOnSave(this::detailsSave);
+		details.addOnSend(this::sendMessage);
 		details.addOnValidate(this::detailsValidate);
-		details.addOnDelete(this::detailsDelete);
+		...
 		details.setModelSupplier(() -> {
-			if (model.isTicketSelected()) {
-				TicketData ticket = context.getTicket(model.getSelectedTicket())
-                                           .get();
-				UserData user = context.getUser(ticket.user).get();
-				return new DetailsModel.Builder()
-						.withUserId(ticket.user)
+			if (model.isUserSelected()) {
+				UserData user = context.getUser(model.getSelectedUser()).get();
+				DetailsModel.Builder builder = new DetailsModel.Builder()
+						.withUserId(user.id)
+						.withFirstName(user.firstName)
 						...
-						.withMessage(ticket.message).build();
+						.withChat(user.getChat());
+				if (model.isTicketSelected()) {
+					TicketData ticket = context.getTicket(model.getSelectedTicket()).get();
+					builder.withTicketId(model.getSelectedTicket())
+							.withTicketState(ticket.state)
+							.withDateTime(ticket.state == TicketState.AWAITING
+									? context.firstAvailableReservation()
+									: ticket.booking);
+				}
+				return builder.build();
 			} else {
 				return DetailsModel.empty();
 			}
@@ -608,7 +642,6 @@ public Optional<TicketData> getTicket(String id) {
     ...
     return ticketsList.stream().filter(ticket -> ticket.id.equals(id))
                                .findFirst();
-
     // piuttosto che qualcosa del tipo `return ticketsMap.get(id);`
 }
 ```
@@ -621,7 +654,7 @@ In varie regioni del codice, sono utilizzati le classi `EmailData`, `TicketData`
 
 ## EmailManager 
 
-Attualmente `EmailManager` è solamente un'interfaccia che predispone i metodi per inviare e ricevere messaggi, il nocciolo dell'implementazione sta dentro `GmailManager`. Essa è una classe che implementa `EmailManager`, ed è predisposta per lavorare con account Gmail. Ci siamo limitati a questo solo caso per una questione di tempo, ma nulla vieterebbe di ampliare il tutto anche ad altri servizi. Questo in virtù del principio di sostituzione di Barbara Liskov, infatti i riferimenti utilizzati sono di tipo `EmailManager`, e in futuro potremmo sostituire l'instanza di `GmailManager` con un altra implementazione senza influenzare il comportamento del codice.
+Attualmente `EmailManager` è solamente un'interfaccia che predispone i metodi per inviare e ricevere messaggi, il nocciolo dell'implementazione sta dentro `GmailManager`. Essa è una classe che implementa `EmailManager`, ed è predisposta per lavorare con account Gmail. Ci siamo limitati a questo solo caso per una questione di tempo, ma nulla vieterebbe di ampliare il tutto anche ad altri servizi. Quest'aspetto è valido in virtù del principio di sostituzione di Barbara Liskov, infatti i riferimenti utilizzati sono di tipo `EmailManager`, e in futuro potremmo sostituire l'instanza di `GmailManager` con un altra implementazione senza influenzare il comportamento del codice.
 
 
 ## ContextManager
@@ -632,13 +665,13 @@ Questo oggetto funge da *facade*, per i sottosistemi di gestione dati e di gesti
 
 Il `ContextManager` fornisce anche dei metodi che, a partire dalle funzionalità del `DataManager`, permettono delle interrogazioni più articolate, ad esempio per determinare quando fissare un nuovo appuntamento o per verificare la disponibilità per un intervallo temporale.
 
-Il `ContextManager` implementa anche un servizio in background, che con una cadenza temporale prefissata, scarica tutte le email non lette, le processa, e aggiorna il `DataManager`. A questo punto mancherebbe solo di notificare l'interfaccia grafica per aggiornare le viste con i nuovi dati, ciò è possibile in quanto il `ContextManager` ha un metodo per aggiungere una procedura di `onUpdate`.
+Il `ContextManager` implementa anche un servizio in background, che con una cadenza temporale prefissata, scarica tutte le email non lette, le processa, e aggiorna il `DataManager`. A questo punto mancherebbe solo di notificare l'interfaccia grafica per aggiornare le viste con i nuovi dati, ciò è possibile in quanto il `ContextManager` ha un metodo per aggiungere una procedura di `onUpdate`. È importante individuare quali procedura di aggiornamento invocare in caso di `onUpdate`.
 
-Dato che il `ContextManager` interviene sulla UI e sul `DataManager`, è stato importante pensare ad una strategia per evitare che intervenga nei suoi aggiornamenti, in contemporanea all'elaborazione di una richiesta da parte della segreteria. Questo problema si potrebbe risolvere mettendo in coda gli aggiornamenti per effettuarli solo quando sarà opportuno, ma data la possibilità di poter attendere qualche secondo prima di ricevere gli aggiornamenti, e data la presunta quantità di messaggi attesi tra un aggiornamento e l'altro abbiamo optato per una soluzione più semplice, il servizio in background viene sospeso per riprendere solo a termine dell'interazione, o comunque in caso di click sul bottone di ricaricamento.
+I vari controller hanno due metodi per aggiornare le loro view: `reloadView` e `updateView`. Il reload è il più drastico, se invocato, ottiene il model aggiornato e ricarica integralmente view, azzerando le eventuali interazioni da parte dell'utente (es. in caso di click sul bottone di ricarica). In caso di update, invece, l'aggiornamento della view mantiene gli aspetti alterati dall'utilizzatore. Questa distinzione è importante per fare in modo che durante le fasi di interazione con la UI, aspetti come il testo immesso ma non ancora inviato, lo scroll nella chat, la selezione di un elemento in una lista, non vengano azzerati dall'aggiornamento automatico provocato dal `ContextManager`.
 
 La parte più interessante del `ContextManager` è data dal sistema di handling delle richieste. Infatti non abbiamo ancora discusso come le email vengano elaborate ai fini del servizio. A tal proposito, il metodo `initEmailHandler()` realizza un `emailHandler` esaustivo, mediante una **chain of responsibility**.
 
-La processazione di una richiesta varia in un insieme di operazioni possibili, seguendo il principio di responsabilità singola. Abbiamo fatto in modo che ogni operazione sia gestita da uno specifico handler, la concatenazione degli handler ci porta ad avere un singolo `emailHandler`, che ricevendo una email, la passa anello dopo anello fino a trovare quello in grado di processarla.
+L'elaborazione di una richiesta varia in un insieme di operazioni possibili, seguendo il principio di responsabilità singola. Abbiamo fatto in modo che ogni operazione sia gestita da uno specifico handler, la concatenazione degli handler ci porta ad avere un singolo `emailHandler`, che ricevendo una email, la passa, anello dopo anello, fino a trovare quello in grado di processarla.
 
 Ogni singolo handler è implementato dalla composizione di un `Predicate` e di un `Consumer`. Un `Predicate` determina quale genere di richieste è possibile processare, e quali invece vanno passate oltre nella catena, mentre il `Consumer` specifica cosa fare con l'email fornita.
 
@@ -647,8 +680,8 @@ Nell'ottica della programmazione funzionale, abbiamo fatto in modo che ogni ogge
 ```java
 emailHandler = email -> Stream.of(
         EmailHandler.of(isUserNotPresent, consumeUserNotPresent),
+        EmailHandler.of(isNewMessage, consumeNewMessage),
         EmailHandler.of(isNotValidSubject, consumeNotValidSubject),
-        EmailHandler.of(isNewTicket, consumeNewTicket),
         EmailHandler.of(isNotValidTicket, consumeNotValidTicket),
         EmailHandler.of(isConfirmTicket, consumeConfirmTicket),
         EmailHandler.of(isDeleteTicket, consumeDeleteTicket))
@@ -694,14 +727,12 @@ Clintariac si presenta come un software abbastanza semplice ma che potrebbe evol
 
 # Possibili sviluppi futuri
 
-Ad oggi Clintariac presenta delle mancanze non trascurabili, che sono state giustificate dalla quantità di tempo a disposizione. Inoltre potrebbe prevedere una serie di funzionalità aggiuntive, utili per coprire integralmente le esigenze di un ambulatorio medico. Tra di essi teniamo presenti, per eventuali sviluppi futuri:
+Ad oggi Clintariac presenta delle mancanze non trascurabili, che sono state giustificate dalla quantità di tempo a disposizione. Inoltre potrebbe prevedere una serie di funzionalità aggiuntive, utili per coprire integralmente le esigenze di un ambulatorio medico. Tra di esse teniamo presenti, per eventuali sviluppi futuri:
 
 + Sebbene sia possibile importare ed esportare i dati, copiando i file prodotti dal software al primo avvio, nella cartella dove è stato collocato il file jar, sarebbe il caso di pensare ad un meccanismo interno al programma per fare ciò in modo agevole.
 + Attualmente il servizio è configurato con le credenziali inserite dentro il file `Credentials.java`, per cui non è possibile configurarlo a meno di non avere a disposizione il codice sorgente. Sarebbe necessario fornire la possibilità di cambiarle dal software, pensando ad un modo sicuro per tenerle memorizzate.
 + I giorni di attività, così come le fasce orarie di apertura, e la durata media di una visita, sono hard coded all'interno del file `Preferences.java`. Anche queste dovrebbero essere configurabili dalla segreteria, tramite l'interfaccia grafica del software.
 + Il software potrebbe essere esteso per consentire ad esempio di richiedere tramite posta elettronica le prescrizioni mediche per i farmaci.
-+ Al netto dei problemi discussi, Clintariac non è del tutto autosufficiente perché non permette di aggiungere in agenda appuntamenti stabiliti secondo altre modalità.
-
 
 
 

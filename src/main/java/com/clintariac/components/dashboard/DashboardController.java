@@ -222,7 +222,7 @@ public class DashboardController implements Controller {
 	 * È pensato per essere chiamato in seguito al click sul bottone di delete
 	 * </p>
 	 * 
-	 * @param ticketId id del ticketd che si intende eliminare
+	 * @param ticketId id del ticket che si intende eliminare
 	 */
 	private void detailsDelete() {
 		if (model.isTicketSelected()) {
@@ -247,7 +247,7 @@ public class DashboardController implements Controller {
 
 	/**
 	 * Metodo che imposta la data selezionata del model. Conseguentemente aggiorna resList che sarà
-	 * caricata con gli appuntamenti per la data selezioanta
+	 * caricata con gli appuntamenti per la data selezionata
 	 * 
 	 * @param date data per la quale si vogliono visualizzare gli appuntamenti.
 	 */
