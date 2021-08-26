@@ -273,6 +273,11 @@ public class DataManager {
         storeUsersList();
     }
 
+
+    /**
+     * @param userId
+     * @param chat
+     */
     public void updateChat(String userId, List<MessageData> chat) {
 
         Optional<UserData> user = getUser(userId);
@@ -316,6 +321,11 @@ public class DataManager {
         return usersList.stream().filter(user -> user.id.equals(id)).findFirst();
     }
 
+
+    /**
+     * @param userToSearch
+     * @return List<UserData>
+     */
     public List<UserData> searchUsers(UserData userToSearch) {
 
         assertUsersList();
@@ -368,6 +378,10 @@ public class DataManager {
         }
     }
 
+
+    /**
+     * @return String
+     */
     public String newTicketId() {
         return Integer.toString(ticketsList.stream()
                 .map(ticket -> Integer.parseInt(ticket.id))

@@ -178,6 +178,10 @@ public class DetailsModel {
         return message;
     }
 
+
+    /**
+     * @param message
+     */
     public void setMessage(String message) {
         this.message = message;
     }
@@ -191,18 +195,33 @@ public class DetailsModel {
 
 
 
+    /**
+     * @return List<MessageData>
+     */
     public List<MessageData> getChat() {
         return chat;
     }
 
+
+    /**
+     * @param chat
+     */
     public void setChat(List<MessageData> chat) {
         this.chat = chat;
     }
 
+
+    /**
+     * @return TicketState
+     */
     public TicketState getTicketState() {
         return ticketState;
     }
 
+
+    /**
+     * @param ticketState
+     */
     public void setTicketState(TicketState ticketState) {
         this.ticketState = ticketState;
     }

@@ -329,6 +329,11 @@ public class ContextManager {
         }
     }
 
+
+    /**
+     * @param userId
+     * @param dateTime
+     */
     public void createNewTicket(String userId, LocalDateTime dateTime) {
 
         String dateAndTime[] = AppUtils.localDateTimeToString(dateTime).split(" ");
@@ -425,6 +430,12 @@ public class ContextManager {
         }
     }
 
+
+    /**
+     * @param userId
+     * @param message
+     * @return boolean
+     */
     public boolean sendMessage(String userId, String message) {
         boolean isSent = sendEmail(userId, "Comunicazione",
                 String.format("<h3>%s</h3><br>%s", message, StandardEmails.COMUNICATION));
@@ -434,6 +445,13 @@ public class ContextManager {
         return isSent;
     }
 
+
+    /**
+     * @param userId
+     * @param message
+     * @param isUserSent
+     * @return boolean
+     */
     private boolean addToChat(String userId, String message, boolean isUserSent) {
         Optional<UserData> user = dataManager.getUser(userId);
         if (user.isPresent()) {
@@ -545,6 +563,11 @@ public class ContextManager {
         return isSent;
     }
 
+
+    /**
+     * @param updatedUser
+     * @return boolean
+     */
     public boolean editUser(UserData updatedUser) {
         Optional<UserData> user = dataManager.getUser(updatedUser.id);
 
@@ -583,6 +606,11 @@ public class ContextManager {
         }
     }
 
+
+    /**
+     * @param email
+     * @return Optional<UserData>
+     */
     public Optional<UserData> getUserByEmail(String email) {
         return dataManager.getUserByEmail(email);
     }
@@ -599,6 +627,11 @@ public class ContextManager {
         return dataManager.getUser(id);
     }
 
+
+    /**
+     * @param user
+     * @return List<UserData>
+     */
     public List<UserData> searchUsers(UserData user) {
         return dataManager.searchUsers(user);
     }
@@ -616,6 +649,11 @@ public class ContextManager {
         return this;
     }
 
+
+    /**
+     * @param onUpdate
+     * @return ContextManager
+     */
     public ContextManager addOnUpdate(Procedure onUpdate) {
         this.onUpdate = onUpdate;
         return this;
@@ -632,16 +670,30 @@ public class ContextManager {
                 .collect(Collectors.toList());
     }
 
+
+    /**
+     * @param userId
+     * @return Optional<TicketData>
+     */
     public Optional<TicketData> getPendingTicketForUser(String userId) {
         return dataManager.getTicketsList().stream().filter(
                 ticket -> ticket.user.equals(userId) && ticket.state != TicketState.CONFIRMED)
                 .findFirst();
     }
 
+
+    /**
+     * @return List<UserData>
+     */
     public List<UserData> getUsers() {
         return dataManager.getUsersList().stream().collect(Collectors.toList());
     }
 
+
+    /**
+     * @param date
+     * @return List<TicketData>
+     */
     public List<TicketData> getReservationsStartFromDate(LocalDate date) {
         return dataManager.getTicketsList().stream().filter(ticket -> {
             return ((ticket.state != TicketState.AWAITING)

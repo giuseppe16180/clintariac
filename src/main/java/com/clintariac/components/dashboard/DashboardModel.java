@@ -16,18 +16,34 @@ public class DashboardModel {
     private boolean shouldUpdate;
     private UserData searchFields;
 
+
+    /**
+     * @return UserData
+     */
     public UserData getSearchFields() {
         return searchFields;
     }
 
+
+    /**
+     * @param searchFields
+     */
     public void setSearchFields(UserData searchFields) {
         this.searchFields = searchFields;
     }
 
+
+    /**
+     * @return boolean
+     */
     public boolean shouldUpdate() {
         return shouldUpdate;
     }
 
+
+    /**
+     * @param shouldUpdate
+     */
     public void setShouldUpdate(boolean shouldUpdate) {
         this.shouldUpdate = shouldUpdate;
     }
@@ -43,21 +59,37 @@ public class DashboardModel {
         this.searchFields = new UserData();
     }
 
+
+    /**
+     * @return TicketData
+     */
     public TicketData getTicket() {
         return ticket;
     }
 
 
+
+    /**
+     * @param ticket
+     */
     public void setTicket(TicketData ticket) {
         this.ticket = ticket;
     }
 
 
+
+    /**
+     * @return boolean
+     */
     public boolean isDayView() {
         return isDayView;
     }
 
 
+
+    /**
+     * @param isDayView
+     */
     public void setDayView(boolean isDayView) {
         this.isDayView = isDayView;
     }

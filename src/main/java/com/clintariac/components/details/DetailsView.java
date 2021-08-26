@@ -466,6 +466,10 @@ public class DetailsView implements View {
         return userIdField;
     }
 
+
+    /**
+     * @return JTextField
+     */
     public JTextField getTicketField() {
         return ticketIdField;
     }
@@ -547,10 +551,18 @@ public class DetailsView implements View {
         this.timeSettings = timeSettings;
     }
 
+
+    /**
+     * @return JTextField
+     */
     public JTextField getTicketIdField() {
         return ticketIdField;
     }
 
+
+    /**
+     * @return ChatController
+     */
     public ChatController getChatController() {
         return chatController;
     }

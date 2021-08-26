@@ -13,6 +13,10 @@ public class UserData {
     public final String phone;
     private final List<MessageData> chat;
 
+
+    /**
+     * @return List<MessageData>
+     */
     public List<MessageData> getChat() {
         return chat.stream().collect(Collectors.toList());
     }

@@ -37,6 +37,10 @@ public class DetailsController implements Controller {
     private Consumer<String> onSend;
     private Consumer<LocalDateTime> onCreateNewTicket;
 
+
+    /**
+     * @param onCreateNewTicket
+     */
     public void addOnCreateNewTicket(Consumer<LocalDateTime> onCreateNewTicket) {
         this.onCreateNewTicket = onCreateNewTicket;
     }

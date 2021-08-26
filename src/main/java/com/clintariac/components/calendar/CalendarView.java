@@ -60,10 +60,18 @@ public class CalendarView implements View {
         mainPanel.add(allReserv, gbc);
     }
 
+
+    /**
+     * @return JCheckBox
+     */
     public JCheckBox getAllReserv() {
         return allReserv;
     }
 
+
+    /**
+     * @param allReserv
+     */
     public void setAllReserv(JCheckBox allReserv) {
         this.allReserv = allReserv;
     }

@@ -141,6 +141,10 @@ public class DashboardController implements Controller {
 		});
 	}
 
+
+	/**
+	 * @param dateTime
+	 */
 	private void createNewTicket(LocalDateTime dateTime) {
 		context.createNewTicket(model.getSelectedUser(), dateTime);
 		updateView();
@@ -294,6 +298,10 @@ public class DashboardController implements Controller {
 		}
 	}
 
+
+	/**
+	 * @param newUser
+	 */
 	private void patientEdit(UserData newUser) {
 
 		Optional<UserData> existing = context.getUser(newUser.id);
@@ -316,6 +324,10 @@ public class DashboardController implements Controller {
 		}
 	}
 
+
+	/**
+	 * @param searchFields
+	 */
 	private void patientSearch(UserData searchFields) {
 		model.setSearchFields(searchFields);
 		usersList.reloadView();
@@ -340,6 +352,10 @@ public class DashboardController implements Controller {
 		reloadView();
 	}
 
+
+	/**
+	 * @param userId
+	 */
 	private void userSelect(String userId) {
 		model.setSelectedUser(userId);
 		model.unselectTicket();
@@ -375,6 +391,10 @@ public class DashboardController implements Controller {
 		reloadView();
 	}
 
+
+	/**
+	 * @param message
+	 */
 	private void sendMessage(String message) {
 		context.sendMessage(model.getSelectedUser(), message); // todo mettere l'id dell'utente
 	}

@@ -27,11 +27,19 @@ public class ReservationModel {
         this.isSelected = isSelected;
     }
 
+
+    /**
+     * @return boolean
+     */
     public boolean isSelected() {
         return isSelected;
     }
 
 
+
+    /**
+     * @param isSelected
+     */
     public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }

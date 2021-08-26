@@ -12,26 +12,50 @@ public class MessageModel {
         this.isUserSent = isUserSent;
     }
 
+
+    /**
+     * @return String
+     */
     public String getText() {
         return text;
     }
 
+
+    /**
+     * @param text
+     */
     public void setText(String text) {
         this.text = text;
     }
 
+
+    /**
+     * @return String
+     */
     public String getDateTime() {
         return dateTime;
     }
 
+
+    /**
+     * @param dateTime
+     */
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 
+
+    /**
+     * @return boolean
+     */
     public boolean isUserSent() {
         return isUserSent;
     }
 
+
+    /**
+     * @param isUserSent
+     */
     public void setUserSent(boolean isUserSent) {
         this.isUserSent = isUserSent;
     }

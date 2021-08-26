@@ -328,14 +328,26 @@ public class PatientsView implements View {
         return saveButton;
     }
 
+
+    /**
+     * @return JButton
+     */
     public JButton getSearchButton() {
         return searchButton;
     }
 
+
+    /**
+     * @return JButton
+     */
     public JButton getClearButton() {
         return clearButton;
     }
 
+
+    /**
+     * @return JButton
+     */
     public JButton getEditButton() {
         return editButton;
     }

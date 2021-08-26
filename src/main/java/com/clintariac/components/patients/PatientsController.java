@@ -100,6 +100,9 @@ public class PatientsController implements Controller {
 
 
 
+    /**
+     * @param onEdit
+     */
     public void addOnEdit(Consumer<UserData> onEdit) {
         this.onEdit = onEdit;
     }
@@ -168,6 +171,10 @@ public class PatientsController implements Controller {
         onSearch.accept(searchUser);
     }
 
+
+    /**
+     * @param onClear
+     */
     public void addOnClear(Consumer<UserData> onClear) {
         this.onClear = onClear;
     }
