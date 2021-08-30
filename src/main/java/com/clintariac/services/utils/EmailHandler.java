@@ -27,13 +27,14 @@ public interface EmailHandler {
      * {@code Consumer}. L'handler applica il {@code Consumer} se si verifica {@code Predicate}.
      * 
      * <p>
-     * Un handler è pensato per essere concatenato ad altri handler, al fine di relizzare un unico
-     * handler, che implementi una chain of responsability. Dato che un precedente handler potrebbe
-     * aver gestito la email, essa è trattata come optional.
+     * Un handler è pensato per essere concatenato ad altri handler, al fine di realizzare un unico
+     * handler, che implementi una chain of responsibility. Dato che un precedente handler potrebbe
+     * aver gestito la email, essa è trattata come optional (se gestita si propaga un
+     * {@code Optional.empty()}).
      * </p>
      * 
      * @param predicate condizione che si deve verificare affinché l'email venga consumata.
-     * @param consumer  operazioni da effettuare per consumare l'email.
+     * @param consumer operazioni da effettuare per consumare l'email.
      * @return Function<Optional<EmailData>, Optional<EmailData>>
      */
     static Function<Optional<EmailData>, Optional<EmailData>> of(Predicate<EmailData> predicate,

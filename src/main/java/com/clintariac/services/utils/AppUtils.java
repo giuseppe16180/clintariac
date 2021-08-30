@@ -1,7 +1,5 @@
 package com.clintariac.services.utils;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -10,8 +8,18 @@ import javax.swing.BorderFactory;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+/**
+ * Raccolta di metodi statici di utilità per l'applicazione
+ */
+
 public interface AppUtils {
 
+    /**
+     * Converte un {@code LocalDateTime} in una stringa, secondo una particolare formattazione
+     * 
+     * @param LocalDateTime
+     * @return String
+     */
     public static String localDateTimeToString(LocalDateTime dateTime) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -19,7 +27,14 @@ public interface AppUtils {
         return s;
     }
 
-    public static String plaiTextToHTML(String text, int wordsInRow) {
+    /**
+     * Converte del testo in HTML al fine di introdurre dei break per spezzare il testo in più righe
+     * 
+     * @param String il testo di partenza
+     * @param int il numero di parole per riga
+     * @return String
+     */
+    public static String plainTextToHTML(String text, int wordsInRow) {
         StringBuilder builder = new StringBuilder();
         builder.append("<html>");
         String[] words = text.split("\\s+");
@@ -31,17 +46,26 @@ public interface AppUtils {
         return builder.toString();
     }
 
-    public static Boolean isSameDay(long dateTime1, long dateTime2) {
-        LocalDate date1 = new Timestamp(dateTime1).toLocalDateTime().toLocalDate();
-        LocalDate date2 = new Timestamp(dateTime2).toLocalDateTime().toLocalDate();
-        return date1.equals(date2);
-    }
+    /**
+     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input
+     * 
+     * @param String
+     * @return TitledBorder
+     */
 
     public static TitledBorder createMainBorder(String title) {
         return BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), title,
                 TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.TOP, AppUtils.title, null);
     }
+
+
+    /**
+     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input
+     * 
+     * @param String
+     * @return TitledBorder
+     */
 
     public static TitledBorder createSimpleBorder(String title) {
         return BorderFactory.createTitledBorder(
@@ -50,12 +74,27 @@ public interface AppUtils {
                 TitledBorder.ABOVE_BOTTOM, AppUtils.textSmall, null);
     }
 
+
+    /**
+     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input
+     * 
+     * @param String
+     * @return TitledBorder
+     */
+
     public static TitledBorder createSimpleBorderTop(String title) {
         return BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), title,
                 TitledBorder.DEFAULT_JUSTIFICATION,
                 TitledBorder.TOP, AppUtils.text, null);
     }
+
+    /**
+     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input
+     * 
+     * @param String
+     * @return TitledBorder
+     */
 
     public static TitledBorder smallBorderLeft(String title) {
         return BorderFactory.createTitledBorder(
@@ -64,12 +103,23 @@ public interface AppUtils {
                 TitledBorder.BELOW_BOTTOM, AppUtils.textSmaller, null);
     }
 
+    /**
+     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input
+     * 
+     * @param String
+     * @return TitledBorder
+     */
+
     public static TitledBorder smallBorderRight(String title) {
         return BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), title,
                 TitledBorder.RIGHT,
                 TitledBorder.BELOW_BOTTOM, AppUtils.textSmaller, null);
     }
+
+    /**
+     * Tipi di font usati nell'applicazione
+     */
 
     public static Font title = new Font("Monospaced", Font.PLAIN, 20);
     public static Font text = new Font("Monospaced", Font.PLAIN, 16);

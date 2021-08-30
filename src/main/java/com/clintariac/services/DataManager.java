@@ -56,7 +56,12 @@ public class DataManager {
     }
 
     /**
-     * @param onException
+     * <p>
+     * Metodo per aggiungere una funzione da richiamare in caso di avvenuta eccezione nelle
+     * operazioni di gestione file.
+     * </p>
+     * 
+     * @param onException consumer di exception che definisce cosa fare con l'eccezione sollevata.
      */
     public void addOnException(Consumer<Exception> onException) {
         this.onException = onException;
@@ -66,8 +71,8 @@ public class DataManager {
      * TICKETS
      *****************************/
     /**
-     * Metodo per leggere un file json, grazie alla libreria GSON, ottendendo la lista di tutti i
-     * ticket.
+     * Metodo per leggere un file json, grazie alla libreria GSON. Permette di caricare in memoria
+     * la lista di tutti i ticket presenti sul file.
      */
     public void loadTicketsList() {
 
@@ -88,8 +93,8 @@ public class DataManager {
     }
 
     /**
-     * Metodo per memorizzare su il file json la lista di ticket, quindi aggiornandolo in caso di
-     * una modifica alla lista.
+     * Metodo per memorizzare su il file json la lista di ticket, questo metodo aggiorna il file con
+     * l'attuale lista dei ticket.
      */
     public void storeTicketsList() {
 
@@ -107,9 +112,9 @@ public class DataManager {
     /**
      * Metodo per aggiornare i dati di un ticket, se l'identificativo del ticket è presente nella
      * lista, o altrimenti inserisce il nuovo ticket alla fine della lista. Aggiornata la lista, la
-     * si memorizza su file.
+     * memorizza su file.
      * 
-     * @param newTicket singolo ticket
+     * @param newTicket singolo ticket con cui aggiornare la lista
      */
     public void setTicket(TicketData newTicket) {
 
@@ -131,8 +136,8 @@ public class DataManager {
     }
 
     /**
-     * Metodo per aggiornare, tramite una lista passata a parametro, la lista di ticket e la
-     * memorizzarla su file.
+     * Metodo per aggiornare, tramite una lista passata a parametro, la lista di ticket. Dopo
+     * l'aggiornamento la memorizza la lista su file.
      * 
      * @param tickets nuova lista di ticket
      */
@@ -144,8 +149,8 @@ public class DataManager {
     }
 
     /**
-     * Metodo per cancellare dalla lista un ticket il cui identificativo è passato a parametro, se
-     * essa non è nulla. La lista modificata viene memorizzata su file.
+     * Metodo per cancellare dalla lista un ticket il cui identificativo è passato a parametro.
+     * Verifica che la lista sia stata caricata. La lista modificata viene memorizzata su file.
      * 
      * @param id identificativo del ticket
      */
@@ -168,8 +173,8 @@ public class DataManager {
     }
 
     /**
-     * Metodo per concatenare una lista di ticket alla già presente lista e quindi memorizzare la
-     * lista di ticket completa su file.
+     * Metodo per concatenare una lista di ticket alla già presente lista. La lista modificata viene
+     * memorizzata su file.
      * 
      * @param newTickets la lista di ticket che si vuole concatenare
      */
@@ -184,7 +189,8 @@ public class DataManager {
     }
 
     /**
-     * Metodo che restituisce una copia della lista di ticket, se non è vuota.
+     * Metodo che restituisce una copia della lista di ticket. Verifica che la lista sia stata
+     * caricata.
      * 
      * @return List<TicketData>
      */
@@ -196,8 +202,8 @@ public class DataManager {
 
     /**
      * Metodo che restituisce {@code Optional<TicketData>} effettuando la ricerca nella lista
-     * tramite l'identificativo. Se il ticket non è presente nella lista, il metodo restituisce
-     * {@code null}.
+     * tramite l'identificativo. Se il ticket è presente nella lista verrà restituito dentro
+     * l'{@code optional}, altrimenti il metodo restituisce un {@code optional} vuoto.
      * 
      * @param id identificativo del ticket
      * @return Optional<TicketData>
@@ -213,7 +219,7 @@ public class DataManager {
      *****************************/
     /**
      * Metodo per leggere un file json, grazie alla libreria GSON, ottendendo la lista di utenti
-     * registrati al sistema.
+     * registrati al sistema, precedentemente scritta su file.
      */
     public void loadUsersList() {
 
@@ -234,7 +240,8 @@ public class DataManager {
     }
 
     /**
-     * Metodo per memorizzare nel file json la lista di utenti registrati.
+     * Metodo per memorizzare nel file json la lista di utenti registrati. Verifica che la lista sia
+     * stata precedentemente caricata.
      */
     public void storeUsersList() {
 
@@ -251,7 +258,8 @@ public class DataManager {
 
     /**
      * Metodo per aggiornare i dati di un utente se registrato al sistema, altrimenti inserisce i
-     * dati del nuovo utente alla fine della lista. Aggiornata la lista, la si memorizza su file.
+     * dati del nuovo utente alla fine della lista. Dopo l'aggiornamento la memorizza la lista su
+     * file.
      * 
      * @param newUser
      */
@@ -275,8 +283,11 @@ public class DataManager {
 
 
     /**
-     * @param userId
-     * @param chat
+     * Metodo per aggiornare la chat di un utente, sovrascrive la precedente lista di messaggi con
+     * la nuova lista fornita come parametro. In caso di utente non presente solleva un'eccezione.
+     * 
+     * @param userId id dell'utente di cui aggiornare la chat
+     * @param chat messaggi con cui sovrascrivere la chat
      */
     public void updateChat(String userId, List<MessageData> chat) {
 
@@ -296,7 +307,8 @@ public class DataManager {
     }
 
     /**
-     * Metodo che restituisce una copia della lista degli utenti registrati, se essa non è vuota.
+     * Metodo che restituisce una copia della lista degli utenti registrati. Verifica che la lista
+     * sia stata precedentemente caricata.
      * 
      * @return List<UserData>
      */
@@ -308,11 +320,11 @@ public class DataManager {
     }
 
     /**
-     * Metodo per effettuare la ricerca di un utente tramite identificativo dell'utente, se la lista
-     * non è vuota.
+     * Metodo per effettuare la ricerca di un utente tramite il suo identificativo. Verifica che la
+     * lista sia stata precedentemente caricata.
      * 
-     * @param id dell'utente che si vuole cercare
-     * @return Optional<UserData>
+     * @param id dell'utente da vuole ricercare
+     * @return Optional<UserData> optional con il risultato della ricerca.
      */
     public Optional<UserData> getUser(String id) {
 
@@ -323,8 +335,13 @@ public class DataManager {
 
 
     /**
-     * @param userToSearch
-     * @return List<UserData>
+     * Metodo che restituisce la lista di utenti i cui attributi corrispondono ai parametri di
+     * ricerca contenuti all'interno dell'oggetto passato come parametro. Il metodo restituisce gli
+     * utenti che soddisfano contemporaneamente tutte ele chiavi di ricerca. È possibile omettere un
+     * campo di ricerca inserendo una stringa vuota.
+     * 
+     * @param userToSearch oggetto con le chiavi di ricerca
+     * @return List<UserData> risultato della ricerca
      */
     public List<UserData> searchUsers(UserData userToSearch) {
 
@@ -345,7 +362,7 @@ public class DataManager {
     }
 
     /**
-     * Metodo che lancia un'eccezione nel caso la lista ticket sia vuota.
+     * Metodo che lancia un'eccezione nel caso in cui la lista ticket sia nulla.
      */
     private void assertTicketsList() {
 
@@ -355,7 +372,8 @@ public class DataManager {
     }
 
     /**
-     * Metodo per effettuare la ricerca di un utente tramite la email, se la lista non è vuota. todo
+     * Metodo per effettuare la ricerca di un utente tramite la email. Verifica che la lista sia
+     * stata precedentemente caricata.
      * 
      * @param email dell'utente che si vuole cercare
      * @return Optional<UserData>
@@ -369,7 +387,7 @@ public class DataManager {
     }
 
     /**
-     * Metodo che lancia un'eccezione nel caso la lista utenti sia vuota.
+     * Metodo che lancia un'eccezione nel caso la lista utenti sia nulla.
      */
     private void assertUsersList() {
 
@@ -380,6 +398,8 @@ public class DataManager {
 
 
     /**
+     * Metodo che restituisce il primo id valido per un nuovo ticket
+     * 
      * @return String
      */
     public String newTicketId() {

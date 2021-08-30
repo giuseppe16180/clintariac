@@ -2,6 +2,10 @@ package com.clintariac.services.config;
 
 import java.awt.Color;
 
+/**
+ * Raccolta contenente i colori utilizzati nell'applicazione.
+ */
+
 public interface AppColors {
 
     public static final Color CLICK_BACKGROUND = new Color(203, 203, 203);

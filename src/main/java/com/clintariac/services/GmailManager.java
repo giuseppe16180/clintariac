@@ -43,7 +43,7 @@ public class GmailManager implements EmailManager {
      * Costruttore di GmailManager.
      * 
      * <p>
-     * Permette di gestire il protocollo di invio di email (SMTP) e il protocolle per la ricezione
+     * Permette di gestire il protocollo di invio di email (SMTP) e il protocollo per la ricezione
      * di email (IMAP).
      * </p>
      * 
@@ -91,9 +91,8 @@ public class GmailManager implements EmailManager {
     }
 
     /**
-     * <p>
-     * Metodo per l'invio di un'email ricevuta a parametro di tipo {@code EmailData}.
-     * </p>
+     * Metodo per l'invio di un'email i cui dettagli sono contenuti nell'oggetto ricevuto a
+     * parametro {@code EmailData}.
      * 
      * <p>
      * Viene stabilito il mittente, il destinatario e l'oggetto dall'email. In seguito viene
@@ -146,7 +145,7 @@ public class GmailManager implements EmailManager {
      * </p>
      * 
      * <p>
-     * Le email vengono memorizzate in una lista di {@code EmailData}, verrà restutuita una volta
+     * Le email vengono memorizzate in una lista di {@code EmailData}, verrà restituita una volta
      * lette tutte le email con {@code Flag.SEEN} falso.
      * </p>
      * 
@@ -214,7 +213,12 @@ public class GmailManager implements EmailManager {
     }
 
     /**
-     * @param onException
+     * <p>
+     * Metodo per aggiungere una funzione da richiamare in caso di avvenuta eccezione del client di
+     * posta elettronica.
+     * </p>
+     * 
+     * @param onException consumer di exception che definisce cosa fare con l'eccezione sollevata.
      */
     public void addOnException(Consumer<Exception> onException) {
         this.onException = onException;

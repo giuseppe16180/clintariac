@@ -60,8 +60,8 @@ public class ContextManager {
      * 
      * <p>
      * Si tratta di un singleton, in quanto facendo accesso a varie risorse, tra le quali dei file e
-     * una casella di posta elettronica, è necessario che non possano esisterne più istanze. In caso
-     * di tentata istanziazione multipla, viene lanciata un'eccezione.
+     * una casella di posta elettronica, è opportuno che non ne esistano più istanze. In caso di
+     * tentata istanziazione multipla, viene lanciata un'eccezione.
      * </p>
      * 
      * <p>
@@ -73,13 +73,13 @@ public class ContextManager {
      * 
      * <p>
      * Sulla base delle interazioni effettuate sulle strutture dati, invia delle email verso gli
-     * utenti interessati, per comuniucare modifiche ai loro appuntamenti, o per comunicare le
+     * utenti interessati, per comunicare modifiche ai loro appuntamenti, o per comunicare le
      * istruzioni in seguito alla loro registrazione.
      * </p>
      * 
      * <p>
      * Permette di configurare un processo eseguito ciclicamente in background per gestire
-     * l'aggiornamento dell'applicatico, in seguito alla ricezione di nuove email.
+     * l'aggiornamento dell'applicativo, in seguito alla ricezione di nuove email.
      * </p>
      */
     public ContextManager() {
@@ -106,7 +106,7 @@ public class ContextManager {
 
     /**
      * <p>
-     * Metodo che permette di caricare in memoria le strutture dati, partendo dal contentuto
+     * Metodo che permette di caricare in memoria le strutture dati, partendo dal contenuto
      * precedentemente scritto in memoria secondaria. Deve essere chiamato prima di procedere alle
      * operazioni sui dati.
      * </p>
@@ -125,7 +125,7 @@ public class ContextManager {
     /**
      * Metodo per aggiungere un evento in caso di eccezione sull'IO delle strutture dati su file.
      * 
-     * @param onException eccezione lanciata
+     * @param onException metodo da chiamare in caso di eccezione sull'IO
      */
     public void addOnDataException(Consumer<Exception> onException) {
         dataManager.addOnException(onException);
@@ -135,7 +135,7 @@ public class ContextManager {
      * Metodo per aggiungere un evento in caso di eccezione in fase di invio o di ricezione delle
      * email.
      * 
-     * @param onException eccezione lanciata
+     * @param onException metodo da chiamare in caso di eccezione con le email
      */
     public void addOnEmailException(Consumer<Exception> onException) {
         emailManager.addOnException(onException);
@@ -146,7 +146,7 @@ public class ContextManager {
      * 
      * <p>
      * Predispone una serie di {@code Predicate<EmailData>} e {@code Consumer<EmailData>} per poter
-     * realizzare poi una chain of responsability, capace di gestire in maniera esaustiva le
+     * realizzare poi una chain of responsibility, capace di gestire in maniera esaustiva le
      * possibili email in arrivo al {@code ContextManager}.
      * </p>
      */
@@ -312,13 +312,11 @@ public class ContextManager {
      * Metodo che aggiorna il context facendo:
      * <ul>
      * <li>pull ed elaborazione delle email non lette</li>
-     * <li>eliminazione le richieste di prenotazione</li> scadute.
+     * <li>elaborazione delle richieste di prenotazione scadute</li>
      * </ul>
      * <p>
-     * Dato che questo aggiornamento è parte dell'inizializzazione del context, oppure potrebbe
-     * essere eseguito da un task in pendente in background (è stata richiesta la sospensione del
-     * lancio di nuovi task ma ne è presente già uno avviato), il client non sempre viene notificato
-     * dell'aggiornamento.
+     * In seguito all'avvenuto aggiornamento esegue la procedura {@code onUpdate} per eseguire gli
+     * aggiornamenti richiesti dai client del context
      * </p>
      */
     public void update() {
@@ -331,6 +329,9 @@ public class ContextManager {
 
 
     /**
+     * Metodo per creare un nuovo ticket (in stato di attesa di conferma) per un utente ad una
+     * specifica data-ora. L'utente viene notificato via email.
+     * 
      * @param userId
      * @param dateTime
      */
@@ -362,10 +363,10 @@ public class ContextManager {
     }
 
     /**
-     * Metodo per eliminare le proposte di prenotazione che non sono state confermate dai pazienti
-     * entro i tempi stabiliti. Se è possibile notificare il paziente circa la cancellazione, il
-     * ticket viene cancellato. Le scadenze sono minori per gli appuntamenti in giornata, maggiori
-     * per quelli futuri.
+     * Metodo per cambiare lo stato ai ticket corrispondenti alle richieste che non sono state
+     * confermate dai pazienti entro i tempi stabiliti. La cancellazione avviene solo se è stato
+     * possibile notificare il paziente vie email. Le scadenze sono più prossime per gli
+     * appuntamenti in giornata, più lontane per quelli nelle giornate future.
      */
     private void expireBooked() {
 
@@ -391,7 +392,9 @@ public class ContextManager {
     }
 
     /**
-     * Metodo per avviare il processo di aggiornamento in background.
+     * Metodo per avviare il processo di aggiornamento in background. Una volta lanciato il task,
+     * esso verrà eseguito ogni 15 secondi, provocando l'aggiornamento del contesto e il conseguente
+     * aggiornamento dei client.
      */
     public void startTask() {
         onReload.run();
@@ -411,7 +414,7 @@ public class ContextManager {
 
     /**
      * Metodo per inviare un'email, al fine di comunicare con i pazienti. Se l'email viene inviata
-     * correttamente resetituisce {@code true}, altrimenti {@code false}.
+     * correttamente restituisce {@code true}, altrimenti {@code false}.
      * 
      * @param userId id dell'utente al quale si vuole inviare l'email
      * @param subject oggetto dell'email
@@ -432,8 +435,12 @@ public class ContextManager {
 
 
     /**
-     * @param userId
-     * @param message
+     * Metodo per inviare un arbitrario messaggio di comunicazione all'utente, l'email così inviata
+     * ha di default l'oggetto "comunicazione". Restituisce un booleano che indica se l'invio è
+     * andato a buon fine.
+     * 
+     * @param userId id dell'utente al quale inviare il messaggio
+     * @param message messaggio da aggiungere come corpo dell'email
      * @return boolean
      */
     public boolean sendMessage(String userId, String message) {
@@ -447,9 +454,13 @@ public class ContextManager {
 
 
     /**
-     * @param userId
-     * @param message
-     * @param isUserSent
+     * Metodo per aggiungere un messaggio alla chat di un utente. Restituisce {@code true} se
+     * l'utente è registrato, {@code false} altrimenti.
+     * 
+     * @param userId id dell'utente di cui si intende aggiornare la chat
+     * @param message messaggio da aggiungere alla chat
+     * @param isUserSent flag che se vero indica che il messaggio è stato inviato da parte
+     *        dell'utente, se falso indica che il messaggio è stato inviato dalla segreteria.
      * @return boolean
      */
     private boolean addToChat(String userId, String message, boolean isUserSent) {
@@ -469,8 +480,18 @@ public class ContextManager {
     }
 
     /**
+     * <p>
      * Metodo per modificare un ticket, a patto che l'email di notifica al paziente possa essere
-     * inviata
+     * inviata. Riceve come oggetto un ticket, se il suo id viene ritrovato aggiorna il ticket,
+     * altrimenti se non viene trovato (oppure non c'è la corrispondenza con l'effettivo utente del
+     * ticket) solleva un'eccezione.
+     * </p>
+     * <p>
+     * L'oggetto dell'email di notifica dipende dal precedente stato del ticket, può essere di
+     * proposta appuntamento o spostamento appuntamento.
+     * </p>
+     * Aggiorna anche il contenuto della chat per tenere traccia dell'operazione eseguita
+     * </p>
      * 
      * @param newTicket ticket caricare
      */
@@ -504,7 +525,7 @@ public class ContextManager {
 
     /**
      * Metodo per eliminare un ticket, a patto che l'email di notifica al paziente possa essere
-     * inviata
+     * inviata. L'oggetto del messaggio di notifica dipende dallo stato del ticket.
      * 
      * @param id id del ticket da eliminare
      */
@@ -536,8 +557,9 @@ public class ContextManager {
     }
 
     /**
-     * Metodo per otteere un ticket dal suo id. Resituisce un optional perché potrebbe non essere
-     * presente un ticket con l'id considerato.
+     * Metodo per ottenere un ticket dal suo id, incapsulato dentro un optional, questo perché
+     * potrebbe non essere presente un ticket con l'id considerato, e in quel caso l'optional
+     * conterrà empty.
      * 
      * @param id id del ticket da ottenere
      * @return Optional<TicketData>
@@ -548,7 +570,7 @@ public class ContextManager {
 
     /**
      * Metodo per aggiungere un nuovo utente. a patto che l'email con le istruzioni al paziente
-     * possa essere inviata
+     * possa essere inviata.
      * 
      * @param updatedUser
      */
@@ -565,7 +587,13 @@ public class ContextManager {
 
 
     /**
-     * @param updatedUser
+     * Metodo per aggiornare le informazioni di un utente, riceve come parametro un oggetto di tipo
+     * {@code UserData}, va alla ricerca dell'utente con l'identificativo contenuto all'interno
+     * dell'oggetto passato a parametro, e ne aggiorna tutti gli altri campi sempre con il contenuto
+     * dell'oggetto passato. I campi lasciati come stringa vuota vengono lasciati inalterati.
+     * L'utente viene notificato dell'operazione ricevendo un'email.
+     * 
+     * @param updatedUser oggetto utente con i dettagli da aggiornare.
      * @return boolean
      */
     public boolean editUser(UserData updatedUser) {
@@ -608,7 +636,10 @@ public class ContextManager {
 
 
     /**
-     * @param email
+     * Metodo per effettuare la ricerca di un utente tramite la email. Restituisce un optional che
+     * contiene l'utente se la ricerca è andata a buon fine, empty altrimenti.
+     * 
+     * @param email da usare come chiave di ricerca.
      * @return Optional<UserData>
      */
     public Optional<UserData> getUserByEmail(String email) {
@@ -617,8 +648,8 @@ public class ContextManager {
 
 
     /**
-     * Metodo per ottenere un utente dal suo id. Resituisce un optional perché potrebbe non essere
-     * presente un utente con l'id considerato.
+     * Metodo per ottenere un utente dal suo id. Restituisce un optional che contiene l'utente se la
+     * ricerca è andata a buon fine, empty altrimenti.
      * 
      * @param id id dell'utente da ottenere
      * @return Optional<UserData>
@@ -629,19 +660,24 @@ public class ContextManager {
 
 
     /**
-     * @param user
-     * @return List<UserData>
+     * Metodo che restituisce la lista di utenti i cui attributi corrispondono ai parametri di
+     * ricerca contenuti all'interno dell'oggetto passato come parametro. Il metodo restituisce gli
+     * utenti che soddisfano contemporaneamente tutte ele chiavi di ricerca. È possibile omettere un
+     * campo di ricerca inserendo una stringa vuota.
+     * 
+     * @param user oggetto con le chiavi di ricerca
+     * @return List<UserData> risultato della ricerca
      */
     public List<UserData> searchUsers(UserData user) {
         return dataManager.searchUsers(user);
     }
 
     /**
-     * Metodo per aggiungere una Procedure che sarà chiamata in seguito al verificarsi di un
-     * aggiornamento. Permette ad i client di ContextManager di essere notificati in seguto
-     * all'avvenimento di un update lanciato dal task in background.
+     * Metodo per aggiungere una {@code Procedure} che sarà chiamata in seguito al riavvio del task
+     * in background. Permette ad i client di ContextManager di essere notificati in seguito al
+     * riavvio del task in background.
      * 
-     * @param onUpdate
+     * @param onReload
      * @return ContextManager
      */
     public ContextManager addOnReload(Procedure onReload) {
@@ -651,6 +687,10 @@ public class ContextManager {
 
 
     /**
+     * Metodo per aggiungere una Procedure che sarà chiamata in seguito al verificarsi di un
+     * aggiornamento. Permette ad i client di ContextManager di essere notificati in seguito
+     * all'avvenimento di un update lanciato dal task in background.
+     * 
      * @param onUpdate
      * @return ContextManager
      */
@@ -672,6 +712,8 @@ public class ContextManager {
 
 
     /**
+     * Metodo per restituire l'eventuale ticket in attesa di essere gestito.
+     * 
      * @param userId
      * @return Optional<TicketData>
      */
@@ -683,14 +725,19 @@ public class ContextManager {
 
 
     /**
+     * Metodo per ottenere la lista di tutti gli utenti
+     * 
      * @return List<UserData>
      */
     public List<UserData> getUsers() {
-        return dataManager.getUsersList().stream().collect(Collectors.toList());
+        return dataManager.getUsersList();
     }
 
 
     /**
+     * Metodo per ottenere la lista delle prenotazioni a partire dalla data passata come parametro,
+     * in ordine cronologico.
+     * 
      * @param date
      * @return List<TicketData>
      */
@@ -757,6 +804,9 @@ public class ContextManager {
     }
 
     /**
+     * Metodo che verifica se una data coppia data e ora sia valida per fissare un appuntamento, se
+     * ricade in uno slot libero restituisce vero, altrimenti falso.
+     * 
      * @param candidateDateTime
      * @return boolean
      */

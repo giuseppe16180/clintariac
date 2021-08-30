@@ -1,5 +1,10 @@
 package com.clintariac.services.config;
 
+/**
+ * Raccolta di testi per le email e metodi per realizzare testi per email, da utilizzare nella
+ * composizione dei messaggi.
+ */
+
 public interface StandardEmails {
 
         final String NAME = "Dott. Rossi";

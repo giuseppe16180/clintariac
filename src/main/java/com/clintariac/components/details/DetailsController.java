@@ -59,7 +59,7 @@ public class DetailsController implements Controller {
         chat.setModelSupplier(() -> {
             return new ChatModel(model.getChat().stream()
                     .map(it -> new MessageModel(
-                            AppUtils.plaiTextToHTML(it.text, 4),
+                            AppUtils.plainTextToHTML(it.text, 4),
                             AppUtils.localDateTimeToString(it.dateTime),
                             it.isUserSent))
                     .collect(Collectors.toList()));

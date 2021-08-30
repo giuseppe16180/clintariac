@@ -14,13 +14,7 @@ public class UserData {
     private final List<MessageData> chat;
 
 
-    /**
-     * @return List<MessageData>
-     */
-    public List<MessageData> getChat() {
-        return chat.stream().collect(Collectors.toList());
-    }
-
+    
     public UserData(String firstName, String lastName, String id, String email, String phone,
             List<MessageData> chat) {
         this.firstName = firstName;
@@ -47,5 +41,12 @@ public class UserData {
         return "UserData [email=" + email + ", firstName=" + firstName + ", id=" + id
                 + ", lastName="
                 + lastName + ", phone=" + phone + "]";
+    }
+
+    /**
+     * @return List<MessageData>
+     */
+    public List<MessageData> getChat() {
+        return chat.stream().collect(Collectors.toList());
     }
 }

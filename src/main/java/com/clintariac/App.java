@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import com.clintariac.components.dashboard.DashboardController;
 
 /**
- * Interfaccia che contiene il metodo main, a partire dal quale viene avviata l'applicazione.
+ * Interfaccia che contiene il metodo main a partire dal quale viene avviata l'applicazione.
  * 
  * @author Cristina Zappata
  * @author Giuseppe Marino
@@ -16,7 +16,7 @@ interface App {
 	/**
 	 * Metodo di avvio dell'applicativo. Al suo interno viene instanziato e configurato il frame
 	 * principale, all'interno del quale è aggiunta la view ricavata dal Dashboard controller
-	 * instanziato. Essa costituisce la view principale dellàapplicativo.
+	 * instanziato. Essa costituisce la view principale dell'applicativo.
 	 * 
 	 * @param args
 	 */
