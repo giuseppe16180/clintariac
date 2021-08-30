@@ -1,5 +1,6 @@
 ---
 title: "Clintariac"
+subtitle: \small Nella seguente relazione verrà discusso lo sviluppo dell'applicativo da noi nominato Clintariac. Si tratta di un software per gestire l'agenda degli appuntamenti in un ambulatorio medico, in maniera assistita. Clintariac permette di automatizzare le operazioni che sarebbero necessarie per fissare un appuntamento, cercando di mantenere un'infrastruttura semplice. Il progetto è stato realizzato concordemente a quanto richiesto dal docente Prof. Gabriele Fici del corso di "Metodi avanzati per la programmazione" al fine del sostenimento dell'esame per il suddetto corso.
 numbersections: true
 author: 
 - Cristina Zappata
@@ -11,7 +12,6 @@ fontsize: 12pt
 toc: true
 autoEqnLabels: true
 titlepage: true
-abstract: \textbf{Abstract:} Nella seguente relazione verrà discusso lo sviluppo dell'applicativo da noi nominato Clintariac. Si tratta di un software per gestire l'agenda degli appuntamenti in un ambulatorio medico, in maniera assistita. Clintariac permette di automatizzare le operazioni che sarebbero necessarie per fissare un appuntamento, cercando di mantenere un'infrastruttura semplice. Il progetto è stato realizzato concordemente a quanto richiesto dal docente Prof. Gabriele Fici del corso di "Metodi avanzati per la programmazione" al fine del sostenimento dell'esame per il suddetto corso.
 include-before:
 - \newpage{}
 code-block-font-size: \scriptsize
@@ -45,7 +45,9 @@ La stesura dei casi d'uso permette di raccogliere in maniera esaustiva e non amb
 
 La parte fondamentale del sistema è quella della gestione dei ticket, dove con il termine ticket ci riferiamo, in senso lato, ad una richiesta di prenotazione, o ad una prenotazione. Questa risulta essere il nucleo del sistema in quanto permette di realizzare quanto desideriamo dal software.
 
-![Gestione dei ticket](img/UseCaseDiagram1.1.pdf){width=80%}
+\clearpage
+
+![Gestione dei ticket](img/gestione_ticket.pdf)
 
 \vspace{12pt}
 
@@ -127,7 +129,8 @@ La parte fondamentale del sistema è quella della gestione dei ticket, dove con 
 
 È necessario pensare a come registrare gli utenti, per fare in modo che il sistema processi solo le richieste provenienti da utenti registrati. I motivi di questa scelta possono essere principalmente legati alla sicurezza e al contenimento dello spam. Lo scenario di registrazione previsto è quello dove l'utente, recatosi fisicamente in ambulatorio, prende visione del servizio, e chiede al personale di segreteria di caricare il suo profilo nel sistema.
 
-![Gestione informazioni paziente](img/UseCaseDiagram2.1.pdf){width=80%}
+
+![Gestione informazioni paziente](img/gestione_paziente.pdf){width=80%}
 
 \vspace{12pt}
 
@@ -346,7 +349,7 @@ Quando viene notificata la conferma della prenotazione si mette nuovamente a dis
 
 Una volta individuati i requisiti, e compreso come sarebbe stato meglio procedere, abbiamo realizzato il diagramma delle classi che ci è stato necessario ai fini dell'implementazione. 
 
-![Diagramma delle classi](img/ClassDiagram.pdf){width=90%}
+![Diagramma delle classi](img/diagramma_classi.pdf){width=100%}
 
 \newpage
 
@@ -380,14 +383,12 @@ public class DetailsModel {
     private String lastName;
     private String userId;
     ...
-
     public static class Builder {
 
         private String firstName;
         private String lastName;
         private String userId;
         ...
-
         public Builder() {
 
             firstName = "";
@@ -395,7 +396,6 @@ public class DetailsModel {
             userId = "";
             ...
         }
-
         public DetailsModel build() {
             return new DetailsModel(firstName, lastName, userID, ...);
         }
@@ -530,7 +530,6 @@ public class DetailsController implements Controller {
         ...
     }
     ...
-
     private void init() {
 
         view.getValidateButton().addActionListener(e -> validate());
@@ -543,7 +542,6 @@ public class DetailsController implements Controller {
         this.onSave = onSave;
     }
     ...
-
     private void save() { ... }
     private void validate() { ... }
     private void delete() { ... }
@@ -560,18 +558,14 @@ public class DashboardController implements Controller {
 	private DashboardView view;
 	private ContextManager context;
 	private DetailsController details;
-
     ...
-
 	public DashboardController() {
 
 		model = new DashboardModel();
 		view = new DashboardView();
 
 		context = new ContextManager();
-
         ...
-
 		details = view.getDetailsController();
 		details.addOnSave(this::detailsSave);
 		details.addOnSend(this::sendMessage);
@@ -609,9 +603,7 @@ Il Data Management è implementato all'interno della classe `DataManager`. Si tr
 public class DataManager {
 
     private static boolean isInstantiated = false;
-
     ...
-
     public DataManager() {
         if (DataManager.isInstantiated == true) {
             throw new SingletonException();
@@ -641,8 +633,7 @@ Si potrebbe discutere della scelta di una lista per contenere dei dati, piuttost
 ```java
 public Optional<TicketData> getTicket(String id) {
     ...
-    return ticketsList.stream().filter(ticket -> ticket.id.equals(id))
-                               .findFirst();
+    return ticketsList.stream().filter(ticket -> ticket.id.equals(id)).findFirst();
     // piuttosto che qualcosa del tipo `return ticketsMap.get(id);`
 }
 ```
@@ -706,12 +697,10 @@ private void dataException(Exception e) {
 ...
 context.addOnDataException(this::dataException);
 ...
-
 // in ContextManager 
 public void addOnDataException(Consumer<Exception> onException) {
     dataManager.addOnException(onException);
 }
-
 // in DataManager
 ...
 try (Writer writer = new FileWriter(ticketsFile)) {
