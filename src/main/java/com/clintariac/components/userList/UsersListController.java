@@ -14,6 +14,12 @@ public class UsersListController implements Controller {
 
     private Supplier<UsersListModel> modelSupplier;
 
+
+    /**
+     * 
+     * Il costruttore di UserListController instanzia la view e inizializza gli ascoltatori
+     * attraverso il metodo {@code init()}.
+     */
     public UsersListController() {
 
         this.view = new UsersListView();
@@ -27,6 +33,10 @@ public class UsersListController implements Controller {
     }
 
     /**
+     * 
+     * Metodo per definire il supplier del modello di UserList dall'esterno, attraverso un
+     * {@code Supplier<UserListModel>} ricevuto a parametro.
+     * 
      * @param modelSupplier
      * @return UsersListController
      */
@@ -44,6 +54,8 @@ public class UsersListController implements Controller {
     }
 
     /**
+     * * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di
+     * selezione di un utente.
      * 
      * @param onUserSelect
      */

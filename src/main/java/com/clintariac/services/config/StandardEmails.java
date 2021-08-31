@@ -17,7 +17,7 @@ public interface StandardEmails {
                         Credentials.email, Credentials.email, Credentials.email);
 
         final String WELCOME =
-                        String.format("<h2>Benevenuto nel servizio Clintariac dell'ambulatorio del %s!</h2><h3>Tramite Clinariac le sar&agrave; possibile richiedere comodamente un appuntamento presso il nostro ambulatorio!</h3>%s%s",
+                        String.format("<h2>Benvenuto nel servizio Clintariac dell'ambulatorio del %s!</h2><h3>Tramite Clinariac le sar&agrave; possibile richiedere comodamente un appuntamento presso il nostro ambulatorio!</h3>%s%s",
                                         NAME, INSTRUCTION, GREETINGS);
 
 

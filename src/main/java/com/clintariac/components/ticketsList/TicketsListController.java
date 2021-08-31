@@ -14,6 +14,11 @@ public class TicketsListController implements Controller {
 
     private BiConsumer<String, String> onTicketSelect;
 
+
+    /**
+     * 
+     * Costruttore di TicketsListController che istanzia la view e inizializza gli ascoltatori.
+     */
     public TicketsListController() {
 
         this.view = new TicketsListView();
@@ -51,7 +56,7 @@ public class TicketsListController implements Controller {
 
 
     /**
-     * Metodo per inizializzare gli ascoltatori
+     * Metodo per inizializzare l'ascoltatore per la selezione di un ticket.
      */
     private void init() {
         view.getList().addListSelectionListener(e -> {
@@ -63,6 +68,9 @@ public class TicketsListController implements Controller {
 
 
     /**
+     * * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di
+     * selezione di un ticket.
+     * 
      * @param onTicketSelect
      */
     public void addOnTicketSelect(BiConsumer<String, String> onTicketSelect) {
