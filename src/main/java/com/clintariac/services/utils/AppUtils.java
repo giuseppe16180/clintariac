@@ -9,13 +9,13 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 /**
- * Raccolta di metodi statici di utilità per l'applicazione
+ * Raccolta di metodi statici di utilità per l'applicazione.
  */
 
 public interface AppUtils {
 
     /**
-     * Converte un {@code LocalDateTime} in una stringa, secondo una particolare formattazione
+     * Converte un {@code LocalDateTime} in una stringa, secondo una particolare formattazione.
      * 
      * @param LocalDateTime
      * @return String
@@ -28,7 +28,8 @@ public interface AppUtils {
     }
 
     /**
-     * Converte del testo in HTML al fine di introdurre dei break per spezzare il testo in più righe
+     * Converte del testo in HTML al fine di introdurre dei break per spezzare il testo in più
+     * righe.
      * 
      * @param String il testo di partenza
      * @param int il numero di parole per riga
@@ -47,7 +48,7 @@ public interface AppUtils {
     }
 
     /**
-     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input
+     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input.
      * 
      * @param String
      * @return TitledBorder
@@ -61,7 +62,7 @@ public interface AppUtils {
 
 
     /**
-     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input
+     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input.
      * 
      * @param String
      * @return TitledBorder
@@ -76,7 +77,7 @@ public interface AppUtils {
 
 
     /**
-     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input
+     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input.
      * 
      * @param String
      * @return TitledBorder
@@ -90,7 +91,7 @@ public interface AppUtils {
     }
 
     /**
-     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input
+     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input.
      * 
      * @param String
      * @return TitledBorder
@@ -104,7 +105,7 @@ public interface AppUtils {
     }
 
     /**
-     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input
+     * Restituisce un bordo da aggiungere ai pannelli della UI con il testo in input.
      * 
      * @param String
      * @return TitledBorder
@@ -118,7 +119,7 @@ public interface AppUtils {
     }
 
     /**
-     * Tipi di font usati nell'applicazione
+     * Tipi di font usati nell'applicazione.
      */
 
     public static Font title = new Font("Monospaced", Font.PLAIN, 20);

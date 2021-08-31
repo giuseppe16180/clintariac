@@ -14,6 +14,11 @@ public class ChatController implements Controller {
 
     private Supplier<ChatModel> modelSupplier;
 
+    /**
+     * Costruttore di ChatController istanzia la view e inizializza gli eventi. La sua view mostra
+     * la lista dei messaggi contenuti nel suo model.
+     */
+
     public ChatController() {
 
         this.view = new ChatView();
@@ -39,6 +44,8 @@ public class ChatController implements Controller {
     }
 
     /**
+     * Metodo per impostare il supplier del model.
+     * 
      * @param modelSupplier
      * @return ChatController
      */
@@ -55,10 +62,18 @@ public class ChatController implements Controller {
         return this.view.getMainComponent();
     }
 
+    /**
+     * Metodo per inizializzare gli eventi e lo scroll della chat.
+     */
+
     private void init() {
         view.scrollToBottom();
         view.getMainComponent().getVerticalScrollBar().addAdjustmentListener(e -> scroll());
     }
+
+    /**
+     * Metodo per mantenere lo scroll della chat inalterato in seguito al reload della chat.
+     */
 
     private void scroll() {
         scrollPosition = (int) view.getMainComponent().getVerticalScrollBar().getValue();

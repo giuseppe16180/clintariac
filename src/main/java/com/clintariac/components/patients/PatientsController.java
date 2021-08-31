@@ -15,6 +15,9 @@ public class PatientsController implements Controller {
     private Consumer<UserData> onSearch;
     private Consumer<UserData> onClear;
 
+    /**
+     * Costruttore di PatientsController che inizializza la vista e gli eventi necessari.
+     */
     public PatientsController() {
 
         this.view = new PatientsView();
@@ -29,6 +32,9 @@ public class PatientsController implements Controller {
         return this.view.getMainComponent();
     }
 
+    /**
+     * Metodo che inizilizza gli eventi
+     */
     private void init() {
 
         view.getSaveButton().addActionListener(e -> save());

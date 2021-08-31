@@ -2,7 +2,7 @@ package com.clintariac.services.config;
 
 /**
  * Raccolta di testi per le email e metodi per realizzare testi per email, da utilizzare nella
- * composizione dei messaggi.
+ * composizione dei messaggi da inviare all'utente.
  */
 
 public interface StandardEmails {

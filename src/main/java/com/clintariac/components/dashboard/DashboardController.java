@@ -52,11 +52,11 @@ public class DashboardController implements Controller {
 	private OptionBarController optionBar;
 
 	/**
-	 * Costruttore di DashboardController, instanzia model e view della Dashbord, dopodiche'
-	 * instanza il ContextManager, recupera i riferimenti ad i controller dichiarati dentro la
-	 * DashboardView, per poi aggiungere i vari eventi, e i supplier. Questi supplier effettuano il
-	 * parsing dei data dal context nei vari model. In questo modo, in fase di update, ciascuna view
-	 * sara' ricaricata opportunamente con il model aggiornato.
+	 * Costruttore di DashboardController, instanzia model e view della Dashboard, dopodiché
+	 * instanzia il ContextManager, recupera i riferimenti ai controller dichiarati dentro la
+	 * DashboardView, per poi aggiungere i vari eventi e i supplier. Questi supplier effettuano il
+	 * parsing dei dati dal context nei vari model. In questo modo, in fase di update, ciascuna view
+	 * sarà ricaricata opportunamente con il model aggiornato.
 	 */
 
 
@@ -223,7 +223,7 @@ public class DashboardController implements Controller {
 	 * Metodo per eliminare il ticket selezionato.
 	 * 
 	 * <p>
-	 * È pensato per essere chiamato in seguito al click sul bottone di delete
+	 * È pensato per essere chiamato in seguito al click sul bottone di delete.
 	 * </p>
 	 * 
 	 * @param ticketId id del ticket che si intende eliminare
@@ -240,7 +240,7 @@ public class DashboardController implements Controller {
 	}
 
 	/**
-	 * Metodo che restituisce il component principale del controller, cioè la view del MVC
+	 * Metodo che restituisce il component principale del controller, cioè la view del MVC.
 	 * 
 	 * @return Component
 	 */
@@ -251,7 +251,7 @@ public class DashboardController implements Controller {
 
 	/**
 	 * Metodo che imposta la data selezionata del model. Conseguentemente aggiorna resList che sarà
-	 * caricata con gli appuntamenti per la data selezionata
+	 * caricata con gli appuntamenti per la data selezionata.
 	 * 
 	 * @param date data per la quale si vogliono visualizzare gli appuntamenti.
 	 */
@@ -261,6 +261,10 @@ public class DashboardController implements Controller {
 		resList.reloadView();
 	}
 
+	/**
+	 * Metodo che imposta la vista per gli appuntamenti su più giorni a partire dal corrente.
+	 * 
+	 */
 	private void allDateSelect() {
 		model.setSelectedDate(LocalDate.now());
 		model.setDayView(false);
@@ -300,6 +304,16 @@ public class DashboardController implements Controller {
 
 
 	/**
+	 * Metodo che aggiorna i campi dell'utente il cui id coincide con quello dell'utente passato
+	 * come parametro. I campi vengono sovrascritti con i loro corrispondenti nel nuovo utente, se
+	 * sono presenti campi stringa vuota resteranno inalterati i precedenti.
+	 * 
+	 * <p>
+	 * Viene presentata una schermata di dialog contestualmente al fatto che l'utente sia già
+	 * presente o meno.
+	 * </p>
+	 * .
+	 * 
 	 * @param newUser
 	 */
 	private void patientEdit(UserData newUser) {
@@ -326,6 +340,11 @@ public class DashboardController implements Controller {
 
 
 	/**
+	 * 
+	 * Metodo aggiorna il modello con i parametri di ricerca contenuti all'interno dell'oggetto
+	 * passato come parametro. Il metodo ricarica la lista con gli utenti che soddisfano
+	 * contemporaneamente tutte le chiavi di ricerca.
+	 * 
 	 * @param searchFields
 	 */
 	private void patientSearch(UserData searchFields) {
@@ -334,16 +353,12 @@ public class DashboardController implements Controller {
 	}
 
 	/**
-	 * Metodo per caricare la schermata dei dettagli per il ticket selezionato nella lista dei
-	 * ticket in attesa. Provvede ad arrestare il processo di aggiornamento del context, per
-	 * scongiurare che esso alteri la dashboard fintanto che l'utente ha delle operazioni non ancora
-	 * salvate.
+	 * Metodo per caricare la schermata dei dettagli e la conversazione per il ticket selezionato
+	 * nella lista dei ticket in attesa. È pensato per essere chiamato in seguito al click su un
+	 * elemento della lista dei ticket in attesa. Aggiorna il modello con il ticketIId selezionato e
+	 * l'id dell'utente interessato.
 	 * 
-	 * <p>
-	 * È pensato per essere chiamato in seguito al click su un elemento della lista dei ticket in
-	 * attesa.
-	 * </p>
-	 * 
+	 * @param ticketId
 	 * @param userId
 	 */
 	private void ticketSelect(String ticketId, String userId) {
@@ -354,6 +369,10 @@ public class DashboardController implements Controller {
 
 
 	/**
+	 * Metodo per caricare la schermata dei dettagli con la conversazione per l'utente selezionato
+	 * nella lista degli utenti. È pensato per essere chiamato in seguito al click su un elemento
+	 * della lista degli utenti.
+	 * 
 	 * @param userId
 	 */
 	private void userSelect(String userId) {
@@ -366,7 +385,7 @@ public class DashboardController implements Controller {
 	 * Metodo per verificare se sia possibile aggiungere un appuntamento per la data e l'ora passata
 	 * come parametro.
 	 * 
-	 * @param candidateDateTime data ed ora candidate per l'aggiunta di un nuovo appunamento
+	 * @param candidateDateTime data ed ora candidate per l'aggiunta di un nuovo appuntamento
 	 * @return boolean risultato del controllo nella lista di appuntamenti
 	 */
 	private boolean detailsValidate(LocalDateTime candidateDateTime) {
@@ -374,7 +393,7 @@ public class DashboardController implements Controller {
 	}
 
 	/**
-	 * Metodo per l'aggiunta di un nuovo apputamento, una volta terminata la processazione di un
+	 * Metodo per l'aggiunta di un nuovo appuntamento, una volta terminata l'elaborazione di un
 	 * ticket in attesa esso viene reinserito in stato di attesa di riscontro da parte del paziente,
 	 * e deve essere quindi rimosso dalla TicketList per essere eventualmente visualizzato in
 	 * ReservationsList.
@@ -393,10 +412,13 @@ public class DashboardController implements Controller {
 
 
 	/**
+	 * Metodo per inviare un messaggio all'utente di cui è stata caricata e visualizzata la
+	 * conversazione.
+	 * 
 	 * @param message
 	 */
 	private void sendMessage(String message) {
-		context.sendMessage(model.getSelectedUser(), message); // todo mettere l'id dell'utente
+		context.sendMessage(model.getSelectedUser(), message);
 	}
 
 	/**

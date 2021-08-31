@@ -18,10 +18,10 @@ import com.clintariac.services.utils.AppUtils;
 import com.clintariac.services.utils.Procedure;
 
 /**
- * DetailsController
  * 
- * La classe controller è predisposta per gestire la visualizzazione dei dettagli di un ticket e
- * permette di effettuare operazioni di modifica, salvataggio o eliminazione.
+ * La classe DetailsController è predisposta per gestire la visualizzazione dei dettagli di un
+ * ticket, la conversazione con il paziente e permette di effettuare operazioni di modifica,
+ * salvataggio o eliminazione sui ticket.
  */
 
 public class DetailsController implements Controller {
@@ -37,19 +37,11 @@ public class DetailsController implements Controller {
     private Consumer<String> onSend;
     private Consumer<LocalDateTime> onCreateNewTicket;
 
-
-    /**
-     * @param onCreateNewTicket
-     */
-    public void addOnCreateNewTicket(Consumer<LocalDateTime> onCreateNewTicket) {
-        this.onCreateNewTicket = onCreateNewTicket;
-    }
-
     private ChatController chat;
 
     /**
      * Il costruttore di DetailsController instanzia la view e inizializza gli ascoltatori
-     * attraverso il metodo {@code init()}.
+     * attraverso il metodo {@code init()}. Definisce il supplier di default per la chat.
      */
     public DetailsController() {
 
@@ -69,8 +61,8 @@ public class DetailsController implements Controller {
     }
 
     /**
-     * Metodo per istanziare il modello di Details attraverso un {@code Supplier<DetailsModel>}
-     * ricevuto a parametro.
+     * Metodo per definire il supplier del modello di Details dall'esterno, attraverso un
+     * {@code Supplier<DetailsModel>} ricevuto a parametro.
      * 
      * @param modelSupplier modello
      * @return DetailsController
@@ -81,7 +73,9 @@ public class DetailsController implements Controller {
     }
 
     /**
-     * Metodo per caricare nella view le informazioni di un ticket contenute nel model.
+     * Metodo per caricare le view con le informazioni nel model ottenuto dal get sul supplier.
+     * Provoca l'azzeramento dello stato delle view, ripristinando gli aspetti dovuti
+     * all'interazione dell'utente con la UI.
      */
     @Override
     public void reloadView() {
@@ -102,6 +96,11 @@ public class DetailsController implements Controller {
         chat.reloadView();
     }
 
+    /**
+     * Metodo per aggiornare le view con le informazioni nel model ottenuto dal get sul supplier.
+     * Provoca l'aggiornamento delle view senza ripristinare gli aspetti dovuti all'interazione
+     * dell'utente con la UI.
+     */
     @Override
     public void updateView() {
         String message = model.getMessage();
@@ -119,6 +118,12 @@ public class DetailsController implements Controller {
         return this.view.getMainComponent();
     }
 
+
+    /**
+     * Metodo che inizializza gli ascoltatori necessari per l'interazione con l'utente e la gestione
+     * dei ticket.
+     * 
+     */
     private void init() {
 
         view.getValidateButton().addActionListener(e -> validate());
@@ -131,6 +136,8 @@ public class DetailsController implements Controller {
     }
 
     /**
+     * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di save
+     * 
      * @param onSave
      */
     public void addOnSave(Consumer<TicketData> onSave) {
@@ -138,6 +145,9 @@ public class DetailsController implements Controller {
     }
 
     /**
+     * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di
+     * validate
+     * 
      * @param onValidate
      */
     public void addOnValidate(Predicate<LocalDateTime> onValidate) {
@@ -145,6 +155,8 @@ public class DetailsController implements Controller {
     }
 
     /**
+     * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di delete
+     * 
      * @param onDelete
      */
     public void addOnDelete(Procedure onDelete) {
@@ -152,11 +164,26 @@ public class DetailsController implements Controller {
     }
 
     /**
+     * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di send
+     * 
      * @param onSend
      */
     public void addOnSend(Consumer<String> onSend) {
         this.onSend = onSend;
     }
+
+    /**
+     * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di
+     * creazione nuovo ticket
+     * 
+     * @param onCreateNewTicket
+     */
+    public void addOnCreateNewTicket(Consumer<LocalDateTime> onCreateNewTicket) {
+        this.onCreateNewTicket = onCreateNewTicket;
+    }
+
+    /** */
+
 
     private void save() {
 
@@ -178,6 +205,7 @@ public class DetailsController implements Controller {
             JOptionPane.showMessageDialog(null, "Prenotazione effettuata con successo");
         }
     }
+
 
     private void validate() {
 

@@ -15,8 +15,8 @@ interface App {
 
 	/**
 	 * Metodo di avvio dell'applicativo. Al suo interno viene instanziato e configurato il frame
-	 * principale, all'interno del quale è aggiunta la view ricavata dal Dashboard controller
-	 * instanziato. Essa costituisce la view principale dell'applicativo.
+	 * principale, nel quale è aggiunta la view ricavata dal Dashboard controller instanziato. Essa
+	 * costituisce la view principale dell'applicativo.
 	 * 
 	 * @param args
 	 */

@@ -60,6 +60,9 @@ public class OptionBarController implements Controller {
         this.onConfig = procedure;
     }
 
+    /**
+     * Metodo che inizializza gli eventi necessari.
+     */
     private void init() {
         view.getReloadButton().addActionListener(e -> onReload.run());
         view.getImportButton().addActionListener(e -> importData());
@@ -70,7 +73,7 @@ public class OptionBarController implements Controller {
     private void importData() {
         JOptionPane.showMessageDialog(
                 null,
-                "Per importare una lista utenti e una lista apputamenti precedentemenete salvata,\nsostituire i file tickets.json e users.json generati dal programma con le versioni che si desidera importare",
+                "Per importare una lista utenti e una lista appuntamenti precedentemente salvata,\nsostituire i file tickets.json e users.json generati dal programma con le versioni che si desidera importare",
                 "",
                 JOptionPane.INFORMATION_MESSAGE);
         onImport.run();

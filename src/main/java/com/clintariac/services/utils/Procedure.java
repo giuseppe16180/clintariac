@@ -2,7 +2,7 @@ package com.clintariac.services.utils;
 
 /**
  * Interfaccia funzionale realizzata per definire delle lambda che non ricevono parametri e non
- * restituiscono nulla
+ * restituiscono nulla.
  */
 
 @FunctionalInterface

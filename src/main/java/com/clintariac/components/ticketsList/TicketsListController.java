@@ -46,8 +46,11 @@ public class TicketsListController implements Controller {
         return this.view.getMainComponent();
     }
 
-    private void init() {
 
+    /**
+     * Metodo per inizializzare gli ascoltatori
+     */
+    private void init() {
         view.getList().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && view.getList().getSelectedValue() != null) {
                 ticketSelect();

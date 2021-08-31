@@ -66,15 +66,15 @@ public class ContextManager {
      * 
      * <p>
      * Permette di leggere e scrivere sulle liste dei ticket e degli user, in maniera persistente
-     * tra i vari avvii dell'applicazione. Contiene i vari metodi per alterare le strutture dati in
+     * tra i vari avvii dell'applicazione. Contiene i metodi per alterare le strutture dati in
      * maniera limitata a quelle che dovrebbero essere le interazioni scaturite dall'interfaccia
      * utente.
      * </p>
      * 
      * <p>
      * Sulla base delle interazioni effettuate sulle strutture dati, invia delle email verso gli
-     * utenti interessati, per comunicare modifiche ai loro appuntamenti, o per comunicare le
-     * istruzioni in seguito alla loro registrazione.
+     * utenti interessati, per notificarli circa i loro appuntamenti, per comunicare le istruzioni
+     * in seguito alla loro registrazione, avvertirli in caso di errore etc.
      * </p>
      * 
      * <p>
@@ -113,7 +113,7 @@ public class ContextManager {
      * 
      * <p>
      * In seguito al caricamento viene lanciato anche l'aggiornamento della lista di ticket, con il
-     * pull delle nuove email, e l'eliminazione delle prenotazioni in attesa e scadute.
+     * pull delle nuove email e l'alterazione delle prenotazioni in attesa e scadute.
      * </p>
      */
     public void loadData() {
@@ -315,8 +315,8 @@ public class ContextManager {
      * <li>elaborazione delle richieste di prenotazione scadute</li>
      * </ul>
      * <p>
-     * In seguito all'avvenuto aggiornamento esegue la procedura {@code onUpdate} per eseguire gli
-     * aggiornamenti richiesti dai client del context
+     * In seguito all'avvenuto aggiornamento esegue la procedura {@code onUpdate} per lanciare gli
+     * aggiornamenti richiesti dai client del context.
      * </p>
      */
     public void update() {
@@ -404,7 +404,7 @@ public class ContextManager {
     }
 
     /**
-     * Metodo arrestare il processo di aggiornamento in background. Eventuali processi pendenti
+     * Metodo per arrestare il processo di aggiornamento in background. Eventuali processi pendenti
      * vengono comunque completati.
      */
     public void stopTask() {
@@ -435,7 +435,7 @@ public class ContextManager {
 
 
     /**
-     * Metodo per inviare un arbitrario messaggio di comunicazione all'utente, l'email così inviata
+     * Metodo per inviare un messaggio arbitrario di comunicazione all'utente, l'email così inviata
      * ha di default l'oggetto "comunicazione". Restituisce un booleano che indica se l'invio è
      * andato a buon fine.
      * 
@@ -558,7 +558,7 @@ public class ContextManager {
 
     /**
      * Metodo per ottenere un ticket dal suo id, incapsulato dentro un optional, questo perché
-     * potrebbe non essere presente un ticket con l'id considerato, e in quel caso l'optional
+     * potrebbe non essere presente un ticket con l'id considerato, in questo caso l'optional
      * conterrà empty.
      * 
      * @param id id del ticket da ottenere
@@ -569,8 +569,8 @@ public class ContextManager {
     }
 
     /**
-     * Metodo per aggiungere un nuovo utente. a patto che l'email con le istruzioni al paziente
-     * possa essere inviata.
+     * Metodo per aggiungere un nuovo utente, a patto che l'email di conferma possa essere inviata
+     * al paziente.
      * 
      * @param updatedUser
      */
@@ -590,8 +590,8 @@ public class ContextManager {
      * Metodo per aggiornare le informazioni di un utente, riceve come parametro un oggetto di tipo
      * {@code UserData}, va alla ricerca dell'utente con l'identificativo contenuto all'interno
      * dell'oggetto passato a parametro, e ne aggiorna tutti gli altri campi sempre con il contenuto
-     * dell'oggetto passato. I campi lasciati come stringa vuota vengono lasciati inalterati.
-     * L'utente viene notificato dell'operazione ricevendo un'email.
+     * dell'oggetto passato. I campi lasciati come stringa vuota restano inalterati. L'utente viene
+     * notificato dell'operazione ricevendo un'email.
      * 
      * @param updatedUser oggetto utente con i dettagli da aggiornare.
      * @return boolean
@@ -662,7 +662,7 @@ public class ContextManager {
     /**
      * Metodo che restituisce la lista di utenti i cui attributi corrispondono ai parametri di
      * ricerca contenuti all'interno dell'oggetto passato come parametro. Il metodo restituisce gli
-     * utenti che soddisfano contemporaneamente tutte ele chiavi di ricerca. È possibile omettere un
+     * utenti che soddisfano contemporaneamente tutte le chiavi di ricerca. È possibile omettere un
      * campo di ricerca inserendo una stringa vuota.
      * 
      * @param user oggetto con le chiavi di ricerca
@@ -674,7 +674,7 @@ public class ContextManager {
 
     /**
      * Metodo per aggiungere una {@code Procedure} che sarà chiamata in seguito al riavvio del task
-     * in background. Permette ad i client di ContextManager di essere notificati in seguito al
+     * in background. Permette ai client di ContextManager di essere notificati in seguito al
      * riavvio del task in background.
      * 
      * @param onReload
@@ -687,8 +687,8 @@ public class ContextManager {
 
 
     /**
-     * Metodo per aggiungere una Procedure che sarà chiamata in seguito al verificarsi di un
-     * aggiornamento. Permette ad i client di ContextManager di essere notificati in seguito
+     * Metodo per aggiungere una {@code Procedure} che sarà chiamata in seguito al verificarsi di un
+     * aggiornamento. Permette ai client di ContextManager di essere notificati in seguito
      * all'avvenimento di un update lanciato dal task in background.
      * 
      * @param onUpdate
@@ -751,8 +751,7 @@ public class ContextManager {
     }
 
     /**
-     * Metodo per ottenere la lista delle prenotazioni confermate o in attesa di riscontro per una
-     * data giornata.
+     * Metodo per ottenere la lista delle prenotazioni per una data giornata.
      * 
      * @param date data per la quale si vuole ottenere la lista delle prenotazioni
      * @return List<TicketData>
@@ -766,7 +765,7 @@ public class ContextManager {
     }
 
     /**
-     * Metodo per ricavare le prime data e ora libere per fissare un nuovo appuntamento.
+     * Metodo per ricavare la prima coppia di data e ora libera per fissare un nuovo appuntamento.
      * 
      * @return LocalDateTime
      */

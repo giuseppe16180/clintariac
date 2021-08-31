@@ -20,13 +20,12 @@ public interface EmailManager {
 
     /**
      * <p>
-     * Metodo per la lettura di email della casella postale, restituendo quindi una lista di email
-     * non lette.
+     * Metodo per la lettura di email della casella postale, restituisce la lista di email non
+     * lette.
      * </p>
      * 
      * <p>
-     * Le email vengono memorizzate in una lista di {@code EmailData}, verrà restituita una volta
-     * lette tutte le email con {@code Flag.SEEN} falso.
+     * Le email vengono memorizzate in una lista di {@code EmailData}.
      * </p>
      * 
      * @return List<EmailData>

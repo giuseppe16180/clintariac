@@ -29,6 +29,10 @@ public class ReservationsListController implements Controller {
 
 
     /**
+     * 
+     * Metodo per definire il supplier del modello di ReservationList dall'esterno, attraverso un
+     * {@code Supplier<ReservationsListModel>} ricevuto a parametro.
+     * 
      * @param modelSupplier
      * @return ReservationsListController
      */
@@ -47,6 +51,8 @@ public class ReservationsListController implements Controller {
     }
 
     /**
+     * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di
+     * selezione del ticket.
      * 
      * @param onTicketSelect
      */
@@ -54,6 +60,9 @@ public class ReservationsListController implements Controller {
         this.onTicketSelect = onTicketSelect;
     }
 
+    /**
+     * Metodo per inizializzare gli ascoltatori
+     */
     private void init() {
 
         view.getList().addListSelectionListener(e -> {

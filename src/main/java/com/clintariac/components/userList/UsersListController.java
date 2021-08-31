@@ -51,8 +51,10 @@ public class UsersListController implements Controller {
         this.onUserSelect = onUserSelect;
     }
 
+    /**
+     * Metodo per inizializzare gli ascoltatori
+     */
     private void init() {
-
         view.getList().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && view.getList().getSelectedValue() != null) {
                 userSelect();
@@ -62,6 +64,5 @@ public class UsersListController implements Controller {
 
     private void userSelect() {
         onUserSelect.accept(view.getList().getSelectedValue().getUserId());
-
     }
 }

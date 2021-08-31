@@ -100,7 +100,7 @@ public class GmailManager implements EmailManager {
      * </p>
      * 
      * <p>
-     * Viene utilizzato il protocollo SMPT che stabilisce la connessione, e successivamente procede
+     * Viene utilizzato il protocollo SMPT che stabilisce la connessione, successivamente procede
      * con l'invio dall'email.
      * </p>
      * 
@@ -136,8 +136,8 @@ public class GmailManager implements EmailManager {
 
     /**
      * <p>
-     * Metodo per la lettura di email della casella postale, restituendo quindi una lista di email
-     * non lette.
+     * Metodo per la lettura di email della casella postale, restituisce la lista di email non
+     * lette.
      * </p>
      * 
      * <p>

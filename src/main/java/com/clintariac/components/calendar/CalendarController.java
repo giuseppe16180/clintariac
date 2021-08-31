@@ -8,8 +8,6 @@ import com.clintariac.services.utils.Procedure;
 
 /**
  * Calendar controller
- * 
- * Classe che gestisce l'evento per selezionare una data nel {@code CalendarPanel}.
  */
 
 public class CalendarController implements Controller {
@@ -20,7 +18,8 @@ public class CalendarController implements Controller {
     private Procedure onAllSelect;
 
     /**
-     * Costruttore di CalendarController, instanzia model e view del Calendar e aggiunge l'evento.
+     * Costruttore di CalendarController, instanzia model e view del Calendar e inizializza gli
+     * eventi.
      */
     public CalendarController() {
 
@@ -44,7 +43,8 @@ public class CalendarController implements Controller {
     }
 
     /**
-     * Metodo che permette di aggiungere un ascoltatore al CalendarPanel.
+     * Metodo che inizializza gli eventi del CalendarView, il click su una data nel pannello e il
+     * click sul bottone di vista su più giorni.
      */
     private void init() {
         view.getCalendarPanel()
@@ -53,7 +53,9 @@ public class CalendarController implements Controller {
     }
 
     /**
-     * 
+     * Metodo da invocare alla selezione di una data nel selettore, invoca la funzione impostata
+     * come {@code onDateSelect} dall'esterno e cambia la modalità di visualizzazione in "vista
+     * singolo giorno".
      */
     private void dateSelect() {
         view.getAllReserv().setSelected(model.isAllView());
@@ -63,6 +65,9 @@ public class CalendarController implements Controller {
     }
 
     /**
+     * Metodo per aggiungere dall'esterno una funzione da invocare in seguito alla selezione di una
+     * data.
+     * 
      * @param onDateSelect
      */
     public void addOnDateSelect(Consumer<LocalDate> onDateSelect) {
@@ -70,7 +75,9 @@ public class CalendarController implements Controller {
     }
 
     /**
-     * 
+     * Metodo da invocare in seguito alla selezione della checkbox per la vista su più giorni,
+     * invoca la funzione impostata come {@code onAllSelect} dall'esterno e cambia la modalità di
+     * visualizzazione in "vista su più giorni".
      */
     private void allSelect() {
         model.setAllView(true);
@@ -79,6 +86,9 @@ public class CalendarController implements Controller {
     }
 
     /**
+     * Metodo per aggiungere dall'esterno una funzione da invocare in seguito alla selezione della
+     * checkbox.
+     * 
      * @param onAllSelect
      */
     public void addOnAllSelect(Procedure onAllSelect) {

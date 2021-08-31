@@ -37,6 +37,14 @@ public class DataManager {
 
     private Consumer<Exception> onException;
 
+    /**
+     * <p>
+     * Il DataManager è un singleton per la gestione persistente dello stato dell'applicativo. Offre
+     * vari metodi per interagire con le collezioni. In caso di tentata instanziazione multipla
+     * solleva una {@code SingletonException}.
+     * </p>
+     */
+
     public DataManager() {
 
         if (DataManager.isInstantiated == true) {
@@ -72,7 +80,7 @@ public class DataManager {
      *****************************/
     /**
      * Metodo per leggere un file json, grazie alla libreria GSON. Permette di caricare in memoria
-     * la lista di tutti i ticket presenti sul file.
+     * la lista di tutti i ticket presenti su file in formato json.
      */
     public void loadTicketsList() {
 
@@ -93,7 +101,7 @@ public class DataManager {
     }
 
     /**
-     * Metodo per memorizzare su il file json la lista di ticket, questo metodo aggiorna il file con
+     * Metodo per memorizzare su file json la lista di ticket, questo metodo aggiorna il file con
      * l'attuale lista dei ticket.
      */
     public void storeTicketsList() {
@@ -110,9 +118,9 @@ public class DataManager {
     }
 
     /**
-     * Metodo per aggiornare i dati di un ticket, se l'identificativo del ticket è presente nella
-     * lista, o altrimenti inserisce il nuovo ticket alla fine della lista. Aggiornata la lista, la
-     * memorizza su file.
+     * Metodo per aggiornare i dati di un ticket se l'identificativo del ticket è presente nella
+     * lista, altrimenti inserisce il nuovo ticket alla fine della lista. Aggiornata la lista, viene
+     * scritta su file.
      * 
      * @param newTicket singolo ticket con cui aggiornare la lista
      */
@@ -136,8 +144,8 @@ public class DataManager {
     }
 
     /**
-     * Metodo per aggiornare, tramite una lista passata a parametro, la lista di ticket. Dopo
-     * l'aggiornamento la memorizza la lista su file.
+     * Metodo per sovrascrivere la lista di ticket con una lista passata a parametro. Dopo
+     * l'aggiornamento memorizza la lista su file.
      * 
      * @param tickets nuova lista di ticket
      */
@@ -218,8 +226,8 @@ public class DataManager {
      * USERS
      *****************************/
     /**
-     * Metodo per leggere un file json, grazie alla libreria GSON, ottendendo la lista di utenti
-     * registrati al sistema, precedentemente scritta su file.
+     * Metodo per leggere un file json, grazie alla libreria GSON. Permette di caricare in memoria
+     * la lista di tutti gli utenti presenti su file in formato json.
      */
     public void loadUsersList() {
 
@@ -258,8 +266,7 @@ public class DataManager {
 
     /**
      * Metodo per aggiornare i dati di un utente se registrato al sistema, altrimenti inserisce i
-     * dati del nuovo utente alla fine della lista. Dopo l'aggiornamento la memorizza la lista su
-     * file.
+     * dati del nuovo utente alla fine della lista. Dopo l'aggiornamento memorizza la lista su file.
      * 
      * @param newUser
      */
@@ -323,7 +330,7 @@ public class DataManager {
      * Metodo per effettuare la ricerca di un utente tramite il suo identificativo. Verifica che la
      * lista sia stata precedentemente caricata.
      * 
-     * @param id dell'utente da vuole ricercare
+     * @param id dell'utente da ricercare
      * @return Optional<UserData> optional con il risultato della ricerca.
      */
     public Optional<UserData> getUser(String id) {
@@ -337,7 +344,7 @@ public class DataManager {
     /**
      * Metodo che restituisce la lista di utenti i cui attributi corrispondono ai parametri di
      * ricerca contenuti all'interno dell'oggetto passato come parametro. Il metodo restituisce gli
-     * utenti che soddisfano contemporaneamente tutte ele chiavi di ricerca. È possibile omettere un
+     * utenti che soddisfano contemporaneamente tutte le chiavi di ricerca. È possibile omettere un
      * campo di ricerca inserendo una stringa vuota.
      * 
      * @param userToSearch oggetto con le chiavi di ricerca
@@ -375,7 +382,7 @@ public class DataManager {
      * Metodo per effettuare la ricerca di un utente tramite la email. Verifica che la lista sia
      * stata precedentemente caricata.
      * 
-     * @param email dell'utente che si vuole cercare
+     * @param email dell'utente che si vuole ricercare
      * @return Optional<UserData>
      */
 
@@ -387,7 +394,7 @@ public class DataManager {
     }
 
     /**
-     * Metodo che lancia un'eccezione nel caso la lista utenti sia nulla.
+     * Metodo che lancia un'eccezione nel caso in cui la lista utenti sia nulla.
      */
     private void assertUsersList() {
 

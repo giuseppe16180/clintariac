@@ -13,7 +13,7 @@ import com.clintariac.data.EmailData;
 public interface EmailHandler {
 
     /**
-     * Metodo statico che restituisce una funzione identità. Utile come accumulatore di partenza
+     * Metodo statico che restituisce una funzione identità. Utile come accumulatore di partenza per
      * concatenare gli handler di email mediante un {@code reduce}.
      * 
      * @return {Function<Optional<EmailData>, Optional<EmailData>>}
