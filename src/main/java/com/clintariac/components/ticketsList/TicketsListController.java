@@ -23,6 +23,9 @@ public class TicketsListController implements Controller {
 
 
     /**
+     * Metodo per definire il supplier del modello di TicketList dall'esterno, attraverso un
+     * {@code Supplier<TicketsListModel>} ricevuto a parametro.
+     * 
      * @param modelSupplier
      * @return TicketsListController
      */

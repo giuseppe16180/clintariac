@@ -33,7 +33,7 @@ public class PatientsController implements Controller {
     }
 
     /**
-     * Metodo che inizilizza gli eventi
+     * Metodo che inizializza gli ascoltatori necessari per la gestione dell'utente.
      */
     private void init() {
 
@@ -44,6 +44,8 @@ public class PatientsController implements Controller {
     }
 
     /**
+     * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di save.
+     * 
      * @param onSave
      */
     public void addOnSave(Consumer<UserData> onSave) {
@@ -107,6 +109,8 @@ public class PatientsController implements Controller {
 
 
     /**
+     * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di edit.
+     * 
      * @param onEdit
      */
     public void addOnEdit(Consumer<UserData> onEdit) {
@@ -161,6 +165,8 @@ public class PatientsController implements Controller {
     }
 
     /**
+     * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di search.
+     * 
      * @param onSearch
      */
     public void addOnSearch(Consumer<UserData> onSearch) {
@@ -179,6 +185,9 @@ public class PatientsController implements Controller {
 
 
     /**
+     * Metodo per definire dall'esterno la funzione da chiamare in seguito alla procedura di pulizia
+     * dei campi.
+     * 
      * @param onClear
      */
     public void addOnClear(Consumer<UserData> onClear) {

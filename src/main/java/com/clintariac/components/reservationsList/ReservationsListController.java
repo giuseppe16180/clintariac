@@ -61,7 +61,7 @@ public class ReservationsListController implements Controller {
     }
 
     /**
-     * Metodo per inizializzare gli ascoltatori
+     * Metodo per inizializzare l'ascoltatore per selezionare un elemento nella lista.
      */
     private void init() {
 
